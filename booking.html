@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Secure your luxury rental reservation online. Instant pricing calculations and premier vehicle availability.">
+    <title>Secure Booking | Stackly Car Rentals</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        /* CSS VARIABLES & RESET */
+        :root {
+            --bg-deep: #0F0F0F;
+            --bg-primary: #111111;
+            --bg-secondary: #1A1A1A;
+            --accent: #d45a0d;
+            --accent-hover: #b84c0a;
+            --btn-bg: #d45a0d;
+            --btn-bg-hover: #b84c0a;
+            --text-main: #FFFFFF;
+            --text-muted: #A0A0A0;
+            --glass: rgba(26, 26, 26, 0.75);
+            --glass-border: rgba(212, 90, 13, 0.15);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Outfit', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+        }
+
+        /* CUSTOM SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-deep);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-hover);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* PRELOADER */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-deep);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        #preloader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .preloader-content {
+            text-align: center;
+        }
+        .preloader-logo {
+            width: 80px;
+            height: auto;
+            margin-bottom: 20px;
+            animation: pulse-accent 2s infinite ease-in-out;
+        }
+        .preloader-brand {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            letter-spacing: 4px;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+        .preloader-brand span {
+            color: var(--accent);
+        }
+        .preloader-slogan {
+            font-size: 0.9rem;
+            color: var(--accent);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+        .preloader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 2px solid rgba(212, 90, 13, 0.1);
+            border-top: 2px solid var(--accent);
+            border-radius: 50%;
+            margin: 25px auto 0;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes pulse-accent {
+            0% { transform: scale(0.95); filter: drop-shadow(0 0 0 rgba(212,90,13, 0.4)); }
+            70% { transform: scale(1.05); filter: drop-shadow(0 0 15px rgba(212,90,13, 0.6)); }
+            100% { transform: scale(0.95); filter: drop-shadow(0 0 0 rgba(212,90,13, 0)); }
+        }/* HEADER & NAVBAR */
+        .navbar-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: var(--transition);
+            background: transparent;
+            padding: 20px 0;
+            border-bottom: 1px solid transparent;
+        }
+        .navbar-header.scrolled {
+            background: var(--bg-deep);
+            padding: 12px 0;
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 12px;
+            transition: var(--transition);
+        }
+        .logo-img {
+            height: 55px;
+            width: auto;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: 2px;
+            transition: var(--transition);
+        }
+        .logo-text span {
+            color: var(--accent);
+        }
+        .logo-container:hover .logo-text {
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(212,90,13,0.3);
+        }
+        .logo-container:hover .logo-img {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            position: relative;
+            padding: 6px 0;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: var(--transition);
+        }
+        .nav-link:hover {
+            color: var(--accent);
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .nav-link.active {
+            color: var(--accent);
+        }
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-btn-login {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--accent);
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+        .nav-btn-login:hover {
+            background-color: var(--btn-bg);
+            color: var(--text-main);
+            box-shadow: 0 0 15px rgba(212,90,13,0.4);
+            transform: translateY(-2px);
+        }
+
+        .hamburger-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 1100;
+        }
+        .hamburger-btn .bar {
+            width: 28px;
+            height: 2px;
+            background-color: var(--text-main);
+            transition: var(--transition);
+        }
+        .hamburger-btn.active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger-btn.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger-btn.active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* MOBILE SIDEBAR */
+        .mobile-sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1050;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+        .mobile-sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .mobile-sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            background-color: var(--bg-deep);
+            border-left: 1px solid var(--glass-border);
+            z-index: 1060;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            transform: translateX(100%);
+            visibility: hidden;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
+        }
+        .mobile-sidebar.active {
+            transform: translateX(0);
+            visibility: visible;
+        }
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .close-sidebar-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 2.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .close-sidebar-btn:hover {
+            color: var(--accent);
+        }
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .sidebar-link {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            color: var(--accent);
+            border-bottom: 1px solid var(--accent);
+            padding-left: 8px;
+        }
+        .sidebar-btn-login, .sidebar-btn-login.active {
+            margin-top: 20px;
+            background-color: var(--btn-bg);
+            color: var(--text-main) !important;
+            text-align: center;
+            border-radius: 4px;
+            font-weight: 700;
+            padding: 14px !important;
+            text-transform: uppercase;
+            border-bottom: none !important;
+        }
+        .sidebar-btn-login:hover, .sidebar-btn-login.active:hover {
+            background-color: var(--btn-bg-hover);
+            color: var(--text-main) !important;
+            border-bottom: none !important;
+            padding-left: 14px !important;
+        }
+
+        /* BOOKING BANNER */
+        .booking-banner {
+            padding: 180px 0 100px;
+            background: linear-gradient(rgba(15,15,15,0.65), rgba(15,15,15,0.85)), url('assets/range_rover.webp') no-repeat center center/cover;
+            text-align: center;
+        }
+        .banner-title {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        .banner-title span {
+            color: var(--accent);
+            font-style: italic;
+            font-weight: 400;
+        }
+        .banner-breadcrumbs {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-weight: 500;
+        }
+        .banner-breadcrumbs::before,
+        .banner-breadcrumbs::after {
+            content: '';
+            display: inline-block;
+            width: 25px;
+            height: 1px;
+            background-color: var(--accent);
+        }
+
+        /* BOOKING MAIN LAYOUT */
+        .booking-main-section {
+            padding: 80px 0 120px;
+            background-color: var(--bg-deep);
+        }
+        .booking-grid {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 40px;
+            align-items: flex-start;
+        }
+
+        /* BOOKING CARD & FORM */
+        .booking-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+        .booking-card-title {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            color: var(--accent);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 15px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        .form-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .form-input {
+            background-color: var(--bg-deep);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-main);
+            padding: 14px 16px;
+            border-radius: 4px;
+            font-family: var(--font-body);
+            outline: none;
+            transition: var(--transition);
+            width: 100%;
+        }
+        .form-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(212,90,13,0.15);
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            cursor: pointer;
+            user-select: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+        .checkbox-container input {
+            margin-top: 4px;
+            accent-color: var(--accent);
+        }
+        .checkbox-container a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .checkbox-container a:hover {
+            text-decoration: underline;
+        }
+
+        /* SIDEBAR / SUMMARY */
+        .summary-sticky {
+            position: sticky;
+            top: 100px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .summary-card {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(26,26,26,0.5) 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+        .summary-header {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: space-between;
+        }
+        .summary-car-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background-color: var(--bg-deep);
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+        .summary-car-img {
+            width: 70px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .summary-car-name h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+        .summary-car-name p {
+            color: var(--accent);
+            font-size: 0.85rem;
+        }
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+        .summary-line.total {
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 15px;
+            margin-top: 15px;
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+        .summary-line.total span {
+            color: var(--accent);
+        }
+        .btn-submit-booking {
+            background-color: var(--btn-bg);
+            color: var(--text-main);
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-submit-booking:hover {
+            background-color: var(--btn-bg-hover);
+            box-shadow: 0 0 20px rgba(212,90,13,0.4);
+            transform: translateY(-2px);
+        }
+
+        /* CUSTOM ALERT DIALOG */
+        .custom-alert-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 5000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+        }
+        .custom-alert-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .alert-box {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            padding: 40px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            transform: scale(0.9);
+            transition: var(--transition);
+        }
+        .custom-alert-modal.show .alert-box {
+            transform: scale(1);
+        }
+        .alert-icon {
+            font-size: 4.5rem;
+            color: var(--accent);
+            margin-bottom: 25px;
+        }
+        .alert-title {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+        }
+        .alert-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: var(--bg-deep);
+            border-top: 1px solid var(--glass-border);
+            padding: 80px 0 30px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        .footer-col h3 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            color: var(--text-main);
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent);
+        }
+        .footer-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+        .footer-socials {
+            display: flex;
+            gap: 15px;
+        }
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--bg-secondary);
+            color: var(--text-main);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 1rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .social-icon:hover {
+            background-color: var(--accent);
+            color: var(--text-main);
+            transform: translateY(-3px);
+            box-shadow: 0 0 10px rgba(212,90,13,0.3);
+        }
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+        .footer-contact-item {
+            display: flex;
+            gap: 12px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+            align-items: flex-start;
+        }
+        .footer-contact-item i {
+            color: var(--accent);
+            margin-top: 4px;
+        }
+        .footer-map-container {
+            border: 1px solid var(--glass-border);
+            border-radius: 6px;
+            overflow: hidden;
+            height: 140px;
+            margin-top: 15px;
+        }
+        .footer-map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(1) invert(0.9) contrast(1.2);
+        }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 30px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        /* HOW IT WORKS */
+        .how-section {
+            padding: 100px 0;
+            background-color: var(--bg-primary);
+        }
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 50px;
+        }
+        .step-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 8px;
+            padding: 40px 24px;
+            text-align: center;
+            position: relative;
+            transition: var(--transition);
+        }
+        .step-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+        .step-badge {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--accent);
+            color: var(--text-main);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 800;
+            font-size: 1rem;
+            border: 4px solid var(--bg-deep);
+            box-shadow: 0 0 15px rgba(212,90,13,0.3);
+        }
+        .step-icon {
+            font-size: 2.2rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+        .step-title {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+        }
+        .step-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* FAQ SECTION */
+        .faq-section {
+            padding: 100px 0;
+            background-color: var(--bg-deep);
+        }
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+        .faq-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 6px;
+            padding: 30px;
+            transition: var(--transition);
+        }
+        .faq-card:hover {
+            border-color: var(--accent);
+        }
+        .faq-question {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .faq-question i {
+            color: var(--accent);
+            font-size: 1rem;
+        }
+        .faq-answer {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* RESPONSIVE LAYOUTS */
+        @media (min-width: 1440px) {
+            .container {
+                max-width: 1400px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .banner-title {
+                font-size: 3rem;
+            }
+            .booking-grid {
+                grid-template-columns: 1fr;
+            }
+            .summary-sticky {
+                position: static;
+            }
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .steps-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px 24px;
+            }
+            .faq-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            .hamburger-btn {
+                display: flex;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+            .booking-card {
+                padding: 24px;
+            }
+            .steps-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 425px) {
+            .banner-title {
+                font-size: 2.2rem;
+            }
+            .booking-main-section {
+                padding: 40px 0 60px;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .logo-text {
+                font-size: 1.3rem;
+            }
+            .preloader-brand {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PRELOADER -->
+    <div id="preloader">
+        <div class="preloader-content">
+            <img src="assets/logoog.webp" alt="Stackly Logo" class="preloader-logo" style="width: 180px; height: auto;">
+            <p class="preloader-slogan" style="margin-top: 15px;">Drive the Dream</p>
+            <div class="preloader-spinner"></div>
+        </div>
+    </div>
+
+    <!-- STICKY NAVBAR -->
+    <header class="navbar-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-container">
+                <img src="assets/logoog.webp" alt="Stackly Logo" class="logo-img">
+            </a>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="cars.html" class="nav-link">Cars</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="booking.html" class="nav-link active">Booking</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="login.html" class="nav-link nav-btn-login">Login</a>
+            </nav>
+            <button class="hamburger-btn" aria-label="Toggle Menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE SIDEBAR -->
+    <div class="mobile-sidebar-overlay"></div>
+    <aside class="mobile-sidebar">
+        <div class="sidebar-header">
+            <a href="index.html" class="logo-container">
+                <img src="assets/logoog.webp" alt="Stackly Logo" class="logo-img">
+            </a>
+            <button class="close-sidebar-btn" aria-label="Close Menu">&times;</button>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="index.html" class="sidebar-link">Home</a>
+            <a href="cars.html" class="sidebar-link">Cars</a>
+            <a href="about.html" class="sidebar-link">About</a>
+            <a href="booking.html" class="sidebar-link active">Booking</a>
+            <a href="contact.html" class="sidebar-link">Contact</a>
+            <a href="login.html" class="sidebar-link sidebar-btn-login">Login</a>
+        </nav>
+    </aside>
+
+    <!-- BOOKING BANNER -->
+    <section class="booking-banner">
+        <div class="container">
+            <h1 class="banner-title" data-aos="fade-down" data-aos-duration="1000">Reserve <span>Your Journey</span></h1>
+            <div class="banner-breadcrumbs" data-aos="fade-up" data-aos-delay="200">
+                Booking
+            </div>
+        </div>
+    </section>
+
+    <!-- BOOKING MAIN LAYOUT -->
+    <section class="booking-main-section">
+        <div class="container">
+            <div class="booking-grid">
+                <!-- FORM CONTAINER -->
+                <div class="booking-card" data-aos="fade-right">
+                    <form id="reservation-form" onsubmit="handleReservationSubmit(event)">
+                        <!-- Section 1: Contact Details -->
+                        <h3 class="booking-card-title"><i class="fa-solid fa-address-card"></i> 1. Contact Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="full-name">Full Name</label>
+                                <input type="text" id="full-name" class="form-input" placeholder="e.g. Rahul Dev" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="email">Email Address</label>
+                                <input type="email" id="email" class="form-input" placeholder="e.g. rahul@example.com" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="phone">Phone Number</label>
+                                <input type="tel" id="phone" class="form-input" placeholder="e.g. +91 9876543210" pattern="^[0-9+\s\-]{10,15}$" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="vehicle-select">Vehicle Selection</label>
+                                <select id="vehicle-select" class="form-input" onchange="calculateInvoice()" required>
+                                    <option value="" disabled selected>Choose a vehicle</option>
+                                    <option value="Rolls-Royce Phantom">Rolls-Royce Phantom (₹75,000/Day)</option>
+                                    <option value="Bentley Flying Spur">Bentley Flying Spur (₹65,000/Day)</option>
+                                    <option value="Lamborghini Aventador">Lamborghini Aventador (₹95,000/Day)</option>
+                                    <option value="Ferrari F8 Tributo">Ferrari F8 Tributo (₹85,000/Day)</option>
+                                    <option value="Porsche 911 Carrera">Porsche 911 Carrera (₹45,000/Day)</option>
+                                    <option value="Range Rover Autobiography">Range Rover Autobiography (₹35,000/Day)</option>
+                                    <option value="Mercedes-Benz G63 AMG">Mercedes-Benz G63 AMG (₹50,000/Day)</option>
+                                    <option value="Lamborghini Urus">Lamborghini Urus (₹60,000/Day)</option>
+                                    <option value="Audi e-tron GT">Audi e-tron GT (₹40,000/Day)</option>
+                                    <option value="Tesla Model S Plaid">Tesla Model S Plaid (₹42,000/Day)</option>
+                                    <option value="Porsche Taycan Turbo S">Porsche Taycan Turbo S (₹48,000/Day)</option>
+                                    <option value="Mercedes-Maybach S-Class">Mercedes-Maybach S-Class (₹68,000/Day)</option>
+                                    <option value="Aston Martin Vantage">Aston Martin Vantage (₹55,000/Day)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Rental Information -->
+                        <h3 class="booking-card-title" style="margin-top: 40px;"><i class="fa-solid fa-calendar-days"></i> 2. Rental Details</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="pickup-loc">Pickup Location</label>
+                                <select id="pickup-loc" class="form-input" required>
+                                    <option value="" disabled selected>Select Pickup Location</option>
+                                    <option value="Salem">Salem Office</option>
+                                    <option value="Chennai">Chennai Airport</option>
+                                    <option value="Coimbatore">Coimbatore Airport</option>
+                                    <option value="Madurai">Madurai Office</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="drop-loc">Drop-off Location</label>
+                                <select id="drop-loc" class="form-input" required>
+                                    <option value="" disabled selected>Select Drop Location</option>
+                                    <option value="Salem">Salem Office</option>
+                                    <option value="Chennai">Chennai Airport</option>
+                                    <option value="Coimbatore">Coimbatore Airport</option>
+                                    <option value="Madurai">Madurai Office</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="pickup-date">Pickup Date</label>
+                                <input type="date" id="pickup-date" class="form-input" onchange="calculateInvoice()" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="return-date">Return Date</label>
+                                <input type="date" id="return-date" class="form-input" onchange="calculateInvoice()" required>
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="driver-option" onchange="calculateInvoice()">
+                                <span>Require Stackly Professional VIP Chauffeur Driver Service (Add ₹5,000/day)</span>
+                            </label>
+                        </div>
+
+                        <!-- Section 3: Secure Payment -->
+                        <h3 class="booking-card-title" style="margin-top: 40px;"><i class="fa-solid fa-credit-card"></i> 3. Secure Payment</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="card-num">Card Number</label>
+                                <input type="text" id="card-num" class="form-input" placeholder="4111 2222 3333 4444" pattern="^[0-9\s]{16,19}$" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="card-name">Cardholder Name</label>
+                                <input type="text" id="card-name" class="form-input" placeholder="e.g. RAHUL DEV" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="card-expiry">Expiration Date</label>
+                                <input type="text" id="card-expiry" class="form-input" placeholder="MM/YY" pattern="^(0[1-9]|1[0-2])\/([0-9]{2})$" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="card-cvv">CVV</label>
+                                <input type="password" id="card-cvv" class="form-input" placeholder="123" pattern="^[0-9]{3,4}$" required>
+                            </div>
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="terms-agree" required>
+                                <span>I agree to Stackly's <a href="#">Luxury Rental Terms</a>, security deposit holds, and absolute traffic regulation compliance.</span>
+                            </label>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- STICKY SUMMARY CARD -->
+                <div class="summary-sticky" data-aos="fade-left">
+                    <div class="summary-card">
+                        <h3 class="summary-header">Booking Summary</h3>
+                        
+                        <!-- Selected Car Preview -->
+                        <div class="summary-car-box" id="summary-car-preview" style="display: none;">
+                            <img src="assets/rolls_royce.webp" id="summary-img" alt="Selected Car" class="summary-car-img">
+                            <div class="summary-car-name">
+                                <h4 id="summary-name">Choose Car</h4>
+                                <p id="summary-price-day">₹0 / day</p>
+                            </div>
+                        </div>
+
+                        <!-- Lines -->
+                        <div class="summary-line">
+                            <span>Rental Duration</span>
+                            <span id="summary-days">0 Days</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Base Rental Cost</span>
+                            <span id="summary-base-cost">₹0</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>VIP Chauffeur Service</span>
+                            <span id="summary-driver-cost">₹0</span>
+                        </div>
+                        <div class="summary-line">
+                            <span>Luxury Tax & VAT (18%)</span>
+                            <span id="summary-tax">₹0</span>
+                        </div>
+                        <div class="summary-line total">
+                            <span>Total Price</span>
+                            <span id="summary-grand-total">₹0</span>
+                        </div>
+
+                        <!-- Button linked to main form submit -->
+                        <button type="submit" form="reservation-form" class="btn-submit-booking"><i class="fa-solid fa-lock"></i> Secure Reserve</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up" style="text-align: center; margin-bottom: 65px;">
+                <span class="section-tag" style="color: var(--accent); font-size: 0.9rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; gap: 12px; width: 100%;">Steps</span>
+                <h2 class="section-title" style="font-family: var(--font-display); font-size: 2.8rem; color: var(--text-main); font-weight: 700; margin-top: 10px;">How It <span>Works</span></h2>
+            </div>
+            <div class="steps-grid">
+                <!-- Step 1 -->
+                <div class="step-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="step-badge">1</div>
+                    <div class="step-icon"><i class="fa-solid fa-car-side"></i></div>
+                    <h3 class="step-title">Select Your Vehicle</h3>
+                    <p class="step-desc">Browse our curated collection of supercars, electric sedans, and high-security SUVs to choose your match.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="step-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="step-badge">2</div>
+                    <div class="step-icon"><i class="fa-solid fa-sliders"></i></div>
+                    <h3 class="step-title">Customize Reservation</h3>
+                    <p class="step-desc">Specify your dates, choose secondary features, and select our elite chauffeur or self-drive options.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="step-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="step-badge">3</div>
+                    <div class="step-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                    <h3 class="step-title">Secure Checkout</h3>
+                    <p class="step-desc">Review your real-time tax and billing breakdown. Securely book using corporate credentials or payment cards.</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="step-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="step-badge">4</div>
+                    <div class="step-icon"><i class="fa-solid fa-key"></i></div>
+                    <h3 class="step-title">Collect Keys</h3>
+                    <p class="step-desc">Pick up your vehicle at airport transit counters or enjoy direct door-to-door concierge delivery.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQs -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up" style="text-align: center; margin-bottom: 60px;">
+                <span class="section-tag" style="color: var(--accent); font-size: 0.9rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; gap: 12px; width: 100%;">Clarifications</span>
+                <h2 class="section-title" style="font-family: var(--font-display); font-size: 2.8rem; color: var(--text-main); font-weight: 700; margin-top: 10px;">Booking <span>FAQs</span></h2>
+            </div>
+            <div class="faq-grid">
+                <!-- FAQ 1 -->
+                <div class="faq-card" data-aos="fade-up" data-aos-delay="100">
+                    <h4 class="faq-question"><i class="fa-solid fa-circle-question"></i> What documents are required?</h4>
+                    <p class="faq-answer">For self-drive options, you must upload a valid driving license (domestic or international permits) alongside government photo ID such as Aadhar or passport credentials.</p>
+                </div>
+                <!-- FAQ 2 -->
+                <div class="faq-card" data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="faq-question"><i class="fa-solid fa-circle-question"></i> Is there a security deposit?</h4>
+                    <p class="faq-answer">Yes. A security deposit is pre-authorized on your credit card upon confirmation. The hold is fully released within 48 business hours after safe return of the vehicle.</p>
+                </div>
+                <!-- FAQ 3 -->
+                <div class="faq-card" data-aos="fade-up" data-aos-delay="300">
+                    <h4 class="faq-question"><i class="fa-solid fa-circle-question"></i> What is the cancellation policy?</h4>
+                    <p class="faq-answer">Cancellations made up to 24 hours prior to the scheduled pickup receive a full refund. Cancellations inside 24 hours incur a single-day rental charge.</p>
+                </div>
+                <!-- FAQ 4 -->
+                <div class="faq-card" data-aos="fade-up" data-aos-delay="400">
+                    <h4 class="faq-question"><i class="fa-solid fa-circle-question"></i> Do you offer door-to-door delivery?</h4>
+                    <p class="faq-answer">Yes, we deliver luxury vehicles directly to your residence, hotel, or private airport terminal across Salem, Chennai, and Coimbatore.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid" data-aos="fade-up">
+                <!-- COL 1 -->
+                <div class="footer-col">
+                    <a href="index.html" class="logo-container" style="margin-bottom: 20px;">
+                        <img src="assets/logoog.webp" alt="Stackly Logo" class="logo-img">
+                    </a>
+                    <p class="footer-desc">Stackly Luxury Rentals provides premium vehicles, exceptional service, and seamless travel experiences across Tamil Nadu.</p>
+                    <div class="footer-socials">
+                        <a href="404.html" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="404.html" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="404.html" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="404.html" class="social-icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <!-- COL 2 -->
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <div class="footer-links">
+                        <a href="index.html">Home</a>
+                        <a href="cars.html">Cars</a>
+                        <a href="about.html">About Us</a>
+                        <a href="booking.html">Booking</a>
+                        <a href="contact.html">Contact</a>
+                    </div>
+                </div>
+                <!-- COL 3 -->
+                <div class="footer-col">
+                    <h3>Services</h3>
+                    <div class="footer-links">
+                        <a href="cars.html?cat=luxury">Luxury Cars</a>
+                        <a href="cars.html?cat=suv">SUV Rentals</a>
+                        <a href="cars.html?cat=sports">Sports Cars</a>
+                        <a href="booking.html">Airport Transfers</a>
+                        <a href="contact.html">Corporate Rentals</a>
+                    </div>
+                </div>
+                <!-- COL 4 -->
+                <div class="footer-col">
+                    <h3>Contact & Location</h3>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>Stackly Luxury Rentals, Meyyanur Main Rd, Salem, Tamil Nadu 636004, India</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-phone"></i>
+                        <span>+91 98765 43210</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>reservations@stacklyrentals.com</span>
+                    </div>
+                    <div class="footer-map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62512.969855325515!2d78.11306307164998!3d11.658253163771962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babf1cc5d5a570f%3A0xe54d32a677bfb6db!2sSalem%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1689269411993!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 Stackly Luxury Rentals. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- SUCCESS ALERT MODAL -->
+    <div id="success-alert" class="custom-alert-modal">
+        <div class="alert-box">
+            <i class="fa-solid fa-circle-check alert-icon"></i>
+            <h3 class="alert-title">Reservation Confirmed!</h3>
+            <p class="alert-desc" id="alert-message">Your luxury vehicle is secured. Redirecting you to your traveler dashboard to view your active booking schedule...</p>
+        </div>
+    </div>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        const carPrices = {
+            'Rolls-Royce Phantom': 75000,
+            'Bentley Flying Spur': 65000,
+            'Lamborghini Aventador': 95000,
+            'Porsche 911 Carrera': 45000,
+            'Range Rover Autobiography': 35000,
+            'Mercedes-Benz G63 AMG': 50000,
+            'Audi e-tron GT': 40000,
+            'Tesla Model S Plaid': 42000,
+            'Ferrari F8 Tributo': 85000,
+            'Mercedes-Maybach S-Class': 68000,
+            'Aston Martin Vantage': 55000,
+            'Lamborghini Urus': 60000,
+            'Porsche Taycan Turbo S': 48000
+        };
+
+        const carImages = {
+            'Rolls-Royce Phantom': 'assets/rolls_royce.webp',
+            'Bentley Flying Spur': 'assets/bentley.webp',
+            'Lamborghini Aventador': 'assets/lamborghini.webp',
+            'Porsche 911 Carrera': 'assets/porsche_911.webp',
+            'Range Rover Autobiography': 'assets/range_rover.webp',
+            'Mercedes-Benz G63 AMG': 'assets/g63.webp',
+            'Audi e-tron GT': 'assets/audi_etron.webp',
+            'Tesla Model S Plaid': 'assets/tesla.webp',
+            'Ferrari F8 Tributo': 'assets/ferrari.webp',
+            'Mercedes-Maybach S-Class': 'assets/maybach.webp',
+            'Aston Martin Vantage': 'assets/aston_martin.webp',
+            'Lamborghini Urus': 'assets/urus.webp',
+            'Porsche Taycan Turbo S': 'assets/taycan.webp'
+        };
+
+        // PRELOADER & ONLOAD INITIALIZATION
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.classList.add('fade-out');
+            }, 600);
+
+            // Set Min Date constraint to Today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('pickup-date').min = today;
+            document.getElementById('return-date').min = today;
+
+            // Check if user came via home search
+            const savedCategory = sessionStorage.getItem('search_category');
+            const savedPickupLoc = sessionStorage.getItem('search_pickup_loc');
+            const savedPickupDate = sessionStorage.getItem('search_pickup_date');
+            const savedReturnDate = sessionStorage.getItem('search_return_date');
+
+            if (savedPickupLoc) document.getElementById('pickup-loc').value = savedPickupLoc;
+            if (savedPickupDate) document.getElementById('pickup-date').value = savedPickupDate;
+            if (savedReturnDate) document.getElementById('return-date').value = savedReturnDate;
+
+            // Check if user clicked Book Now on a specific car card
+            const selectedCar = sessionStorage.getItem('selectedCarName');
+            if (selectedCar) {
+                document.getElementById('vehicle-select').value = selectedCar;
+                // Clear state
+                sessionStorage.removeItem('selectedCarName');
+            }
+
+            // Trigger calculate
+            calculateInvoice();
+        });
+
+        // AOS INITIALIZATION
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // STICKY HEADER
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.navbar-header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // MOBILE SIDEBAR
+        const hamburgerBtn = document.querySelector('.hamburger-btn');
+        const closeSidebarBtn = document.querySelector('.close-sidebar-btn');
+        const mobileSidebar = document.querySelector('.mobile-sidebar');
+        const mobileOverlay = document.querySelector('.mobile-sidebar-overlay');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+        function openSidebar() {
+            hamburgerBtn.classList.add('active');
+            mobileSidebar.classList.add('active');
+            mobileOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidebar() {
+            hamburgerBtn.classList.remove('active');
+            mobileSidebar.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        hamburgerBtn.addEventListener('click', () => {
+            if (mobileSidebar.classList.contains('active')) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
+        });
+        closeSidebarBtn.addEventListener('click', closeSidebar);
+        mobileOverlay.addEventListener('click', closeSidebar);
+        sidebarLinks.forEach(link => link.addEventListener('click', closeSidebar));
+
+        // CALCULATE BOOKING INVOICE
+        function calculateInvoice() {
+            const carSelected = document.getElementById('vehicle-select').value;
+            const pDateVal = document.getElementById('pickup-date').value;
+            const rDateVal = document.getElementById('return-date').value;
+            const driverRequired = document.getElementById('driver-option').checked;
+
+            // Update constraints
+            if (pDateVal) {
+                document.getElementById('return-date').min = pDateVal;
+            }
+
+            const previewBox = document.getElementById('summary-car-preview');
+            
+            if (!carSelected) {
+                previewBox.style.display = 'none';
+                return;
+            }
+
+            // Show preview
+            previewBox.style.display = 'flex';
+            document.getElementById('summary-name').innerText = carSelected;
+            document.getElementById('summary-img').src = carImages[carSelected];
+            document.getElementById('summary-price-day').innerText = `₹${carPrices[carSelected].toLocaleString()} / day`;
+
+            let days = 0;
+            if (pDateVal && rDateVal) {
+                const date1 = new Date(pDateVal);
+                const date2 = new Date(rDateVal);
+                const diffTime = Math.abs(date2 - date1);
+                days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // inclusive of start day
+            }
+
+            document.getElementById('summary-days').innerText = `${days} Day(s)`;
+
+            const pricePerDay = carPrices[carSelected];
+            const baseCost = pricePerDay * days;
+            document.getElementById('summary-base-cost').innerText = `₹${baseCost.toLocaleString()}`;
+
+            const driverCost = driverRequired ? (5000 * days) : 0;
+            document.getElementById('summary-driver-cost').innerText = `₹${driverCost.toLocaleString()}`;
+
+            const tax = Math.round((baseCost + driverCost) * 0.18);
+            document.getElementById('summary-tax').innerText = `₹${tax.toLocaleString()}`;
+
+            const grandTotal = baseCost + driverCost + tax;
+            document.getElementById('summary-grand-total').innerText = `₹${grandTotal.toLocaleString()}`;
+        }
+
+        // SUBMIT RESERVATION & HANDLE SESSION / LOCALSTORAGE STATE
+        function handleReservationSubmit(e) {
+            e.preventDefault();
+
+            // Perform manual validation on Dates
+            const pickupD = document.getElementById('pickup-date').value;
+            const returnD = document.getElementById('return-date').value;
+            const carSelected = document.getElementById('vehicle-select').value;
+
+            if (new Date(returnD) < new Date(pickupD)) {
+                alert("Return Date cannot be before Pickup Date.");
+                return;
+            }
+
+            // Calculate total values
+            let days = 0;
+            const date1 = new Date(pickupD);
+            const date2 = new Date(returnD);
+            const diffTime = Math.abs(date2 - date1);
+            days = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+            const baseCost = carPrices[carSelected] * days;
+            const driverRequired = document.getElementById('driver-option').checked;
+            const driverCost = driverRequired ? (5000 * days) : 0;
+            const tax = Math.round((baseCost + driverCost) * 0.18);
+            const grandTotal = baseCost + driverCost + tax;
+
+            // Create Booking JSON
+            const bookingRecord = {
+                id: 'STK' + Math.floor(100000 + Math.random() * 900000),
+                fullName: document.getElementById('full-name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                carName: carSelected,
+                pickupLoc: document.getElementById('pickup-loc').value,
+                dropLoc: document.getElementById('drop-loc').value,
+                pickupDate: pickupD,
+                returnDate: returnD,
+                chauffeur: driverRequired ? 'VIP Driver Included' : 'Self Drive',
+                totalCost: grandTotal,
+                status: 'Confirmed'
+            };
+
+            // Retrieve existing bookings list from localStorage
+            let bookingsList = JSON.parse(localStorage.getItem('bookings')) || [];
+            bookingsList.push(bookingRecord);
+            localStorage.setItem('bookings', JSON.stringify(bookingsList));
+
+            // Force automatic mock session log-in as traveler if not logged in
+            if (!sessionStorage.getItem('userRole')) {
+                sessionStorage.setItem('userRole', 'traveler');
+                sessionStorage.setItem('userName', bookingRecord.fullName);
+            }
+
+            // Show custom Success Alert
+            const alertModal = document.getElementById('success-alert');
+            alertModal.classList.add('show');
+
+            // Clear search variables
+            sessionStorage.removeItem('search_category');
+            sessionStorage.removeItem('search_pickup_loc');
+            sessionStorage.removeItem('search_pickup_date');
+            sessionStorage.removeItem('search_return_date');
+
+            // Redirect to Traveler Dashboard
+            setTimeout(() => {
+                alertModal.classList.remove('show');
+                window.location.href = 'traveler-dashboard.html';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

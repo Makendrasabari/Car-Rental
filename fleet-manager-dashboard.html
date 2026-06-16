@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleet Manager Dashboard | Stackly Travel & Fleet</title>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Leaflet Maps CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <!-- Custom Shared Stylesheet -->
+    <link rel="stylesheet" href="assets/dashboard.css">
+</head>
+<body>
+
+    <!-- MOCK AUTHORIZATION SHIELD -->
+    <script>
+        if (sessionStorage.getItem('userRole') !== 'fleet-manager') {
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <aside class="dashboard-sidebar" id="dashboard-sidebar">
+            <div>
+                <div class="sidebar-header">
+                    <a href="index.html" class="sidebar-brand">
+                        <img src="assets/logoog.webp" alt="Stackly Logo">
+                    </a>
+                    <button class="sidebar-close-btn" id="sidebar-close-btn" aria-label="Close Menu">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                
+                <nav class="sidebar-nav">
+                    <button class="nav-link active" data-target="sect-dashboard">
+                        <i class="fa-solid fa-chart-line"></i> Dashboard
+                    </button>
+                    <button class="nav-link" data-target="sect-trips">
+                        <i class="fa-solid fa-calendar-days"></i> Trips & Reservations
+                    </button>
+                    <button class="nav-link" data-target="sect-analytics">
+                        <i class="fa-solid fa-chart-pie"></i> Analytics & Reports
+                    </button>
+                    <button class="nav-link" data-target="sect-account">
+                        <i class="fa-solid fa-user-gear"></i> Account & Settings
+                    </button>
+                </nav>
+            </div>
+            
+            <div class="sidebar-footer">
+                <button class="signout-btn" onclick="handleSignOut()">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="dashboard-content">
+            <!-- HEADER -->
+            <header class="content-header">
+                <div class="header-left-box">
+                    <button class="mobile-nav-toggle" id="mobile-drawer-toggle">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="header-title-box">
+                        <h1>Fleet Operations Console</h1>
+                        <p>Track gross costs, assign chauffeurs, monitor vehicle diagnostics, and set rules.</p>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <!-- User Info Badge -->
+                    <div class="user-badge-container">
+                        <div class="avatar-ring" id="avatar-initials">AS</div>
+                        <div class="badge-info">
+                            <span class="badge-username" id="badge-user-name">Amit Sen</span>
+                            <span class="badge-userrole">Fleet Manager</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- SECTION 1: DASHBOARD OVERVIEW -->
+            <section id="sect-dashboard" class="dashboard-section active-view">
+                <!-- KPI statistics grid -->
+                <div class="kpi-grid">
+                    <div class="glass-card kpi-card">
+                        <div class="kpi-details">
+                            <h3>Total Vehicles</h3>
+                            <p>45</p>
+                            <span class="kpi-trend"><i class="fa-solid fa-car"></i> Luxury fleet assets</span>
+                        </div>
+                        <div class="kpi-icon-wrap"><i class="fa-solid fa-car-side"></i></div>
+                    </div>
+                    <div class="glass-card kpi-card">
+                        <div class="kpi-details">
+                            <h3>Active Vehicles</h3>
+                            <p>32</p>
+                            <span class="kpi-trend up"><i class="fa-solid fa-gauge-simple-high"></i> 78% utilization</span>
+                        </div>
+                        <div class="kpi-icon-wrap"><i class="fa-solid fa-circle-play"></i></div>
+                    </div>
+                    <div class="glass-card kpi-card">
+                        <div class="kpi-details">
+                            <h3>Available Drivers</h3>
+                            <p>18</p>
+                            <span class="kpi-trend"><i class="fa-solid fa-user-check"></i> On call / active standby</span>
+                        </div>
+                        <div class="kpi-icon-wrap"><i class="fa-solid fa-users"></i></div>
+                    </div>
+                    <div class="glass-card kpi-card">
+                        <div class="kpi-details">
+                            <h3>Operational Cost</h3>
+                            <p>₹2,40,000</p>
+                            <span class="kpi-trend down"><i class="fa-solid fa-arrow-trend-down"></i> -8% vs last month</span>
+                        </div>
+                        <div class="kpi-icon-wrap"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                    </div>
+                </div>
+
+                <!-- Overview Charts Row -->
+                <div class="charts-grid-mix">
+                    <div class="glass-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <h3 class="card-title"><i class="fa-solid fa-chart-pie"></i> Fleet Status Distribution</h3>
+                        <div class="chart-container" id="fleet-status-donut"></div>
+                    </div>
+                    <div class="glass-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <h3 class="card-title"><i class="fa-solid fa-gauge-high"></i> Core Fleet Utilization</h3>
+                        <div class="chart-container" id="fleet-utilization-gauge"></div>
+                    </div>
+                </div>
+
+                <!-- Monthly cost trend chart widget -->
+                <div class="glass-card">
+                    <h3 class="card-title"><i class="fa-solid fa-money-bill-trend-up"></i> Monthly Operational Cost Trend</h3>
+                    <div class="chart-container" id="fleet-cost-trend"></div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: TRIPS & RESERVATIONS -->
+            <section id="sect-trips" class="dashboard-section">
+                <!-- Live vehicle tracking map -->
+                <div class="glass-card">
+                    <h3 class="card-title"><i class="fa-solid fa-map-location-dot"></i> Live Active Vehicle Tracking</h3>
+                    <div class="map-canvas-wrap" id="fleet-tracking-map"></div>
+                </div>
+
+                <!-- Vehicle allocation management table -->
+                <div class="glass-card">
+                    <h3 class="card-title"><i class="fa-solid fa-file-signature"></i> Pending Vehicle Allocations</h3>
+                    <div class="table-filter-bar">
+                        <div class="search-input-wrap">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="fleet-allocation-search" class="search-box" placeholder="Search allocations...">
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="custom-table" id="vehicle-allocation-table">
+                            <thead>
+                                <tr>
+                                    <th>Request ID</th>
+                                    <th>Traveler</th>
+                                    <th>Vehicle Preference</th>
+                                    <th>Booking Period</th>
+                                    <th>Driver Assignment</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="vehicle-allocation-body">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Driver assignment and active trip monitoring -->
+                <div class="glass-card">
+                    <h3 class="card-title"><i class="fa-solid fa-route"></i> Active Trip Monitoring</h3>
+                    <div class="table-filter-bar">
+                        <div class="search-input-wrap">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="fleet-tracking-search" class="search-box" placeholder="Search active vehicles...">
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="custom-table" id="active-trips-table">
+                            <thead>
+                                <tr>
+                                    <th>Registration</th>
+                                    <th>Vehicle Name</th>
+                                    <th>Assigned Chauffeur</th>
+                                    <th>Energy Efficiency</th>
+                                    <th>Current Cost</th>
+                                    <th>GPS Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="active-trips-body">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Route efficiency chart -->
+                <div class="charts-grid-mix">
+                    <div class="glass-card" style="flex-grow: 1;">
+                        <h3 class="card-title"><i class="fa-solid fa-chart-simple"></i> Route Planned vs Actual Mileage</h3>
+                        <div class="chart-container" id="fleet-route-efficiency"></div>
+                    </div>
+                    <div class="glass-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <h3 class="card-title"><i class="fa-solid fa-calendar-week"></i> Trip Scheduling Calendar</h3>
+                            <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.4;">
+                                Weekly schedule density is high on Mon-Tue due to executive airport transfer volumes. Focus allocations to Salem hub.
+                            </p>
+                        </div>
+                        <div style="border-left: 3px solid var(--primary); padding-left: 14px;">
+                            <h5 style="font-weight:600; font-size:0.9rem;">Hub Status: Optimal</h5>
+                            <p style="color:var(--text-dark); font-size:0.75rem;">12 Cars ready | 2 in maintenance</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: ANALYTICS & REPORTS -->
+            <section id="sect-analytics" class="dashboard-section">
+                <!-- Fuel, Maintenance, Utilization Charts -->
+                <div class="charts-grid-3x1">
+                    <div class="glass-card">
+                        <h3 class="card-title"><i class="fa-solid fa-gas-pump"></i> Fuel & Power Analytics</h3>
+                        <div class="chart-container" id="fleet-fuel-trend"></div>
+                    </div>
+                    <div class="glass-card">
+                        <h3 class="card-title"><i class="fa-solid fa-screwdriver-wrench"></i> Maintenance Cost Pie</h3>
+                        <div class="chart-container" id="fleet-maintenance-pie"></div>
+                    </div>
+                    <div class="glass-card">
+                        <h3 class="card-title"><i class="fa-solid fa-chart-column"></i> Utilization Category Share</h3>
+                        <div class="chart-container" id="fleet-utilization-bar"></div>
+                    </div>
+                </div>
+
+                <!-- Driver performance scorecards -->
+                <div class="glass-card">
+                    <h3 class="card-title"><i class="fa-solid fa-id-card-clip"></i> Driver Performance Registry</h3>
+                    <div class="table-filter-bar">
+                        <div class="search-input-wrap">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="fleet-drivers-search" class="search-box" placeholder="Search drivers...">
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="custom-table" id="driver-management-table">
+                            <thead>
+                                <tr>
+                                    <th>Driver ID</th>
+                                    <th>Full Name</th>
+                                    <th>License Number</th>
+                                    <th>Performance Rating</th>
+                                    <th>Work Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="driver-management-body">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Vehicles under maintenance summary -->
+                <div class="glass-card">
+                    <h3 class="card-title"><i class="fa-solid fa-wrench"></i> Vehicles Under Maintenance</h3>
+                    <div class="table-wrap">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Registration</th>
+                                    <th>Vehicle Brand</th>
+                                    <th>Maintenance Class</th>
+                                    <th>Diagnostics & Remarks</th>
+                                    <th>Est. Shop Cost</th>
+                                    <th>Job Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="maintenance-log-body">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: ACCOUNT & SETTINGS -->
+            <section id="sect-account" class="dashboard-section">
+                <div class="two-column-layout">
+                    <!-- Policy configuration inputs -->
+                    <div class="glass-card" style="display: flex; flex-direction: column; gap: 30px;">
+                        <div>
+                            <h3 class="card-title"><i class="fa-solid fa-sliders"></i> Fleet Guidelines & Policy Control</h3>
+                            <form onsubmit="handleFleetPolicySubmit(event)">
+                                <div class="form-grid">
+                                    <div class="input-group">
+                                        <label class="input-label" for="speed-limit">Max Speed Governor (km/h)</label>
+                                        <input type="number" id="speed-limit" class="text-input" value="120">
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="input-label" for="fuel-policy">Corporate Fuel Policy</label>
+                                        <input type="text" id="fuel-policy" class="text-input" value="Refuel-to-Full Allowed">
+                                    </div>
+                                    <div class="input-group form-grid-full">
+                                        <label class="input-label" for="policy-exceptions">Compliance Exception Rules</label>
+                                        <input type="text" id="policy-exceptions" class="text-input" value="Pre-approved 5-star contract list">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-primary">Apply Policies Globally</button>
+                            </form>
+                        </div>
+
+                        <div>
+                            <h3 class="card-title"><i class="fa-solid fa-car-tunnel"></i> Category Configuration</h3>
+                            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                <div class="pref-chip active">VIP Luxury (3 Cars)</div>
+                                <div class="pref-chip active">Luxury Sedan (8 Cars)</div>
+                                <div class="pref-chip active">EV Sports (5 Cars)</div>
+                                <div class="pref-chip active">Premium SUVs (12 Cars)</div>
+                            </div>
+                        </div>
+
+                        <!-- Add vehicle and drivers forms -->
+                        <div>
+                            <h3 class="card-title"><i class="fa-solid fa-plus"></i> Add New Vehicle Asset</h3>
+                            <form onsubmit="handleAddVehicleSubmit(event)">
+                                <div class="form-grid">
+                                    <div class="input-group">
+                                        <label class="input-label" for="new-model">Vehicle Model & Maker</label>
+                                        <input type="text" id="new-model" class="text-input" placeholder="e.g. BMW i7 Sedan" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="input-label" for="new-reg">License Plate Number</label>
+                                        <input type="text" id="new-reg" class="text-input" placeholder="e.g. DL-1CA-9090" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="input-label" for="new-cat">Category Class</label>
+                                        <input type="text" id="new-cat" class="text-input" placeholder="e.g. Luxury Sedan" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="input-label" for="new-cost">Daily Base Cost (₹)</label>
+                                        <input type="number" id="new-cost" class="text-input" placeholder="e.g. 25000" required>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-primary" style="margin-top:10px;">Register Vehicle</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar settings items -->
+                    <div style="display: flex; flex-direction: column; gap: 24px;">
+                        <!-- Fleet Health score gauge -->
+                        <div class="glass-card" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+                            <h3 class="card-title" style="align-self: flex-start;"><i class="fa-solid fa-heart-pulse"></i> Overall Fleet Health</h3>
+                            <div class="chart-container" id="fleet-health-gauge" style="min-height:180px;"></div>
+                            <p style="color:var(--text-muted); font-size:0.85rem; padding: 0 10px; line-height: 1.4;">
+                                Health score is optimal. 2 vehicles in shop for routine checks, 0 safety violations logged.
+                            </p>
+                        </div>
+
+                        <!-- Access permissions -->
+                        <div class="glass-card">
+                            <h3 class="card-title"><i class="fa-solid fa-lock"></i> Access & Permissions</h3>
+                            <div style="display: flex; flex-direction: column; gap: 16px;">
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <span style="font-size:0.9rem; font-weight:600;">Super Admin (Amit Sen)</span>
+                                    <span class="badge-status success" style="padding: 2px 8px; font-size: 0.65rem;">Active</span>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; align-items:center;">
+                                    <span style="font-size:0.9rem; font-weight:600;">Fleet Auditor (Rahul Dev)</span>
+                                    <span class="badge-status info" style="padding: 2px 8px; font-size: 0.65rem;">Viewer</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notification rules -->
+                        <div class="glass-card">
+                            <h3 class="card-title"><i class="fa-solid fa-bell-concierge"></i> Notification Rules</h3>
+                            <div class="toggle-item">
+                                <div class="toggle-info">
+                                    <h5>Maintenance Reminders</h5>
+                                    <p>Alert 500km prior to service interval.</p>
+                                </div>
+                                <label class="switch-control">
+                                    <input type="checkbox" checked>
+                                    <span class="switch-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-item">
+                                <div class="toggle-info">
+                                    <h5>Speed Threshold Alerts</h5>
+                                    <p>Email alerts if vehicle speeds exceed 130km/h.</p>
+                                </div>
+                                <label class="switch-control">
+                                    <input type="checkbox" checked>
+                                    <span class="switch-slider"></span>
+                                </label>
+                            </div>
+                            <div class="toggle-item">
+                                <div class="toggle-info">
+                                    <h5>Fuel/Charge Alert</h5>
+                                    <p>SMS if battery/gas falls under 15% charge.</p>
+                                </div>
+                                <label class="switch-control">
+                                    <input type="checkbox" checked>
+                                    <span class="switch-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Leaflet Maps Script -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- Apex Charts Library -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    
+    <!-- Shared JS Actions -->
+    <script src="assets/dashboard.js"></script>
+</body>
+</html>

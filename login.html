@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Access your Stackly Luxury Rentals account. Review your bookings or manage your premium vehicle fleet.">
+    <title>Secure Access | Stackly Car Rentals</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        /* CSS VARIABLES & RESET */
+        :root {
+            --bg-deep: #0F0F0F;
+            --bg-primary: #111111;
+            --bg-secondary: #1A1A1A;
+            --accent: #d45a0d;
+            --accent-hover: #b84c0a;
+            --btn-bg: #d45a0d;
+            --btn-bg-hover: #b84c0a;
+            --text-main: #FFFFFF;
+            --text-muted: #A0A0A0;
+            --glass: rgba(26, 26, 26, 0.75);
+            --glass-border: rgba(212, 90, 13, 0.15);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Outfit', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+        }
+
+        /* CUSTOM SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-deep);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-hover);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* PRELOADER */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-deep);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        #preloader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .preloader-content {
+            text-align: center;
+        }
+        .preloader-logo {
+            width: 80px;
+            height: auto;
+            margin-bottom: 20px;
+            animation: pulse-accent 2s infinite ease-in-out;
+        }
+        .preloader-brand {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            letter-spacing: 4px;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+        .preloader-brand span {
+            color: var(--accent);
+        }
+        .preloader-slogan {
+            font-size: 0.9rem;
+            color: var(--accent);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+        .preloader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 2px solid rgba(212, 90, 13, 0.1);
+            border-top: 2px solid var(--accent);
+            border-radius: 50%;
+            margin: 25px auto 0;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes pulse-accent {
+            0% { transform: scale(0.95); filter: drop-shadow(0 0 0 rgba(212,90,13, 0.4)); }
+            70% { transform: scale(1.05); filter: drop-shadow(0 0 15px rgba(212,90,13, 0.6)); }
+            100% { transform: scale(0.95); filter: drop-shadow(0 0 0 rgba(212,90,13, 0)); }
+        }/* HEADER & NAVBAR */
+        .navbar-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: var(--transition);
+            background: transparent;
+            padding: 20px 0;
+            border-bottom: 1px solid transparent;
+        }
+        .navbar-header.scrolled {
+            background: var(--bg-deep);
+            padding: 12px 0;
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 12px;
+            transition: var(--transition);
+        }
+        .logo-img {
+            height: 55px;
+            width: auto;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: 2px;
+            transition: var(--transition);
+        }
+        .logo-text span {
+            color: var(--accent);
+        }
+        .logo-container:hover .logo-text {
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(212,90,13,0.3);
+        }
+        .logo-container:hover .logo-img {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            position: relative;
+            padding: 6px 0;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: var(--transition);
+        }
+        .nav-link:hover {
+            color: var(--accent);
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .nav-link.active {
+            color: var(--accent);
+        }
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-btn-login {
+            background-color: var(--btn-bg);
+            color: var(--text-main) !important;
+            border: 1px solid var(--btn-bg);
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+        .nav-btn-login:hover {
+            background-color: transparent;
+            color: var(--btn-bg) !important;
+            border-color: var(--btn-bg);
+            box-shadow: 0 0 15px rgba(212,90,13,0.4);
+            transform: translateY(-2px);
+        }
+
+        .hamburger-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 1100;
+        }
+        .hamburger-btn .bar {
+            width: 28px;
+            height: 2px;
+            background-color: var(--text-main);
+            transition: var(--transition);
+        }
+        .hamburger-btn.active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger-btn.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger-btn.active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* MOBILE SIDEBAR */
+        .mobile-sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1050;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+        .mobile-sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .mobile-sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            background-color: var(--bg-deep);
+            border-left: 1px solid var(--glass-border);
+            z-index: 1060;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            transform: translateX(100%);
+            visibility: hidden;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
+        }
+        .mobile-sidebar.active {
+            transform: translateX(0);
+            visibility: visible;
+        }
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .close-sidebar-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 2.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .close-sidebar-btn:hover {
+            color: var(--accent);
+        }
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .sidebar-link {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            color: var(--accent);
+            border-bottom: 1px solid var(--accent);
+            padding-left: 8px;
+        }
+        .sidebar-btn-login, .sidebar-btn-login.active {
+            margin-top: 20px;
+            background-color: var(--btn-bg);
+            color: var(--text-main) !important;
+            text-align: center;
+            border-radius: 4px;
+            font-weight: 700;
+            padding: 14px !important;
+            text-transform: uppercase;
+            border-bottom: none !important;
+        }
+        .sidebar-btn-login:hover, .sidebar-btn-login.active:hover {
+            background-color: var(--btn-bg-hover);
+            color: var(--text-main) !important;
+            border-bottom: none !important;
+            padding-left: 14px !important;
+        }
+
+        /* LOGIN CONTAINER */
+        .login-section {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 120px 0 80px;
+            position: relative;
+            background: linear-gradient(rgba(15,15,15,0.85), rgba(15,15,15,0.95)), url('assets/porsche_911.webp') no-repeat center center/cover;
+        }
+        .login-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            max-width: 450px;
+            width: 90%;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            backdrop-filter: blur(12px);
+        }
+        .login-logo-box {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .login-logo-box img {
+            height: 60px;
+            margin-bottom: 10px;
+        }
+        .login-logo-box h2 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            letter-spacing: 1.5px;
+        }
+        .login-logo-box h2 span {
+            color: var(--accent);
+        }
+
+        /* TABS ROLE SWITCHER */
+        .login-tabs {
+            display: flex;
+            background-color: var(--bg-deep);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 4px;
+            padding: 5px;
+            margin-bottom: 30px;
+        }
+        .login-tab {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 12px;
+            border-radius: 4px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .login-tab.active {
+            background-color: var(--btn-bg);
+            color: var(--text-main);
+            box-shadow: 0 4px 10px rgba(212,90,13,0.2);
+        }
+
+        /* FORM */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        .form-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .form-input-wrapper {
+            position: relative;
+        }
+        .form-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent);
+            font-size: 0.95rem;
+        }
+        .form-input {
+            background-color: var(--bg-deep);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 4px;
+            color: var(--text-main);
+            padding: 14px 16px 14px 45px;
+            width: 100%;
+            font-family: var(--font-body);
+            outline: none;
+            transition: var(--transition);
+        }
+        .form-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(212,90,13,0.15);
+        }
+        .btn-login-submit {
+            background-color: var(--btn-bg);
+            color: var(--text-main);
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-login-submit:hover {
+            background-color: var(--btn-bg-hover);
+            box-shadow: 0 0 20px rgba(212,90,13,0.4);
+            transform: translateY(-2px);
+        }
+
+        /* HELPER INFO CARD */
+        .credentials-tip {
+            margin-top: 30px;
+            background-color: rgba(212, 90, 13, 0.05);
+            border: 1px dashed rgba(212, 90, 13, 0.2);
+            padding: 15px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .credentials-tip strong {
+            color: var(--accent);
+        }
+        .back-home-link:hover {
+            color: var(--accent) !important;
+            text-shadow: 0 0 10px rgba(212,90,13,0.25);
+        }
+        #signup-link:hover {
+            color: var(--accent-hover) !important;
+        }
+
+        /* CUSTOM ALERT DIALOG */
+        .custom-alert-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 5000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+        }
+        .custom-alert-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .alert-box {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            padding: 40px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            transform: scale(0.9);
+            transition: var(--transition);
+        }
+        .custom-alert-modal.show .alert-box {
+            transform: scale(1);
+        }
+        .alert-icon {
+            font-size: 4.5rem;
+            color: var(--accent);
+            margin-bottom: 25px;
+        }
+        .alert-title {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+        }
+        .alert-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: var(--bg-deep);
+            border-top: 1px solid var(--glass-border);
+            padding: 80px 0 30px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        .footer-col h3 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            color: var(--text-main);
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent);
+        }
+        .footer-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+        .footer-socials {
+            display: flex;
+            gap: 15px;
+        }
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--bg-secondary);
+            color: var(--text-main);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 1rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .social-icon:hover {
+            background-color: var(--accent);
+            color: var(--text-main);
+            transform: translateY(-3px);
+            box-shadow: 0 0 10px rgba(212,90,13,0.3);
+        }
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+        .footer-contact-item {
+            display: flex;
+            gap: 12px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+            align-items: flex-start;
+        }
+        .footer-contact-item i {
+            color: var(--accent);
+            margin-top: 4px;
+        }
+        .footer-map-container {
+            border: 1px solid var(--glass-border);
+            border-radius: 6px;
+            overflow: hidden;
+            height: 140px;
+            margin-top: 15px;
+        }
+        .footer-map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(1) invert(0.9) contrast(1.2);
+        }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 30px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        /* RESPONSIVE LAYOUTS */
+        @media (min-width: 1440px) {
+            .container {
+                max-width: 1400px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            .hamburger-btn {
+                display: flex;
+            }
+        }
+
+        @media (max-width: 425px) {
+            .login-card {
+                padding: 30px 20px;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .login-card {
+                padding: 24px 15px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .login-card {
+                padding: 20px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PRELOADER -->
+    <div id="preloader">
+        <div class="preloader-content">
+            <img src="assets/logoog.webp" alt="Stackly Logo" class="preloader-logo" style="width: 180px; height: auto;">
+            <p class="preloader-slogan" style="margin-top: 15px;">Drive the Dream</p>
+            <div class="preloader-spinner"></div>
+        </div>
+    </div>
+
+    <!-- STICKY NAVBAR -->
+    <header class="navbar-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-container">
+                <img src="assets/logoog.webp" alt="Stackly Logo" class="logo-img">
+            </a>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="cars.html" class="nav-link">Cars</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="booking.html" class="nav-link">Booking</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="login.html" class="nav-link nav-btn-login active">Login</a>
+            </nav>
+            <button class="hamburger-btn" aria-label="Toggle Menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE SIDEBAR -->
+    <div class="mobile-sidebar-overlay"></div>
+    <aside class="mobile-sidebar">
+        <div class="sidebar-header">
+            <a href="index.html" class="logo-container">
+                <img src="assets/logoog.webp" alt="Stackly Logo" class="logo-img">
+            </a>
+            <button class="close-sidebar-btn" aria-label="Close Menu">&times;</button>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="index.html" class="sidebar-link">Home</a>
+            <a href="cars.html" class="sidebar-link">Cars</a>
+            <a href="about.html" class="sidebar-link">About</a>
+            <a href="booking.html" class="sidebar-link">Booking</a>
+            <a href="contact.html" class="sidebar-link">Contact</a>
+            <a href="login.html" class="sidebar-link sidebar-btn-login active">Login</a>
+        </nav>
+    </aside>
+
+    <!-- LOGIN CONTAINER -->
+    <section class="login-section">
+        <div class="login-card" data-aos="fade-up">
+            <div class="login-logo-box">
+                <img src="assets/logoog.webp" alt="Stackly Logo" style="height: 48px; margin-bottom: 10px;">
+                <h2>ACCESS</h2>
+            </div>
+
+            <!-- Role Selector tabs -->
+            <div class="login-tabs">
+                <button class="login-tab active" id="tab-traveler" onclick="switchRole('traveler')">Traveler</button>
+                <button class="login-tab" id="tab-manager" onclick="switchRole('fleet-manager')">Fleet Manager</button>
+            </div>
+
+            <!-- LoginForm -->
+            <form id="login-form" onsubmit="handleLoginSubmit(event)" novalidate>
+                <input type="hidden" id="login-role" value="traveler">
+                
+                <div class="form-group">
+                    <label class="form-label" for="login-email">Email Address / Username</label>
+                    <div class="form-input-wrapper">
+                        <i class="fa-solid fa-envelope form-icon"></i>
+                        <input type="text" id="login-email" class="form-input" placeholder="Enter any email or username">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="login-password">Password</label>
+                    <div class="form-input-wrapper">
+                        <i class="fa-solid fa-lock form-icon"></i>
+                        <input type="password" id="login-password" class="form-input" placeholder="Enter any password">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-login-submit">Authenticate <i class="fa-solid fa-shield-halved"></i></button>
+            </form>
+
+            <!-- SignupForm (Initially hidden) -->
+            <form id="signup-form" onsubmit="handleSignupSubmit(event)" style="display: none;" novalidate>
+                <div class="form-group">
+                    <label class="form-label" for="signup-name">Full Name</label>
+                    <div class="form-input-wrapper">
+                        <i class="fa-solid fa-user form-icon"></i>
+                        <input type="text" id="signup-name" class="form-input" placeholder="e.g. Rahul Dev">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="signup-email">Email Address</label>
+                    <div class="form-input-wrapper">
+                        <i class="fa-solid fa-envelope form-icon"></i>
+                        <input type="text" id="signup-email" class="form-input" placeholder="e.g. rahul@example.com">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="signup-password">Password</label>
+                    <div class="form-input-wrapper">
+                        <i class="fa-solid fa-lock form-icon"></i>
+                        <input type="password" id="signup-password" class="form-input" placeholder="Create password">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-login-submit">Register Account <i class="fa-solid fa-user-plus"></i></button>
+            </form>
+
+            <!-- Sign Up & Back to Home links inside login page card -->
+            <div style="text-align: center; margin-top: 25px;">
+                <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 15px;" id="account-toggle-wrapper">
+                    Don't have an account? <a href="#" id="signup-link" onclick="toggleForm('signup', event)" style="color: var(--accent); text-decoration: none; font-weight: 600; transition: var(--transition);">Sign Up</a>
+                </p>
+                <a href="index.html" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: var(--transition); display: inline-flex; align-items: center; gap: 8px;" class="back-home-link">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid" data-aos="fade-up">
+                <!-- COL 1 -->
+                <div class="footer-col">
+                    <a href="index.html" class="logo-container" style="margin-bottom: 20px;">
+                        <img src="assets/logoog.webp" alt="Stackly Logo" class="logo-img">
+                    </a>
+                    <p class="footer-desc">Stackly Luxury Rentals provides premium vehicles, exceptional service, and seamless travel experiences across Tamil Nadu.</p>
+                    <div class="footer-socials">
+                        <a href="404.html" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="404.html" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="404.html" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="404.html" class="social-icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <!-- COL 2 -->
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <div class="footer-links">
+                        <a href="index.html">Home</a>
+                        <a href="cars.html">Cars</a>
+                        <a href="about.html">About Us</a>
+                        <a href="booking.html">Booking</a>
+                        <a href="contact.html">Contact</a>
+                    </div>
+                </div>
+                <!-- COL 3 -->
+                <div class="footer-col">
+                    <h3>Services</h3>
+                    <div class="footer-links">
+                        <a href="cars.html?cat=luxury">Luxury Cars</a>
+                        <a href="cars.html?cat=suv">SUV Rentals</a>
+                        <a href="cars.html?cat=sports">Sports Cars</a>
+                        <a href="booking.html">Airport Transfers</a>
+                        <a href="contact.html">Corporate Rentals</a>
+                    </div>
+                </div>
+                <!-- COL 4 -->
+                <div class="footer-col">
+                    <h3>Contact & Location</h3>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>Stackly Luxury Rentals, Meyyanur Main Rd, Salem, Tamil Nadu 636004, India</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-phone"></i>
+                        <span>+91 98765 43210</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>reservations@stacklyrentals.com</span>
+                    </div>
+                    <div class="footer-map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62512.969855325515!2d78.11306307164998!3d11.658253163771962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babf1cc5d5a570f%3A0xe54d32a677bfb6db!2sSalem%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1689269411993!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 Stackly Luxury Rentals. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- SUCCESS ALERT MODAL -->
+    <div id="success-alert" class="custom-alert-modal">
+        <div class="alert-box">
+            <i class="fa-solid fa-circle-check alert-icon"></i>
+            <h3 class="alert-title">Access Authorized!</h3>
+            <p class="alert-desc" id="alert-message">Successfully logged in. Loading secure console dashboard...</p>
+        </div>
+    </div>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        // PRELOADER
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.classList.add('fade-out');
+            }, 600);
+        });
+
+        // AOS INITIALIZATION
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // STICKY NAVBAR
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.navbar-header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // MOBILE SIDEBAR
+        const hamburgerBtn = document.querySelector('.hamburger-btn');
+        const closeSidebarBtn = document.querySelector('.close-sidebar-btn');
+        const mobileSidebar = document.querySelector('.mobile-sidebar');
+        const mobileOverlay = document.querySelector('.mobile-sidebar-overlay');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+        function openSidebar() {
+            hamburgerBtn.classList.add('active');
+            mobileSidebar.classList.add('active');
+            mobileOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidebar() {
+            hamburgerBtn.classList.remove('active');
+            mobileSidebar.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        hamburgerBtn.addEventListener('click', () => {
+            if (mobileSidebar.classList.contains('active')) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
+        });
+        closeSidebarBtn.addEventListener('click', closeSidebar);
+        mobileOverlay.addEventListener('click', closeSidebar);
+        sidebarLinks.forEach(link => link.addEventListener('click', closeSidebar));
+
+        // SWITCH ROLE TABS
+        function switchRole(role) {
+            const tabTraveler = document.getElementById('tab-traveler');
+            const tabManager = document.getElementById('tab-manager');
+            const roleInput = document.getElementById('login-role');
+            const emailInput = document.getElementById('login-email');
+
+            roleInput.value = role;
+
+            if (role === 'traveler') {
+                tabTraveler.classList.add('active');
+                tabManager.classList.remove('active');
+                emailInput.placeholder = 'Enter any email or username';
+            } else {
+                tabTraveler.classList.remove('active');
+                tabManager.classList.add('active');
+                emailInput.placeholder = 'Enter any email or username';
+            }
+        }
+
+        // TOGGLE BETWEEN SIGN IN AND SIGN UP
+        function toggleForm(formType, e) {
+            if (e) e.preventDefault();
+            const loginTabs = document.querySelector('.login-tabs');
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const headerText = document.querySelector('.login-logo-box h2');
+            const toggleWrapper = document.getElementById('account-toggle-wrapper');
+
+            if (formType === 'signup') {
+                loginTabs.style.display = 'none';
+                loginForm.style.display = 'none';
+                signupForm.style.display = 'block';
+                headerText.innerHTML = 'ACCESS';
+                toggleWrapper.innerHTML = `Already have an account? <a href="#" id="signup-link" onclick="toggleForm('signin', event)" style="color: var(--accent); text-decoration: none; font-weight: 600; transition: var(--transition);">Sign In</a>`;
+            } else {
+                loginTabs.style.display = 'flex';
+                loginForm.style.display = 'block';
+                signupForm.style.display = 'none';
+                headerText.innerHTML = 'ACCESS';
+                toggleWrapper.innerHTML = `Don't have an account? <a href="#" id="signup-link" onclick="toggleForm('signup', event)" style="color: var(--accent); text-decoration: none; font-weight: 600; transition: var(--transition);">Sign Up</a>`;
+            }
+        }
+
+        // HANDLE LOGIN SUBMISSION
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+
+            const role = document.getElementById('login-role').value;
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value.trim();
+
+            // validation rule
+            if (!email || !password) {
+                alert("Please enter Email and Password");
+                return;
+            }
+
+            const redirectUrl = role === 'traveler' ? 'traveler-dashboard.html' : 'fleet-manager-dashboard.html';
+            const alertMsg = role === 'traveler' 
+                ? 'Successfully logged in as Traveler. Loading your dashboard...' 
+                : 'Successfully logged in as Fleet Manager. Loading your control panel...';
+
+            // Set session states
+            const rawName = email.includes('@') ? email.split('@')[0] : email;
+            const userName = rawName.charAt(0).toUpperCase() + rawName.slice(1);
+            
+            sessionStorage.setItem('userRole', role);
+            sessionStorage.setItem('userName', userName);
+
+            // Show success alert
+            const alertModal = document.getElementById('success-alert');
+            document.getElementById('alert-message').innerText = alertMsg;
+            alertModal.classList.add('show');
+
+            setTimeout(() => {
+                alertModal.classList.remove('show');
+                window.location.href = redirectUrl;
+            }, 2000);
+        }
+
+        // HANDLE SIGN UP SUBMISSION
+        function handleSignupSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const password = document.getElementById('signup-password').value.trim();
+
+            if (!name || !email || !password) {
+                alert("Please enter all fields to register.");
+                return;
+            }
+
+            // Create success alert and redirect to sign in form
+            const alertModal = document.getElementById('success-alert');
+            const alertMsgElement = document.getElementById('alert-message');
+            const alertTitleElement = alertModal.querySelector('.alert-title');
+
+            const oldTitle = alertTitleElement.innerText;
+            const oldMsg = alertMsgElement.innerText;
+
+            alertTitleElement.innerText = "Account Registered!";
+            alertMsgElement.innerText = "Your credentials have been logged. Returning to access console...";
+            alertModal.classList.add('show');
+
+            // Pre-fill login input with registered email
+            document.getElementById('login-email').value = email;
+
+            setTimeout(() => {
+                alertModal.classList.remove('show');
+                
+                // Reset text labels
+                alertTitleElement.innerText = oldTitle;
+                alertMsgElement.innerText = oldMsg;
+                
+                // Toggle back to sign in
+                toggleForm('signin');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

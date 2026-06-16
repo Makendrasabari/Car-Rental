@@ -1,0 +1,2658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rent premium luxury vehicles across Tamil Nadu. Experience high-end travel with Stackly Luxury Rentals. VIP service, premium fleet.">
+    <title>Stackly Luxury Rentals | Premium Car Rental Tamil Nadu</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <style>
+        /* CSS RESET & VARIABLES */
+        :root {
+            --bg-deep: #0F0F0F;
+            --bg-primary: #111111;
+            --bg-secondary: #1A1A1A;
+            --accent: #d45a0d;
+            --accent-hover: #b84c0a;
+            --btn-bg: #d45a0d;
+            --btn-bg-hover: #b84c0a;
+            --text-main: #FFFFFF;
+            --text-muted: #A0A0A0;
+            --glass: rgba(26, 26, 26, 0.75);
+            --glass-border: rgba(212, 90, 13, 0.15);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Outfit', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+        }
+
+        /* CUSTOM SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-deep);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-hover);
+        }
+
+        /* CONTAINER */
+        .container {
+            width: 100%;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* PRELOADER */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-deep);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        #preloader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .preloader-content {
+            text-align: center;
+        }
+        .preloader-logo {
+            width: 80px;
+            height: auto;
+            margin-bottom: 20px;
+            animation: pulse-accent 2s infinite ease-in-out;
+        }
+        .preloader-brand {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            letter-spacing: 4px;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+        .preloader-brand span {
+            color: var(--accent);
+        }
+        .preloader-slogan {
+            font-size: 0.9rem;
+            color: var(--accent);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+        .preloader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 2px solid rgba(212, 90, 13, 0.1);
+            border-top: 2px solid var(--accent);
+            border-radius: 50%;
+            margin: 25px auto 0;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes pulse-accent {
+            0% { transform: scale(0.95); filter: drop-shadow(0 0 0 rgba(212,90,13, 0.4)); }
+            70% { transform: scale(1.05); filter: drop-shadow(0 0 15px rgba(212,90,13, 0.6)); }
+            100% { transform: scale(0.95); filter: drop-shadow(0 0 0 rgba(212,90,13, 0)); }
+        }
+
+        /* HEADER & NAVIGATION */
+        .navbar-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: var(--transition);
+            background: transparent;
+            padding: 20px 0;
+            border-bottom: 1px solid transparent;
+        }
+        .navbar-header.scrolled {
+            background: var(--bg-deep);
+            padding: 12px 0;
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            gap: 12px;
+            transition: var(--transition);
+        }
+        .logo-img {
+            height: 55px;
+            width: auto;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: 2px;
+            transition: var(--transition);
+        }
+        .logo-text span {
+            color: var(--accent);
+        }
+        .logo-container:hover .logo-text {
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(212,90,13,0.3);
+        }
+        .logo-container:hover .logo-img {
+            transform: scale(1.05);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            position: relative;
+            padding: 6px 0;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: var(--transition);
+        }
+        .nav-link:hover {
+            color: var(--accent);
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        .nav-link.active {
+            color: var(--accent);
+        }
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-btn-login {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--accent);
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+        .nav-btn-login:hover {
+            background-color: var(--btn-bg);
+            color: var(--text-main);
+            box-shadow: 0 0 15px rgba(212,90,13,0.4);
+            transform: translateY(-2px);
+        }
+
+        /* HAMBURGER BTN */
+        .hamburger-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 1100;
+        }
+        .hamburger-btn .bar {
+            width: 28px;
+            height: 2px;
+            background-color: var(--text-main);
+            transition: var(--transition);
+        }
+        .hamburger-btn.active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger-btn.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger-btn.active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* MOBILE SIDEBAR */
+        .mobile-sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1050;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+        .mobile-sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .mobile-sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 100%;
+            height: 100%;
+            background-color: var(--bg-deep);
+            border-left: 1px solid var(--glass-border);
+            z-index: 1060;
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            transform: translateX(100%);
+            visibility: hidden;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
+        }
+        .mobile-sidebar.active {
+            transform: translateX(0);
+            visibility: visible;
+        }
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .close-sidebar-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 2.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .close-sidebar-btn:hover {
+            color: var(--accent);
+        }
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .sidebar-link {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .sidebar-link:hover, .sidebar-link.active {
+            color: var(--accent);
+            border-bottom: 1px solid var(--accent);
+            padding-left: 8px;
+        }
+        .sidebar-btn-login, .sidebar-btn-login.active {
+            margin-top: 20px;
+            background-color: var(--btn-bg);
+            color: var(--text-main) !important;
+            text-align: center;
+            border-radius: 4px;
+            font-weight: 700;
+            padding: 14px !important;
+            text-transform: uppercase;
+            border-bottom: none !important;
+        }
+        .sidebar-btn-login:hover, .sidebar-btn-login.active:hover {
+            background-color: var(--btn-bg-hover);
+            color: var(--text-main) !important;
+            border-bottom: none !important;
+            padding-left: 14px !important;
+        }
+
+        /* BUTTONS */
+        .btn-accent {
+            background-color: var(--btn-bg);
+            color: var(--text-main);
+            border: none;
+            padding: 14px 32px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .btn-accent:hover {
+            background-color: var(--btn-bg-hover);
+            box-shadow: 0 0 20px rgba(212,90,13,0.5);
+            transform: translateY(-3px);
+        }
+        .btn-accent:active {
+            transform: translateY(-1px);
+        }
+        .btn-outline {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 14px 32px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        /* SECTION HEADINGS */
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .section-tag {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+        }
+        .section-tag::before,
+        .section-tag::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 1px;
+            background-color: var(--accent);
+        }
+        .banner-breadcrumbs {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-weight: 500;
+        }
+        .banner-breadcrumbs::before,
+        .banner-breadcrumbs::after {
+            content: '';
+            display: inline-block;
+            width: 25px;
+            height: 1px;
+            background-color: var(--accent);
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+        .section-title span {
+            font-style: italic;
+            font-weight: 400;
+            color: var(--accent);
+        }
+
+        /* 1. HERO SECTION */
+        .hero-section {
+            height: 100vh;
+            min-height: 700px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background-color: var(--bg-deep);
+        }
+        .hero-slides {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 1.8s ease-in-out;
+        }
+        .hero-slide.active {
+            opacity: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .hero-subtitle {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+        }
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: 4.5rem;
+            line-height: 1.15;
+            margin-bottom: 24px;
+            font-weight: 700;
+        }
+        .hero-title span {
+            color: var(--accent);
+            font-style: italic;
+            font-weight: 400;
+        }
+        .hero-description {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin: 0 auto 40px auto;
+            max-width: 600px;
+        }
+        .hero-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* 2. QUICK BOOKING SEARCH FORM */
+        .booking-search-container {
+            margin-top: -80px;
+            position: relative;
+            z-index: 30;
+        }
+        .booking-search-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            backdrop-filter: blur(12px);
+        }
+        .booking-search-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            align-items: flex-end;
+        }
+        .search-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .search-label {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .search-input {
+            background: var(--bg-deep);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-main);
+            padding: 14px 16px;
+            border-radius: 4px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition);
+            width: 100%;
+        }
+        .search-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(212,90,13,0.2);
+        }
+        .btn-search {
+            width: 100%;
+            height: 52px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 3. FEATURED LUXURY CARS */
+        .featured-section {
+            padding: 120px 0;
+            background-color: var(--bg-deep);
+        }
+        .car-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        .car-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: var(--transition);
+            position: relative;
+        }
+        .car-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+        .car-image-wrapper {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+        .car-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        .car-card:hover .car-image {
+            transform: scale(1.08);
+        }
+        .car-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--accent);
+            color: var(--bg-deep);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 3px;
+            text-transform: uppercase;
+        }
+        .car-details {
+            padding: 24px;
+        }
+        .car-title {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+        .car-specs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .spec-item {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .spec-item i {
+            color: var(--accent);
+        }
+        .car-pricing-action {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .car-price {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .car-price span {
+            font-size: 1.3rem;
+            color: var(--text-main);
+            font-weight: 700;
+            display: block;
+        }
+        .car-price span::before {
+            content: '₹';
+            color: var(--accent);
+            margin-right: 2px;
+        }
+        .car-actions-btn {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-card-view {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-main);
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .btn-card-view:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .btn-card-book {
+            background-color: var(--btn-bg);
+            color: var(--text-main);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+        }
+        .btn-card-book:hover {
+            background-color: var(--btn-bg-hover);
+        }
+
+        /* 4. VEHICLE CATEGORIES */
+        .categories-section {
+            padding: 100px 0;
+            background-color: var(--bg-primary);
+        }
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        .category-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 6px;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--accent);
+            transform: scaleX(0);
+            transition: var(--transition);
+            z-index: 20;
+        }
+        .category-card:hover::before {
+            transform: scaleX(1);
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--glass-border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+        .category-image-wrapper {
+            position: relative;
+            height: 160px;
+            overflow: hidden;
+        }
+        .category-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        .category-card:hover .category-image {
+            transform: scale(1.05);
+        }
+        .category-info {
+            padding: 24px 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+        }
+        .category-icon-box {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 15px;
+            transition: var(--transition);
+        }
+        .category-card:hover .category-icon-box {
+            transform: scale(1.1);
+        }
+        .category-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .category-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* 5. WHY CHOOSE US */
+        .why-choose-section {
+            padding: 120px 0;
+            background-color: var(--bg-deep);
+        }
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        .why-card {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(26,26,26,0.3) 100%);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 45px 30px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+        .why-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+        .why-icon {
+            font-size: 2.2rem;
+            color: var(--accent);
+            margin-bottom: 25px;
+        }
+        .why-title {
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .why-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* 6. HOW IT WORKS */
+        .how-works-section {
+            padding: 100px 0;
+            background-color: var(--bg-primary);
+        }
+        .how-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            position: relative;
+        }
+        .how-item {
+            text-align: center;
+            position: relative;
+        }
+        .how-step {
+            width: 70px;
+            height: 70px;
+            background-color: var(--bg-secondary);
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin: 0 auto 25px;
+            transition: var(--transition);
+        }
+        .how-item:hover .how-step {
+            background-color: var(--accent);
+            color: var(--text-main);
+            box-shadow: 0 0 20px rgba(212,90,13,0.4);
+        }
+        .how-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .how-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        /* 7. STATISTICS COUNTER */
+        .stats-section {
+            padding: 80px 0;
+            background: linear-gradient(rgba(15,15,15,0.85), rgba(15,15,15,0.85)), url('assets/lamborghini.webp') no-repeat center center/cover;
+            background-attachment: fixed;
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .stats-slider-wrapper {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .stats-slides {
+            display: flex;
+            gap: 120px;
+            width: max-content;
+            animation: stats-marquee 25s linear infinite;
+        }
+        .stats-slides:hover {
+            animation-play-state: paused;
+        }
+        .stat-item {
+            text-align: center;
+            flex-shrink: 0;
+            width: 250px;
+        }
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 0.95rem;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+        @keyframes stats-marquee {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* 8. PREMIUM FLEET SHOWCASE */
+        .fleet-showcase-section {
+            padding: 120px 0;
+            background-color: var(--bg-deep);
+        }
+        .showcase-container {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+        .showcase-info {
+            flex: 1;
+        }
+        .showcase-image-box {
+            flex: 1.2;
+            position: relative;
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+        }
+        .showcase-img {
+            width: 100%;
+            display: block;
+            object-fit: cover;
+            max-height: 450px;
+        }
+        .showcase-tabs {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .showcase-tab {
+            background-color: var(--bg-secondary);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 15px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+        .showcase-tab:hover {
+            border-color: var(--accent);
+        }
+        .showcase-tab.active {
+            background-color: var(--accent);
+            color: var(--bg-deep);
+            border-color: var(--accent);
+        }
+        .showcase-tab.active .tab-icon {
+            color: var(--bg-deep);
+        }
+        .tab-car-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .tab-icon {
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        /* 9. CUSTOMER TESTIMONIALS */
+        .testimonials-section {
+            padding: 100px 0;
+            background-color: var(--bg-primary);
+        }
+        .testimonials-slider-container {
+            position: relative;
+            max-width: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        .testimonials-slider-wrapper {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .testimonials-slider-wrapper::before,
+        .testimonials-slider-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 150px;
+            height: 100%;
+            z-index: 5;
+            pointer-events: none;
+        }
+        .testimonials-slider-wrapper::before {
+            left: 0;
+            background: linear-gradient(to right, var(--bg-primary) 0%, rgba(17, 17, 17, 0) 100%);
+        }
+        .testimonials-slider-wrapper::after {
+            right: 0;
+            background: linear-gradient(to left, var(--bg-primary) 0%, rgba(17, 17, 17, 0) 100%);
+        }
+        .testimonials-slides {
+            display: flex;
+            gap: 30px;
+            width: max-content;
+            animation: marquee 35s linear infinite;
+        }
+        .testimonials-slides:hover {
+            animation-play-state: paused;
+        }
+        .testimonial-slide-item {
+            width: 380px;
+            box-sizing: border-box;
+            flex-shrink: 0;
+        }
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(calc(-55%)); /* translates slightly past half to loop seamlessly with gap */
+            }
+        }
+        @media (max-width: 768px) {
+            .testimonial-slide-item {
+                width: 300px;
+            }
+            .testimonials-slider-wrapper::before,
+            .testimonials-slider-wrapper::after {
+                width: 50px;
+            }
+        }
+        .testimonial-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid rgba(255,255,255,0.03);
+            padding: 40px;
+            border-radius: 6px;
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .quote-icon {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            font-size: 2.2rem;
+            color: rgba(212, 90, 13, 0.1);
+        }
+        .testimonial-stars {
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+        .testimonial-text {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 25px;
+            line-height: 1.7;
+            flex-grow: 1;
+        }
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: auto;
+        }
+        .author-avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--accent);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+        }
+        .author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .author-info h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        .author-info p {
+            color: var(--accent);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* 10. SPECIAL OFFERS & DISCOUNTS */
+        .offers-section {
+            padding: 120px 0;
+            background-color: var(--bg-deep);
+        }
+        .offers-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+        .offer-card {
+            background: linear-gradient(135deg, rgba(212,90,13,0.1) 0%, rgba(17,17,17,0.8) 100%);
+            border: 1px solid var(--glass-border);
+            padding: 50px 40px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 300px;
+            position: relative;
+            overflow: hidden;
+        }
+        .offer-badge {
+            background-color: var(--accent);
+            color: var(--bg-deep);
+            padding: 6px 16px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            align-self: flex-start;
+            border-radius: 3px;
+            margin-bottom: 30px;
+        }
+        .offer-title {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1.25;
+            margin-bottom: 15px;
+        }
+        .offer-desc {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        /* 11. FAQ SECTION */
+        .faq-section {
+            padding: 100px 0;
+            background-color: var(--bg-primary);
+        }
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .faq-item {
+            background-color: var(--bg-secondary);
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .faq-question {
+            padding: 24px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            transition: var(--transition);
+        }
+        .faq-question h4 {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        .faq-icon {
+            font-size: 1rem;
+            color: var(--accent);
+            transition: var(--transition);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 30px;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s ease;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-top: 1px solid transparent;
+        }
+        .faq-item.active {
+            border-color: var(--glass-border);
+        }
+        .faq-item.active .faq-question {
+            color: var(--accent);
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            padding: 0 30px 24px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* 12. CALL TO ACTION (CTA) */
+        .cta-section {
+            padding: 100px 0;
+            background: linear-gradient(rgba(15,15,15,0.85), rgba(15,15,15,0.95)), url('assets/rolls_royce.webp') no-repeat center center/cover;
+            text-align: center;
+            position: relative;
+        }
+        .cta-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .cta-title {
+            font-family: var(--font-display);
+            font-size: 3.2rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .cta-title span {
+            color: var(--accent);
+            font-style: italic;
+            font-weight: 400;
+        }
+        .cta-desc {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        /* PREMIUM FOOTER */
+        footer {
+            background-color: var(--bg-deep);
+            border-top: 1px solid var(--glass-border);
+            padding: 80px 0 30px;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        .footer-col h3 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            color: var(--text-main);
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent);
+        }
+        .footer-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+        .footer-socials {
+            display: flex;
+            gap: 15px;
+        }
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--bg-secondary);
+            color: var(--text-main);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 1rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .social-icon:hover {
+            background-color: var(--accent);
+            color: var(--text-main);
+            transform: translateY(-3px);
+            box-shadow: 0 0 10px rgba(212,90,13,0.3);
+        }
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .footer-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+        .footer-contact-item {
+            display: flex;
+            gap: 12px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+            align-items: flex-start;
+        }
+        .footer-contact-item i {
+            color: var(--accent);
+            margin-top: 4px;
+        }
+        .footer-map-container {
+            border: 1px solid var(--glass-border);
+            border-radius: 6px;
+            overflow: hidden;
+            height: 140px;
+            margin-top: 15px;
+        }
+        .footer-map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(1) invert(0.9) contrast(1.2);
+        }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 30px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        /* CUSTOM MODAL FOR VIEW DETAILS */
+        .custom-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+        }
+        .custom-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            max-width: 800px;
+            width: 90%;
+            border-radius: 8px;
+            position: relative;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            transform: scale(0.9);
+            transition: var(--transition);
+        }
+        .custom-modal.show .modal-content {
+            transform: scale(1);
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .modal-close:hover {
+            color: var(--accent);
+        }
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 30px;
+        }
+        .modal-image-wrapper {
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .modal-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .modal-info h3 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--text-main);
+            margin-bottom: 15px;
+        }
+        .modal-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .modal-spec-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .modal-spec-cell {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        .modal-spec-cell strong {
+            color: var(--text-main);
+        }
+
+        /* TOAST SUCCESS ALERT */
+        .custom-alert-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(5px);
+        }
+        .custom-alert-modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .custom-alert-content {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+            max-width: 400px;
+            width: 90%;
+            transform: scale(0.95);
+            transition: var(--transition);
+        }
+        .custom-alert-modal.show .custom-alert-content {
+            transform: scale(1);
+        }
+        .custom-alert-icon {
+            font-size: 4rem;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+        .custom-alert-content h3 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        .custom-alert-content p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* MEDIA QUERIES (SPECIFIC SCREEN SIZES) */
+        @media (min-width: 1440px) {
+            .container {
+                max-width: 1400px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 3.5rem;
+            }
+            .booking-search-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .car-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .why-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .showcase-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            .hamburger-btn {
+                display: flex;
+            }
+            .hero-section {
+                padding-top: 100px;
+            }
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            .booking-search-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .car-grid {
+                grid-template-columns: 1fr;
+            }
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+            .how-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .stats-slides {
+                gap: 60px;
+            }
+            .stat-item {
+                width: 180px;
+            }
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+            .offers-container {
+                grid-template-columns: 1fr;
+            }
+            .modal-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 425px) {
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            .hero-actions {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn-accent, .btn-outline {
+                width: 100%;
+                justify-content: center;
+            }
+            .booking-search-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-slides {
+                gap: 40px;
+            }
+            .stat-item {
+                width: 150px;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .logo-text {
+                font-size: 1.3rem;
+            }
+            .preloader-brand {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .container {
+                padding: 0 15px;
+            }
+            .booking-search-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PRELOADER -->
+    <div id="preloader">
+        <div class="preloader-content">
+            <img src="assets/logoog.webp" alt="Stackly Logo" class="preloader-logo" style="width: 180px; height: auto;">
+            <p class="preloader-slogan" style="margin-top: 15px;">Drive the Dream</p>
+            <div class="preloader-spinner"></div>
+        </div>
+    </div>
+
+    <!-- STICKY NAVBAR -->
+    <header class="navbar-header">
+        <div class="nav-container">
+            <a href="index.html" class="logo-container">
+                <img src="assets/logoog.webp" alt="Stackly Logo" class="logo-img">
+            </a>
+            <nav class="nav-menu">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="cars.html" class="nav-link">Cars</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="booking.html" class="nav-link">Booking</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+                <a href="login.html" class="nav-link nav-btn-login">Login</a>
+            </nav>
+            <button class="hamburger-btn" aria-label="Toggle Menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE SIDEBAR -->
+    <div class="mobile-sidebar-overlay"></div>
+    <aside class="mobile-sidebar">
+        <div class="sidebar-header">
+            <a href="index.html" class="logo-container">
+                <img src="assets/logoog.webp" alt="Stackly Logo" class="logo-img">
+            </a>
+            <button class="close-sidebar-btn" aria-label="Close Menu">&times;</button>
+        </div>
+        <nav class="sidebar-menu">
+            <a href="index.html" class="sidebar-link active">Home</a>
+            <a href="cars.html" class="sidebar-link">Cars</a>
+            <a href="about.html" class="sidebar-link">About</a>
+            <a href="booking.html" class="sidebar-link">Booking</a>
+            <a href="contact.html" class="sidebar-link">Contact</a>
+            <a href="login.html" class="sidebar-link sidebar-btn-login">Login</a>
+        </nav>
+    </aside>
+
+    <!-- 1. HERO SECTION -->
+    <section class="hero-section">
+        <!-- Background Slideshow Layers -->
+        <div class="hero-slides">
+            <div class="hero-slide active" style="background-image: linear-gradient(rgba(15,15,15,0.65), rgba(15,15,15,0.9)), url('assets/porsche_911.webp');"></div>
+            <div class="hero-slide" style="background-image: linear-gradient(rgba(15,15,15,0.65), rgba(15,15,15,0.9)), url('assets/rolls_royce.webp');"></div>
+            <div class="hero-slide" style="background-image: linear-gradient(rgba(15,15,15,0.65), rgba(15,15,15,0.9)), url('assets/lamborghini.webp');"></div>
+            <div class="hero-slide" style="background-image: linear-gradient(rgba(15,15,15,0.65), rgba(15,15,15,0.9)), url('assets/range_rover.webp');"></div>
+            <div class="hero-slide" style="background-image: linear-gradient(rgba(15,15,15,0.65), rgba(15,15,15,0.9)), url('assets/audi_etron.webp');"></div>
+        </div>
+        
+        <div class="container">
+            <div class="hero-content" data-aos="fade-down" data-aos-duration="1200">
+                <div class="banner-breadcrumbs" style="margin-bottom: 20px;">Home</div>
+                <h4 class="hero-subtitle">STACKLY LUXURY RENTALS</h4>
+                <h1 class="hero-title">Experience the Art of <span>Elite Travel</span></h1>
+                <p class="hero-description">Command attention and elevate your status with Tamil Nadu's most exclusive collection of supercars, luxury sedans, and high-performance SUVs.</p>
+                <div class="hero-actions">
+                    <a href="cars.html" class="btn-accent">Explore Fleet <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="booking.html" class="btn-outline">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. QUICK BOOKING SEARCH FORM -->
+    <div class="container booking-search-container" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+        <div class="booking-search-card">
+            <form id="quick-search-form" class="booking-search-grid" onsubmit="handleQuickSearch(event)">
+                <div class="search-group">
+                    <label class="search-label"><i class="fa-solid fa-car"></i> Car Category</label>
+                    <select id="search-category" class="search-input">
+                        <option value="all">All Categories</option>
+                        <option value="luxury">Luxury Sedans</option>
+                        <option value="sports">Sports Cars</option>
+                        <option value="suv">Premium SUVs</option>
+                        <option value="electric">Electric Cars</option>
+                    </select>
+                </div>
+                <div class="search-group">
+                    <label class="search-label"><i class="fa-solid fa-location-dot"></i> Pickup Location</label>
+                    <select id="search-pickup-loc" class="search-input" required>
+                        <option value="" disabled selected>Select location</option>
+                        <option value="Salem">Salem Office</option>
+                        <option value="Chennai">Chennai Airport</option>
+                        <option value="Coimbatore">Coimbatore Airport</option>
+                        <option value="Madurai">Madurai Office</option>
+                    </select>
+                </div>
+                <div class="search-group">
+                    <label class="search-label"><i class="fa-solid fa-calendar-days"></i> Pickup Date</label>
+                    <input type="date" id="search-pickup-date" class="search-input" required>
+                </div>
+                <div class="search-group">
+                    <label class="search-label"><i class="fa-solid fa-calendar-check"></i> Return Date</label>
+                    <input type="date" id="search-return-date" class="search-input" required>
+                </div>
+                <div class="search-group">
+                    <button type="submit" class="btn-accent btn-search">Search Cars</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 3. FEATURED LUXURY CARS -->
+    <section class="featured-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag">Elite Selections</span>
+                <h2 class="section-title">Our Featured <span>Luxury Fleet</span></h2>
+            </div>
+            <div class="car-grid">
+                <!-- Car 1: Rolls-Royce -->
+                <div class="car-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="car-image-wrapper">
+                        <img src="assets/rolls_royce.webp" alt="Rolls-Royce Phantom" class="car-image" loading="lazy">
+                        <span class="car-badge">Chauffeur Included</span>
+                    </div>
+                    <div class="car-details">
+                        <h3 class="car-title">Rolls-Royce Phantom</h3>
+                        <div class="car-specs">
+                            <div class="spec-item"><i class="fa-solid fa-gas-pump"></i> Petrol</div>
+                            <div class="spec-item"><i class="fa-solid fa-gears"></i> Automatic</div>
+                            <div class="spec-item"><i class="fa-solid fa-user-group"></i> 5 Seats</div>
+                        </div>
+                        <div class="car-pricing-action">
+                            <div class="car-price">Price Per Day <span>75,000</span></div>
+                            <div class="car-actions-btn">
+                                <button class="btn-card-view" onclick="openCarModal('Rolls-Royce Phantom', 'The pinnacle of luxury. Handcrafted leather interior, whisper-quiet cabin, and state-of-the-art entertainment system. Comes with professional butler-driver.', '75,000', 'assets/rolls_royce.webp', 'V12 Twin-Turbo', 'Automatic', 'Petrol', '5')">Details</button>
+                                <button class="btn-card-book" onclick="quickBook('Rolls-Royce Phantom')">Book</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car 2: Lamborghini -->
+                <div class="car-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="car-image-wrapper">
+                        <img src="assets/lamborghini.webp" alt="Lamborghini Aventador" class="car-image" loading="lazy">
+                        <span class="car-badge">Supercar</span>
+                    </div>
+                    <div class="car-details">
+                        <h3 class="car-title">Lamborghini Aventador</h3>
+                        <div class="car-specs">
+                            <div class="spec-item"><i class="fa-solid fa-gas-pump"></i> Petrol</div>
+                            <div class="spec-item"><i class="fa-solid fa-gears"></i> Automatic</div>
+                            <div class="spec-item"><i class="fa-solid fa-user-group"></i> 2 Seats</div>
+                        </div>
+                        <div class="car-pricing-action">
+                            <div class="car-price">Price Per Day <span>95,000</span></div>
+                            <div class="car-actions-btn">
+                                <button class="btn-card-view" onclick="openCarModal('Lamborghini Aventador', 'Unleash the beast. Experience the raw adrenaline of a V12 mid-engine supercar. Sleek, fast, and aggressively designed for true thrill seekers.', '95,000', 'assets/lamborghini.webp', 'V12 High Output', 'Sequential AMT', 'Petrol', '2')">Details</button>
+                                <button class="btn-card-book" onclick="quickBook('Lamborghini Aventador')">Book</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Car 3: Porsche 911 -->
+                <div class="car-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="car-image-wrapper">
+                        <img src="assets/porsche_911.webp" alt="Porsche 911 Carrera" class="car-image" loading="lazy">
+                        <span class="car-badge">Sports Classic</span>
+                    </div>
+                    <div class="car-details">
+                        <h3 class="car-title">Porsche 911 Carrera</h3>
+                        <div class="car-specs">
+                            <div class="spec-item"><i class="fa-solid fa-gas-pump"></i> Petrol</div>
+                            <div class="spec-item"><i class="fa-solid fa-gears"></i> PDK Auto</div>
+                            <div class="spec-item"><i class="fa-solid fa-user-group"></i> 4 Seats</div>
+                        </div>
+                        <div class="car-pricing-action">
+                            <div class="car-price">Price Per Day <span>45,000</span></div>
+                            <div class="car-actions-btn">
+                                <button class="btn-card-view" onclick="openCarModal('Porsche 911 Carrera', 'The everyday supercar. Perfect handling, iconic silhouette, and exceptional performance. Ideal for scenic cruises and highway journeys.', '45,000', 'assets/porsche_911.webp', '3.0L Twin-Turbo H6', 'PDK 8-Speed Auto', 'Petrol', '4')">Details</button>
+                                <button class="btn-card-book" onclick="quickBook('Porsche 911 Carrera')">Book</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. VEHICLE CATEGORIES -->
+    <section class="categories-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag">Class & Purpose</span>
+                <h2 class="section-title">Explore <span>Vehicle Categories</span></h2>
+            </div>
+            <div class="category-grid">
+                <div class="category-card" data-aos="fade-up" data-aos-delay="100" onclick="window.location.href='cars.html?cat=luxury'">
+                    <div class="category-image-wrapper">
+                        <img src="assets/luxy.webp" alt="Luxury Sedans" class="category-image">
+                    </div>
+                    <div class="category-info">
+                        <div class="category-icon-box"><i class="fa-solid fa-crown"></i></div>
+                        <h3 class="category-name">Luxury Sedans</h3>
+                        <p class="category-desc">Elite comfort, whisper quiet cabins, ultimate rear seat legroom.</p>
+                    </div>
+                </div>
+                <div class="category-card" data-aos="fade-up" data-aos-delay="200" onclick="window.location.href='cars.html?cat=sports'">
+                    <div class="category-image-wrapper">
+                        <img src="assets/sp.webp" alt="Sports Cars" class="category-image">
+                    </div>
+                    <div class="category-info">
+                        <div class="category-icon-box"><i class="fa-solid fa-gauge-high"></i></div>
+                        <h3 class="category-name">Sports Cars</h3>
+                        <p class="category-desc">Aggressive styling, roaring engines, precision handling.</p>
+                    </div>
+                </div>
+                <div class="category-card" data-aos="fade-up" data-aos-delay="300" onclick="window.location.href='cars.html?cat=suv'">
+                    <div class="category-image-wrapper">
+                        <img src="assets/prexuv.webp" alt="Premium SUVs" class="category-image">
+                    </div>
+                    <div class="category-info">
+                        <div class="category-icon-box"><i class="fa-solid fa-mountain-sun"></i></div>
+                        <h3 class="category-name">Premium SUVs</h3>
+                        <p class="category-desc">Commanding road presence, all-terrain capacity, supreme safety.</p>
+                    </div>
+                </div>
+                <div class="category-card" data-aos="fade-up" data-aos-delay="400" onclick="window.location.href='cars.html?cat=electric'">
+                    <div class="category-image-wrapper">
+                        <img src="assets/ev.webp" alt="Electric Cars" class="category-image">
+                    </div>
+                    <div class="category-info">
+                        <div class="category-icon-box"><i class="fa-solid fa-bolt-lightning"></i></div>
+                        <h3 class="category-name">Electric Cars</h3>
+                        <p class="category-desc">Silent electric torque, cutting-edge screens, eco-luxury prestige.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. WHY CHOOSE US -->
+    <section class="why-choose-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag">The Stackly Standard</span>
+                <h2 class="section-title">Why Renters <span>Choose Us</span></h2>
+            </div>
+            <div class="why-grid">
+                <div class="why-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="why-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3 class="why-title">Secured Premium Fleet</h3>
+                    <p class="why-desc">All vehicles undergo meticulous multi-point inspections and complete sanitization before every rental delivery.</p>
+                </div>
+                <div class="why-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="why-icon"><i class="fa-solid fa-handshake-angle"></i></div>
+                    <h3 class="why-title">VIP Doorstep Delivery</h3>
+                    <p class="why-desc">Whether you are at a luxury hotel, private airport, or corporate office, your vehicle arrives at your precise location.</p>
+                </div>
+                <div class="why-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="why-icon"><i class="fa-solid fa-headset"></i></div>
+                    <h3 class="why-title">24/7 Elite Concierge</h3>
+                    <p class="why-desc">Dedicated lifestyle coordinators are on standby around the clock to support your journey and destination requests.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. HOW IT WORKS -->
+    <section class="how-works-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag">Seamless Process</span>
+                <h2 class="section-title">How To <span>Rent A Car</span></h2>
+            </div>
+            <div class="how-grid">
+                <div class="how-item" data-aos="fade-up" data-aos-delay="100">
+                    <div class="how-step">01</div>
+                    <h3 class="how-title">Select Your Vehicle</h3>
+                    <p class="how-desc">Choose from our curated collection of luxury sedans, supercars, and high-performance SUVs.</p>
+                </div>
+                <div class="how-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="how-step">02</div>
+                    <h3 class="how-title">Customize Booking</h3>
+                    <p class="how-desc">Specify delivery locations, custom rental dates, and opt for professional chauffeur assistance.</p>
+                </div>
+                <div class="how-item" data-aos="fade-up" data-aos-delay="300">
+                    <div class="how-step">03</div>
+                    <h3 class="how-title">Drive The Dream</h3>
+                    <p class="how-desc">Take delivery of your sanitized vehicle and experience travel in its most refined form.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. STATISTICS COUNTER -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-slider-wrapper" data-aos="fade-up">
+                <div class="stats-slides">
+                    <!-- Original Items -->
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="150">0</div>
+                        <div class="stat-label">Luxury Vehicles</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="9500">0</div>
+                        <div class="stat-label">Happy Clients</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="15">0</div>
+                        <div class="stat-label">Cities Reached</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="100">0</div>
+                        <div class="stat-label">Satisfaction %</div>
+                    </div>
+                    
+                    <!-- Duplicated Items for Continuous Loop -->
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="150">0</div>
+                        <div class="stat-label">Luxury Vehicles</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="9500">0</div>
+                        <div class="stat-label">Happy Clients</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="15">0</div>
+                        <div class="stat-label">Cities Reached</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" data-target="100">0</div>
+                        <div class="stat-label">Satisfaction %</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. PREMIUM FLEET SHOWCASE -->
+    <section class="fleet-showcase-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag">Interactive Catalog</span>
+                <h2 class="section-title">The Premium <span>Fleet Showcase</span></h2>
+            </div>
+            <div class="showcase-container">
+                <div class="showcase-info" data-aos="fade-right">
+                    <h3>Curated Luxury Showpieces</h3>
+                    <p class="footer-desc">Compare the ultimate power of performance. Switch between our prime selections to see active configurations, then book with a single click.</p>
+                    <div class="showcase-tabs">
+                        <div class="showcase-tab active" onclick="showcaseSelect('rolls')">
+                            <span class="tab-car-name">Rolls-Royce Phantom</span>
+                            <span class="tab-icon"><i class="fa-solid fa-angle-right"></i></span>
+                        </div>
+                        <div class="showcase-tab" onclick="showcaseSelect('lambo')">
+                            <span class="tab-car-name">Lamborghini Aventador</span>
+                            <span class="tab-icon"><i class="fa-solid fa-angle-right"></i></span>
+                        </div>
+                        <div class="showcase-tab" onclick="showcaseSelect('porsche')">
+                            <span class="tab-car-name">Porsche 911 Carrera</span>
+                            <span class="tab-icon"><i class="fa-solid fa-angle-right"></i></span>
+                        </div>
+                        <div class="showcase-tab" onclick="showcaseSelect('rangerover')">
+                            <span class="tab-car-name">Range Rover Autobiography</span>
+                            <span class="tab-icon"><i class="fa-solid fa-angle-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="showcase-image-box" data-aos="fade-left">
+                    <img id="showcase-image" src="assets/rolls_royce.webp" alt="Premium Fleet Showcase" class="showcase-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. CUSTOMER TESTIMONIALS -->
+    <section class="testimonials-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag">Client Reviews</span>
+                <h2 class="section-title">What VIPs <span>Say About Us</span></h2>
+            </div>
+            <div class="testimonials-slider-container">
+                <div class="testimonials-slider-wrapper">
+                    <div class="testimonials-slides" id="testimonials-slides">
+                        
+                        <!-- Slide 1 -->
+                        <div class="testimonial-slide-item">
+                            <div class="testimonial-card">
+                                <i class="fa-solid fa-quote-left quote-icon"></i>
+                                <div class="testimonial-stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <p class="testimonial-text">"Stackly redefined luxury travel for our wedding. The Rolls Royce Phantom arrived in pristine condition, and the chauffeur was exceptionally professional. Beyond expectation!"</p>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar">
+                                        <img src="assets/av1.webp" alt="Arun Daniel">
+                                    </div>
+                                    <div class="author-info">
+                                        <h4>Arun Daniel</h4>
+                                        <p>Industrialist, Salem</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2 -->
+                        <div class="testimonial-slide-item">
+                            <div class="testimonial-card">
+                                <i class="fa-solid fa-quote-left quote-icon"></i>
+                                <div class="testimonial-stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <p class="testimonial-text">"I rented the Lamborghini Aventador for a weekend getaway. The pickup process was fast, and the car's sound and performance were spectacular. Will definitely rent again."</p>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar">
+                                        <img src="assets/av2.webp" alt="Meera Sen">
+                                    </div>
+                                    <div class="author-info">
+                                        <h4>Meera Sen</h4>
+                                        <p>CEO, TechCorp</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3 -->
+                        <div class="testimonial-slide-item">
+                            <div class="testimonial-card">
+                                <i class="fa-solid fa-quote-left quote-icon"></i>
+                                <div class="testimonial-stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <p class="testimonial-text">"Outstanding service! From booking on the website to the vehicle handover, everything was smooth. The Range Rover was spotless, making our family vacation truly majestic."</p>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar">
+                                        <img src="assets/av3.webp" alt="Rajesh Kumar">
+                                    </div>
+                                    <div class="author-info">
+                                        <h4>Rajesh Kumar</h4>
+                                        <p>Investor, Chennai</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 4 -->
+                        <div class="testimonial-slide-item">
+                            <div class="testimonial-card">
+                                <i class="fa-solid fa-quote-left quote-icon"></i>
+                                <div class="testimonial-stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <p class="testimonial-text">"Stackly's fleet is second to none! Renting the Porsche 911 Carrera was an absolute dream. The vehicle performance was pristine and the customer care was impeccable."</p>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar">
+                                        <img src="assets/av4.webp" alt="Priyah Sharma">
+                                    </div>
+                                    <div class="author-info">
+                                        <h4>Priyah Sharma</h4>
+                                        <p>Elite Traveler, Salem</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Duplicated Slide 1 (for seamless loop) -->
+                        <div class="testimonial-slide-item">
+                            <div class="testimonial-card">
+                                <i class="fa-solid fa-quote-left quote-icon"></i>
+                                <div class="testimonial-stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <p class="testimonial-text">"Stackly redefined luxury travel for our wedding. The Rolls Royce Phantom arrived in pristine condition, and the chauffeur was exceptionally professional. Beyond expectation!"</p>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar">
+                                        <img src="assets/av1.webp" alt="Arun Daniel">
+                                    </div>
+                                    <div class="author-info">
+                                        <h4>Arun Daniel</h4>
+                                        <p>Industrialist, Salem</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Duplicated Slide 2 (for seamless loop) -->
+                        <div class="testimonial-slide-item">
+                            <div class="testimonial-card">
+                                <i class="fa-solid fa-quote-left quote-icon"></i>
+                                <div class="testimonial-stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <p class="testimonial-text">"I rented the Lamborghini Aventador for a weekend getaway. The pickup process was fast, and the car's sound and performance were spectacular. Will definitely rent again."</p>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar">
+                                        <img src="assets/av2.webp" alt="Meera Sen">
+                                    </div>
+                                    <div class="author-info">
+                                        <h4>Meera Sen</h4>
+                                        <p>CEO, TechCorp</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Duplicated Slide 3 (for seamless loop) -->
+                        <div class="testimonial-slide-item">
+                            <div class="testimonial-card">
+                                <i class="fa-solid fa-quote-left quote-icon"></i>
+                                <div class="testimonial-stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <p class="testimonial-text">"Outstanding service! From booking on the website to the vehicle handover, everything was smooth. The Range Rover was spotless, making our family vacation truly majestic."</p>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar">
+                                        <img src="assets/av3.webp" alt="Rajesh Kumar">
+                                    </div>
+                                    <div class="author-info">
+                                        <h4>Rajesh Kumar</h4>
+                                        <p>Investor, Chennai</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Duplicated Slide 4 (for seamless loop) -->
+                        <div class="testimonial-slide-item">
+                            <div class="testimonial-card">
+                                <i class="fa-solid fa-quote-left quote-icon"></i>
+                                <div class="testimonial-stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <p class="testimonial-text">"Stackly's fleet is second to none! Renting the Porsche 911 Carrera was an absolute dream. The vehicle performance was pristine and the customer care was impeccable."</p>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar">
+                                        <img src="assets/av4.webp" alt="Priyah Sharma">
+                                    </div>
+                                    <div class="author-info">
+                                        <h4>Priyah Sharma</h4>
+                                        <p>Elite Traveler, Salem</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. SPECIAL OFFERS & DISCOUNTS -->
+    <section class="offers-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag">Exclusive Privileges</span>
+                <h2 class="section-title">Special <span>Offers & Deals</span></h2>
+            </div>
+            <div class="offers-container">
+                <div class="offer-card" data-aos="fade-right">
+                    <span class="offer-badge">Weekend Special</span>
+                    <div>
+                        <h3 class="offer-title">Save 15% on Sports Cars</h3>
+                        <p class="offer-desc">Book any sports vehicle for 3 days or more and receive a 15% discount plus complimentary delivery to your location.</p>
+                    </div>
+                    <a href="cars.html?cat=sports" class="btn-outline">Claim Offer</a>
+                </div>
+                <div class="offer-card" data-aos="fade-left" style="background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(17,17,17,0.9) 100%);">
+                    <span class="offer-badge">Corporate Elite</span>
+                    <div>
+                        <h3 class="offer-title">Monthly Luxury Rentals</h3>
+                        <p class="offer-desc">Enjoy custom billing rates, dedicated accounts, and regular vehicle rotations with our long-term lease program.</p>
+                    </div>
+                    <a href="contact.html" class="btn-accent">Inquire Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 11. FAQ SECTION -->
+    <section class="faq-section">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <span class="section-tag">Clarifications</span>
+                <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+                    <div class="faq-question">
+                        <h4>What are the rental documents required?</h4>
+                        <div class="faq-icon"><i class="fa-solid fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>For Indian nationals, a valid Driving License, Aadhaar Card, and Passport or PAN Card copy are required. For foreign nationals, an International Driving Permit (IDP) and a copy of their Passport and Visa are mandatory.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="150">
+                    <div class="faq-question">
+                        <h4>Is security deposit mandatory?</h4>
+                        <div class="faq-icon"><i class="fa-solid fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, a refundable security deposit is held before vehicle delivery. The amount depends on the car category (e.g. higher for supercars like Lamborghini) and is refunded within 48 hours post rental completion.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="faq-question">
+                        <h4>Can I opt for self-drive?</h4>
+                        <div class="faq-icon"><i class="fa-solid fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, self-drive options are available for sports and premium SUV categories. However, ultra-luxury sedans like the Rolls-Royce Phantom are strictly available with a Stackly professional chauffeur only.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="250">
+                    <div class="faq-question">
+                        <h4>How do you calculate rental days?</h4>
+                        <div class="faq-icon"><i class="fa-solid fa-chevron-down"></i></div>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Rental duration is calculated on a 24-hour cycle. Pick-up and drop-off extensions are permitted with advance coordination, subject to hourly rates if they exceed grace periods.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 12. CALL TO ACTION (CTA) -->
+    <section class="cta-section" data-aos="fade-up">
+        <div class="container">
+            <div class="cta-container">
+                <h2 class="cta-title">Ready To Drive <span>Your Dream?</span></h2>
+                <p class="cta-desc">Book your dream vehicle today. Contact our reservation team or secure your dates immediately with our digital booking system.</p>
+                <a href="booking.html" class="btn-accent">Initiate Booking Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- PREMIUM FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid" data-aos="fade-up">
+                <!-- COL 1 -->
+                <div class="footer-col">
+                    <a href="index.html" class="logo-container" style="margin-bottom: 20px;">
+                        <img src="assets/logoog.webp" alt="Stackly Logo" class="logo-img">
+                    </a>
+                    <p class="footer-desc">Stackly Luxury Rentals provides premium vehicles, exceptional service, and seamless travel experiences across Tamil Nadu.</p>
+                    <div class="footer-socials">
+                        <a href="404.html" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="404.html" class="social-icon"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="404.html" class="social-icon"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="404.html" class="social-icon"><i class="fa-brands fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <!-- COL 2 -->
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <div class="footer-links">
+                        <a href="index.html">Home</a>
+                        <a href="cars.html">Cars</a>
+                        <a href="about.html">About Us</a>
+                        <a href="booking.html">Booking</a>
+                        <a href="contact.html">Contact</a>
+                    </div>
+                </div>
+                <!-- COL 3 -->
+                <div class="footer-col">
+                    <h3>Services</h3>
+                    <div class="footer-links">
+                        <a href="cars.html?cat=luxury">Luxury Cars</a>
+                        <a href="cars.html?cat=suv">SUV Rentals</a>
+                        <a href="cars.html?cat=sports">Sports Cars</a>
+                        <a href="booking.html">Airport Transfers</a>
+                        <a href="contact.html">Corporate Rentals</a>
+                    </div>
+                </div>
+                <!-- COL 4 -->
+                <div class="footer-col">
+                    <h3>Contact & Location</h3>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <span>Stackly Luxury Rentals, Meyyanur Main Rd, Salem, Tamil Nadu 636004, India</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-phone"></i>
+                        <span>+91 98765 43210</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>reservations@stacklyrentals.com</span>
+                    </div>
+                    <div class="footer-map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62512.969855325515!2d78.11306307164998!3d11.658253163771962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babf1cc5d5a570f%3A0xe54d32a677bfb6db!2sSalem%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1689269411993!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 Stackly Luxury Rentals. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- CAR MODAL TEMPLATE -->
+    <div id="car-modal" class="custom-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeCarModal()">&times;</button>
+            <div class="modal-grid">
+                <div class="modal-image-wrapper">
+                    <img id="modal-img" src="" alt="Car Image" class="modal-img">
+                </div>
+                <div class="modal-info">
+                    <h3 id="modal-title">Car Name</h3>
+                    <p id="modal-desc" class="modal-desc">Car Description...</p>
+                    <div class="modal-spec-grid">
+                        <div class="modal-spec-cell">Engine: <strong id="modal-engine">---</strong></div>
+                        <div class="modal-spec-cell">Transmission: <strong id="modal-trans">---</strong></div>
+                        <div class="modal-spec-cell">Fuel: <strong id="modal-fuel">---</strong></div>
+                        <div class="modal-spec-cell">Seats: <strong id="modal-seats">---</strong></div>
+                    </div>
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div class="car-price">Price Per Day <span id="modal-price">---</span></div>
+                        <button class="btn-accent" id="modal-book-btn">Book Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        // HERO BACKGROUND SLIDESHOW
+        function initHeroSlideshow() {
+            const slides = document.querySelectorAll('.hero-slide');
+            if (slides.length === 0) return;
+            let currentSlideIndex = 0;
+            setInterval(() => {
+                slides[currentSlideIndex].classList.remove('active');
+                currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+                slides[currentSlideIndex].classList.add('active');
+            }, 5000); // Change slide every 5 seconds
+        }
+
+        // PRELOADER CLOSE EFFECT
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.classList.add('fade-out');
+            }, 600);
+            initCounters();
+            initHeroSlideshow();
+        });
+
+        // AOS INITIALIZATION
+        AOS.init({
+            duration: 850,
+            easing: 'ease-in-out',
+            once: true,
+            delay: 100
+        });
+
+        // STICKY HEADER ON SCROLL
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.navbar-header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // MOBILE SIDEBAR TOGGLES
+        const hamburgerBtn = document.querySelector('.hamburger-btn');
+        const closeSidebarBtn = document.querySelector('.close-sidebar-btn');
+        const mobileSidebar = document.querySelector('.mobile-sidebar');
+        const mobileOverlay = document.querySelector('.mobile-sidebar-overlay');
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
+
+        function openSidebar() {
+            hamburgerBtn.classList.add('active');
+            mobileSidebar.classList.add('active');
+            mobileOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidebar() {
+            hamburgerBtn.classList.remove('active');
+            mobileSidebar.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        hamburgerBtn.addEventListener('click', () => {
+            if (mobileSidebar.classList.contains('active')) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
+        });
+        closeSidebarBtn.addEventListener('click', closeSidebar);
+        mobileOverlay.addEventListener('click', closeSidebar);
+        sidebarLinks.forEach(link => link.addEventListener('click', closeSidebar));
+
+        // SHOWCASE TAB SELECTION
+        const showcaseImages = {
+            rolls: 'assets/rolls_royce.webp',
+            lambo: 'assets/lamborghini.webp',
+            porsche: 'assets/porsche_911.webp',
+            rangerover: 'assets/range_rover.webp'
+        };
+
+        function showcaseSelect(carKey) {
+            const tabs = document.querySelectorAll('.showcase-tab');
+            const img = document.getElementById('showcase-image');
+            
+            // Remove active from all tabs
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Set active to selected
+            let targetIndex = 0;
+            if (carKey === 'rolls') targetIndex = 0;
+            if (carKey === 'lambo') targetIndex = 1;
+            if (carKey === 'porsche') targetIndex = 2;
+            if (carKey === 'rangerover') targetIndex = 3;
+
+            tabs[targetIndex].classList.add('active');
+
+            // Fade animation
+            img.style.opacity = 0;
+            setTimeout(() => {
+                img.src = showcaseImages[carKey];
+                img.style.opacity = 1;
+            }, 200);
+        }
+
+        // STATS ANIMATION COUNTER
+        function initCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            const speed = 150;
+
+            const runCounters = () => {
+                counters.forEach(counter => {
+                    const target = +counter.getAttribute('data-target');
+                    let count = 0;
+                    const increment = target / speed;
+
+                    const updateCount = () => {
+                        count += increment;
+                        if (count < target) {
+                            counter.innerText = Math.ceil(count);
+                            setTimeout(updateCount, 15);
+                        } else {
+                            counter.innerText = target + (target === 100 ? '%' : '+');
+                        }
+                    };
+                    updateCount();
+                });
+            };
+
+            // Intersection Observer to run statistics when visible
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        runCounters();
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            const statsSection = document.querySelector('.stats-section');
+            if (statsSection) observer.observe(statsSection);
+        }
+
+        // ACCORDION FAQ
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                faqItems.forEach(i => i.classList.remove('active'));
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // VIEW DETAILS CAR MODAL FUNCTIONS
+        function openCarModal(name, desc, price, img, engine, trans, fuel, seats) {
+            document.getElementById('modal-title').innerText = name;
+            document.getElementById('modal-desc').innerText = desc;
+            document.getElementById('modal-price').innerText = price;
+            document.getElementById('modal-img').src = img;
+            document.getElementById('modal-engine').innerText = engine;
+            document.getElementById('modal-trans').innerText = trans;
+            document.getElementById('modal-fuel').innerText = fuel;
+            document.getElementById('modal-seats').innerText = seats;
+            
+            document.getElementById('modal-book-btn').onclick = () => {
+                closeCarModal();
+                quickBook(name);
+            };
+
+            const modal = document.getElementById('car-modal');
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCarModal() {
+            const modal = document.getElementById('car-modal');
+            modal.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal when clicking outside content
+        window.addEventListener('click', (e) => {
+            const modal = document.getElementById('car-modal');
+            if (e.target === modal) {
+                closeCarModal();
+            }
+        });
+
+        // QUICK BOOK REDIRECT
+        function quickBook(carName) {
+            sessionStorage.setItem('selectedCarName', carName);
+            window.location.href = 'booking.html';
+        }
+
+        // QUICK SEARCH SUBMIT
+        function handleQuickSearch(e) {
+            e.preventDefault();
+            const category = document.getElementById('search-category').value;
+            const pickupLoc = document.getElementById('search-pickup-loc').value;
+            const pickupDate = document.getElementById('search-pickup-date').value;
+            const returnDate = document.getElementById('search-return-date').value;
+
+            // Save search params to sessionStorage for booking.html to pick up
+            sessionStorage.setItem('search_category', category);
+            sessionStorage.setItem('search_pickup_loc', pickupLoc);
+            sessionStorage.setItem('search_pickup_date', pickupDate);
+            sessionStorage.setItem('search_return_date', returnDate);
+
+            // Redirect to booking page
+            window.location.href = 'booking.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traveler Dashboard | Stackly Travel & Fleet</title>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Leaflet Maps CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    
+    <!-- Custom Shared Stylesheet -->
+    <link rel="stylesheet" href="assets/dashboard.css">
+</head>
+<body>
+
+    <!-- MOCK AUTHORIZATION SHIELD -->
+    <script>
+        if (sessionStorage.getItem('userRole') !== 'traveler') {
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <div class="dashboard-container">
+        <!-- SIDEBAR -->
+        <aside class="dashboard-sidebar" id="dashboard-sidebar">
+            <div>
+                <div class="sidebar-header">
+                    <a href="index.html" class="sidebar-brand">
+                        <img src="assets/logoog.webp" alt="Stackly Logo">
+                    </a>
+                    <button class="sidebar-close-btn" id="sidebar-close-btn" aria-label="Close Menu">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                
+                <nav class="sidebar-nav">
+                    <button class="nav-link active" data-target="sect-dashboard">
+                        <i class="fa-solid fa-chart-line"></i> Dashboard
+                    </button>
+                    <button class="nav-link" data-target="sect-trips">
+                        <i class="fa-solid fa-calendar-days"></i> Trips & Reservations
+                    </button>
+                    <button class="nav-link" data-target="sect-analytics">
+                        <i class="fa-solid fa-chart-pie"></i> Analytics & Reports
+                    </button>
+                    <button class="nav-link" data-target="sect-account">
+                        <i class="fa-solid fa-user-gear"></i> Account & Settings
+                    </button>
+                </nav>
+            </div>
+            
+            <div class="sidebar-footer">
+                <button class="signout-btn" onclick="handleSignOut()">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="dashboard-content">
+            <!-- HEADER -->
+            <header class="content-header">
+                <div class="header-left-box">
+                    <button class="mobile-nav-toggle" id="mobile-drawer-toggle">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="header-title-box">
+                        <h1>Welcome back, <span id="header-user-name">Traveler</span></h1>
+                        <p>Track your itineraries, explore spending analytics, and manage settings.</p>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <!-- User Info Badge -->
+                    <div class="user-badge-container">
+                        <div class="avatar-ring" id="avatar-initials">TD</div>
+                        <div class="badge-info">
+                            <span class="badge-username" id="badge-user-name">Rahul Dev</span>
+                            <span class="badge-userrole">Traveler</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- SECTION 1: DASHBOARD OVERVIEW -->
+            <section id="sect-dashboard" class="dashboard-section active-view">
+                <!-- Welcome Banner -->
+                <div class="glass-card welcome-banner">
+                    <div class="welcome-avatar-wrap">RD</div>
+                    <div class="welcome-info">
+                        <h2>Gold Elite Traveler Status</h2>
+                        <p>Enjoy premium lounge access, zero booking fees, and elite car rental upgrades automatically applied.</p>
+                    </div>
+                </div>
+
+                <!-- KPI statistics grid -->
+                <div class="kpi-grid">
+                    <div class="glass-card kpi-card">
+                        <div class="kpi-details">
+                            <h3>Total Trips</h3>
+                            <p>28</p>
+                            <span class="kpi-trend up"><i class="fa-solid fa-arrow-trend-up"></i> +12% YoY</span>
+                        </div>
+                        <div class="kpi-icon-wrap"><i class="fa-solid fa-route"></i></div>
+                    </div>
+                    <div class="glass-card kpi-card">
+                        <div class="kpi-details">
+                            <h3>Total Spend</h3>
+                            <p>₹3,00,500</p>
+                            <span class="kpi-trend up"><i class="fa-solid fa-arrow-trend-up"></i> +5% YoY</span>
+                        </div>
+                        <div class="kpi-icon-wrap"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                    </div>
+                    <div class="glass-card kpi-card">
+                        <div class="kpi-details">
+                            <h3>Countries Visited</h3>
+                            <p>6</p>
+                            <span class="kpi-trend"><i class="fa-solid fa-globe"></i> Active paths</span>
+                        </div>
+                        <div class="kpi-icon-wrap"><i class="fa-solid fa-passport"></i></div>
+                    </div>
+                    <div class="glass-card kpi-card">
+                        <div class="kpi-details">
+                            <h3>Savings Achieved</h3>
+                            <p>₹48,200</p>
+                            <span class="kpi-trend up"><i class="fa-solid fa-shield-halved"></i> 14% compliance</span>
+                        </div>
+                        <div class="kpi-icon-wrap"><i class="fa-solid fa-piggy-bank"></i></div>
+                    </div>
+                </div>
+
+                <!-- Overview Charts Row -->
+                <div class="charts-grid-mix">
+                    <div class="glass-card">
+                        <h3 class="card-title"><i class="fa-solid fa-chart-line"></i> Monthly Travel Spend</h3>
+                        <div class="chart-container" id="traveler-spend-chart"></div>
+                    </div>
+                    <div class="glass-card">
+                        <h3 class="card-title"><i class="fa-solid fa-circle-notch"></i> Trip Status</h3>
+                        <div class="chart-container" id="traveler-status-donut"></div>
+                    </div>
+                </div>
+
+                <!-- Upcoming summaries and compliance quick widgets -->
+                <div class="charts-grid-2x1">
+                    <div class="glass-card" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <h3 class="card-title"><i class="fa-solid fa-plane-departure"></i> Next Upcoming Trip</h3>
+                            <div style="border-left: 3px solid var(--primary); padding-left: 16px; margin: 15px 0;">
+                                <h4 style="font-size: 1.1rem; font-weight:600;">Trip to Mumbai (Reliance Center Meeting)</h4>
+                                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 6px;">
+                                    Departure in 4 days: June 20, 2026. Flights and Porsche Taycan EV bookings are verified.
+                                </p>
+                            </div>
+                        </div>
+                        <button class="btn-primary" onclick="document.querySelector('.nav-link[data-target=sect-trips]').click()" style="width: fit-content;">
+                            View Full Itinerary <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="glass-card">
+                        <h3 class="card-title"><i class="fa-solid fa-shield-check"></i> Travel Policy Compliance</h3>
+                        <div style="display: flex; align-items: center; gap: 20px; margin-top: 10px;">
+                            <div class="progress-ring-box" style="padding:0;">
+                                <svg class="progress-ring-svg" width="90" height="90">
+                                    <circle class="progress-ring-circle-bg" stroke="rgba(255,255,255,0.05)" stroke-width="8" fill="transparent" r="36" cx="45" cy="45"/>
+                                    <circle class="progress-ring-circle" stroke="#10B981" stroke-width="8" fill="transparent" r="36" cx="45" cy="45" style="stroke-dasharray: 226.19; stroke-dashoffset: 13.57; filter: drop-shadow(0 0 4px #10B981);"/>
+                                    <text class="progress-ring-val" x="45" y="52" font-size="16" text-anchor="middle" font-weight="700" fill="#FFF">94%</text>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 style="font-weight:600; font-size:1rem; color: var(--success);">Excellent Compliance Score</h4>
+                                <p style="color: var(--text-muted); font-size:0.85rem; margin-top: 4px; line-height: 1.4;">
+                                    You booked within preferred air carriers and stayed under the hotel class threshold for corporate policy limits.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: TRIPS & RESERVATIONS -->
+            <section id="sect-trips" class="dashboard-section">
+                <!-- Upcoming timeline -->
+                <div class="glass-card">
+                    <h3 class="card-title"><i class="fa-solid fa-route"></i> Upcoming Trip Timeline</h3>
+                    <div class="timeline-list" id="timeline-container">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- Flight and hotel bookings tables with search and filters -->
+                <div class="glass-card">
+                    <h3 class="card-title"><i class="fa-solid fa-plane"></i> Flight Bookings</h3>
+                    <div class="table-filter-bar">
+                        <div class="search-input-wrap">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="traveler-flights-search" class="search-box" placeholder="Search flights...">
+                        </div>
+                        <div class="filter-controls">
+                            <select class="filter-select">
+                                <option value="all">All Dates</option>
+                                <option value="upcoming">Upcoming</option>
+                                <option value="past">Past</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="custom-table" id="flight-bookings-table">
+                            <thead>
+                                <tr>
+                                    <th>Booking ID</th>
+                                    <th>Carrier & Route</th>
+                                    <th>Departure Date</th>
+                                    <th>Status Details</th>
+                                    <th>Cost</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="flight-bookings-body">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <h3 class="card-title"><i class="fa-solid fa-hotel"></i> Hotel Reservations</h3>
+                    <div class="table-filter-bar">
+                        <div class="search-input-wrap">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="traveler-hotels-search" class="search-box" placeholder="Search hotels...">
+                        </div>
+                        <div class="filter-controls">
+                            <select class="filter-select">
+                                <option value="all">All Hotel Stays</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="custom-table" id="hotel-bookings-table">
+                            <thead>
+                                <tr>
+                                    <th>Booking ID</th>
+                                    <th>Hotel Details</th>
+                                    <th>Stay Dates</th>
+                                    <th>Room Config</th>
+                                    <th>Cost</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="hotel-bookings-body">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="glass-card">
+                    <h3 class="card-title"><i class="fa-solid fa-car"></i> Car Rental History</h3>
+                    <div class="table-filter-bar">
+                        <div class="search-input-wrap">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="traveler-cars-search" class="search-box" placeholder="Search rental cars...">
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="custom-table" id="car-rentals-table">
+                            <thead>
+                                <tr>
+                                    <th>Booking ID</th>
+                                    <th>Vehicle model</th>
+                                    <th>Rental Period</th>
+                                    <th>Chauffeur details</th>
+                                    <th>Cost</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="car-rentals-body">
+                                <!-- Filled by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Calendar, Map and Reservation distribution charts -->
+                <div class="charts-grid-mix">
+                    <div class="glass-card">
+                        <h3 class="card-title"><i class="fa-solid fa-earth-americas"></i> Flight Path & Trip Route</h3>
+                        <div class="map-canvas-wrap" id="traveler-map"></div>
+                    </div>
+                    <div class="glass-card" style="display: flex; flex-direction: column; justify-content: space-between; gap: 20px;">
+                        <div>
+                            <h3 class="card-title"><i class="fa-regular fa-calendar-check"></i> Travel Calendar</h3>
+                            <div class="calendar-widget">
+                                <div class="calendar-header">
+                                    <span>June 2026</span>
+                                    <div>
+                                        <button class="btn-icon-only" style="width:28px; height:28px; font-size:0.75rem;"><i class="fa-solid fa-chevron-left"></i></button>
+                                        <button class="btn-icon-only" style="width:28px; height:28px; font-size:0.75rem;"><i class="fa-solid fa-chevron-right"></i></button>
+                                    </div>
+                                </div>
+                                <div class="calendar-grid" id="calendar-grid">
+                                    <!-- Populated by JS -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="card-title" style="margin-bottom:10px;"><i class="fa-solid fa-chart-column"></i> Reservation Share</h3>
+                            <div id="traveler-res-status-chart" style="width:100%; height:120px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: ANALYTICS & REPORTS -->
+            <section id="sect-analytics" class="dashboard-section">
+                <!-- Analytics graphs grid -->
+                <div class="charts-grid-3x1">
+                    <div class="glass-card">
+                        <h3 class="card-title"><i class="fa-solid fa-pie-chart"></i> Travel Cost Breakdown</h3>
+                        <div class="chart-container" id="traveler-expense-pie"></div>
+                    </div>
+                    <div class="glass-card">
+                        <h3 class="card-title"><i class="fa-solid fa-chart-bar"></i> Monthly Travel Activity</h3>
+                        <div class="chart-container" id="traveler-freq-bar"></div>
+                    </div>
+                    <div class="glass-card">
+                        <h3 class="card-title"><i class="fa-solid fa-leaf"></i> Carbon Footprint Trend</h3>
+                        <div class="chart-container" id="traveler-carbon-chart"></div>
+                    </div>
+                </div>
+
+                <!-- Compliance / Policy breakdown summary -->
+                <div class="glass-card">
+                    <h3 class="card-title"><i class="fa-solid fa-file-invoice-dollar"></i> Expense Policy Audits</h3>
+                    <div class="table-wrap">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Policy Class</th>
+                                    <th>Threshold Allowance</th>
+                                    <th>Your Booking Spend</th>
+                                    <th>Compliance Rating</th>
+                                    <th>Audits</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Flight Class</strong></td>
+                                    <td>Economy/Premium Economy</td>
+                                    <td>Premium Economy (DL-829)</td>
+                                    <td><span class="badge-status success">COMPLIANT</span></td>
+                                    <td>Auto-approved by policy agent</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Hotel Category</strong></td>
+                                    <td>Up to 4-Star (or 5-Star Preferred contract)</td>
+                                    <td>The Oberoi Nariman Point (Preferred contract)</td>
+                                    <td><span class="badge-status success">COMPLIANT</span></td>
+                                    <td>Contract override verified</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Car Rental Tier</strong></td>
+                                    <td>Executive Sedan / Green EV class</td>
+                                    <td>Porsche Taycan EV (Green class)</td>
+                                    <td><span class="badge-status success">COMPLIANT</span></td>
+                                    <td>Preferred EV Upgrade discount applied</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: ACCOUNT & SETTINGS -->
+            <section id="sect-account" class="dashboard-section">
+                <div class="two-column-layout">
+                    <!-- Profile Management and preferences -->
+                    <div class="glass-card" style="display: flex; flex-direction: column; gap: 30px;">
+                        <div>
+                            <h3 class="card-title"><i class="fa-solid fa-id-card"></i> Profile Information</h3>
+                            <form onsubmit="handleTravelerProfileSave(event)">
+                                <div class="form-grid">
+                                    <div class="input-group">
+                                        <label class="input-label" for="traveler-name">Full Name</label>
+                                        <input type="text" id="traveler-name" class="text-input" value="Rahul Dev" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="input-label" for="traveler-email">Corporate Email</label>
+                                        <input type="email" id="traveler-email" class="text-input" value="traveler@stackly.com" required>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="input-label" for="traveler-phone">Phone Number</label>
+                                        <input type="tel" id="traveler-phone" class="text-input" value="+91 9876543210">
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="input-label" for="traveler-license">Driving License</label>
+                                        <input type="text" id="traveler-license" class="text-input" value="TN-3020210084">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-primary">Save Profile Changes</button>
+                            </form>
+                        </div>
+
+                        <div>
+                            <h3 class="card-title"><i class="fa-solid fa-crown"></i> Preferred Vendors</h3>
+                            <div style="display: flex; flex-direction: column; gap: 16px;">
+                                <div class="input-group">
+                                    <label class="input-label">Preferred Airlines</label>
+                                    <div class="pref-chip-group" id="pref-airlines"></div>
+                                </div>
+                                <div class="input-group">
+                                    <label class="input-label">Preferred Hotels</label>
+                                    <div class="pref-chip-group" id="pref-hotels"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="card-title"><i class="fa-solid fa-credit-card"></i> Saved Payment Methods</h3>
+                            <div class="card-payment-grid">
+                                <div class="payment-card glass-card">
+                                    <div class="payment-card-logo">
+                                        <i class="fa-brands fa-cc-visa"></i>
+                                        <span style="font-size:0.75rem; font-weight:700; color:var(--primary);">PRIMARY</span>
+                                    </div>
+                                    <div class="payment-card-number">•••• •••• •••• 5601</div>
+                                    <div class="payment-card-holder">
+                                        <span>Rahul Dev</span>
+                                        <span>Exp 12/29</span>
+                                    </div>
+                                </div>
+                                <div class="payment-card glass-card">
+                                    <div class="payment-card-logo">
+                                        <i class="fa-brands fa-cc-mastercard"></i>
+                                    </div>
+                                    <div class="payment-card-number">•••• •••• •••• 9812</div>
+                                    <div class="payment-card-holder">
+                                        <span>Rahul Dev</span>
+                                        <span>Exp 08/28</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar settings items -->
+                    <div style="display: flex; flex-direction: column; gap: 24px;">
+                        <!-- Progress ring and statistics -->
+                        <div class="glass-card" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+                            <h3 class="card-title" style="align-self: flex-start;"><i class="fa-solid fa-chart-gantt"></i> Profile Completion</h3>
+                            <div class="progress-ring-box">
+                                <svg class="progress-ring-svg" width="160" height="160">
+                                    <circle class="progress-ring-circle-bg" stroke="rgba(255, 255, 255, 0.03)" stroke-width="12" fill="transparent" r="64" cx="80" cy="80"/>
+                                    <circle class="progress-ring-circle" stroke="#F97316" stroke-width="12" fill="transparent" r="64" cx="80" cy="80" style="stroke-dasharray: 402.12; stroke-dashoffset: 60.318;"/>
+                                </svg>
+                                <div style="position: absolute; top: 110px; font-size: 1.75rem; font-weight: 800;">85%</div>
+                            </div>
+                            <p style="color:var(--text-muted); font-size:0.85rem; padding: 0 10px; line-height: 1.4;">
+                                Add passport expiry data and visa credentials to achieve 100% swift border check-in capacity.
+                            </p>
+                        </div>
+
+                        <!-- Preference insights -->
+                        <div class="glass-card">
+                            <h3 class="card-title"><i class="fa-solid fa-brain"></i> Preferences & Insights</h3>
+                            <div style="display: flex; flex-direction: column; gap: 16px;">
+                                <div style="display:flex; align-items:center; gap: 12px;">
+                                    <i class="fa-solid fa-plane-up" style="color: var(--primary); font-size: 1.25rem;"></i>
+                                    <div>
+                                        <h5 style="font-size:0.9rem; font-weight:600;">Favorite Airline</h5>
+                                        <p style="color:var(--text-muted); font-size:0.8rem;">Singapore Airlines (74% flights booked)</p>
+                                    </div>
+                                </div>
+                                <div style="display:flex; align-items:center; gap: 12px;">
+                                    <i class="fa-solid fa-bed" style="color: var(--primary); font-size: 1.25rem;"></i>
+                                    <div>
+                                        <h5 style="font-size:0.9rem; font-weight:600;">Favorite Hotel Chain</h5>
+                                        <p style="color:var(--text-muted); font-size:0.8rem;">Marriott Bonvoy (68% bookings)</p>
+                                    </div>
+                                </div>
+                                <div style="display:flex; align-items:center; gap: 12px;">
+                                    <i class="fa-solid fa-car-side" style="color: var(--primary); font-size: 1.25rem;"></i>
+                                    <div>
+                                        <h5 style="font-size:0.9rem; font-weight:600;">Favorite Vehicle Tier</h5>
+                                        <p style="color:var(--text-muted); font-size:0.8rem;">Premium Green EV (90% rentals)</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Notifications / Security -->
+                        <div class="glass-card">
+                            <h3 class="card-title"><i class="fa-solid fa-bell"></i> Notification Settings</h3>
+                            <form onsubmit="handleTravelerSettingsSave(event)">
+                                <div class="toggle-item">
+                                    <div class="toggle-info">
+                                        <h5>Email Receipts</h5>
+                                        <p>Invoices sent directly upon check-out.</p>
+                                    </div>
+                                    <label class="switch-control">
+                                        <input type="checkbox" checked>
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-item">
+                                    <div class="toggle-info">
+                                        <h5>SMS & Flight Delay Alerts</h5>
+                                        <p>Real-time gate and delays updates.</p>
+                                    </div>
+                                    <label class="switch-control">
+                                        <input type="checkbox" checked>
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="toggle-item" style="margin-bottom:15px;">
+                                    <div class="toggle-info">
+                                        <h5>Policy Alerts</h5>
+                                        <p>Warn if booking is non-compliant.</p>
+                                    </div>
+                                    <label class="switch-control">
+                                        <input type="checkbox">
+                                        <span class="switch-slider"></span>
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn-secondary" style="width: 100%; justify-content:center;">Update Preferences</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Leaflet Maps Script -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- Apex Charts Library -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    
+    <!-- Shared JS Actions -->
+    <script src="assets/dashboard.js"></script>
+</body>
+</html>
