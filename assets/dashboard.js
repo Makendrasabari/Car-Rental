@@ -261,7 +261,7 @@ function renderTravelerTables() {
                 <td>₹${f.cost.toLocaleString()}</td>
                 <td><span class="badge-status ${f.status === 'confirmed' ? 'success' : 'info'}">${f.status}</span></td>
                 <td>
-                    <button class="btn-icon-only" onclick="triggerAlertToast('E-Ticket Sent', 'Your e-ticket and invoice for booking ${f.id} have been sent to your email.')" title="Download Ticket"><i class="fa-solid fa-download"></i></button>
+                    <button class="btn-icon-only" onclick="window.location.href='404.html'" title="Download Ticket"><i class="fa-solid fa-download"></i></button>
                 </td>
             `;
             flightBody.appendChild(tr);
@@ -281,7 +281,7 @@ function renderTravelerTables() {
                 <td>₹${h.cost.toLocaleString()}</td>
                 <td><span class="badge-status ${h.status === 'confirmed' ? 'success' : 'info'}">${h.status}</span></td>
                 <td>
-                    <button class="btn-icon-only" onclick="triggerAlertToast('Voucher Downloaded', 'Hotel booking confirmation details downloaded.')" title="Get Voucher"><i class="fa-solid fa-receipt"></i></button>
+                    <button class="btn-icon-only" onclick="window.location.href='404.html'" title="Get Voucher"><i class="fa-solid fa-receipt"></i></button>
                 </td>
             `;
             hotelBody.appendChild(tr);
@@ -301,7 +301,7 @@ function renderTravelerTables() {
                 <td>₹${c.cost.toLocaleString()}</td>
                 <td><span class="badge-status ${c.status === 'confirmed' || c.status === 'Confirmed' ? 'success' : c.status === 'completed' || c.status === 'Completed' ? 'info' : 'danger'}">${c.status}</span></td>
                 <td>
-                    <button class="btn-icon-only" onclick="triggerAlertToast('Rental Contract Loaded', 'Car rental details loaded. Status: active.')" title="View Agreement"><i class="fa-solid fa-file-contract"></i></button>
+                    <button class="btn-icon-only" onclick="window.location.href='404.html'" title="View Agreement"><i class="fa-solid fa-file-contract"></i></button>
                 </td>
             `;
             carBody.appendChild(tr);
