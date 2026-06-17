@@ -249,11 +249,8 @@ body {
     overflow-x: hidden;
 }
 
-/* TOP HEADER */
 .content-header {
-    position: sticky;
-    top: 0;
-    z-index: 900;
+    position: static;
     background: rgba(13, 13, 13, 0.85);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -427,6 +424,10 @@ body {
     min-width: 0;
 }
 
+.glass-card > div {
+    min-width: 0;
+}
+
 .glass-card:hover {
     border-color: rgba(249, 115, 22, 0.2);
     box-shadow: var(--shadow-subtle), 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -450,6 +451,7 @@ body {
     margin-bottom: 20px;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 10px;
 }
 
@@ -991,7 +993,7 @@ body {
 /* FORMS SYSTEMS */
 .form-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
     margin-bottom: 24px;
 }
@@ -1025,6 +1027,7 @@ body {
     outline: none;
     transition: var(--transition-smooth);
     width: 100%;
+    min-width: 0;
 }
 
 .text-input:focus {
@@ -1246,7 +1249,7 @@ input:checked + .switch-slider:before {
 /* CARD DETAILS GRID WRAPPERS */
 .two-column-layout {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
     gap: 24px;
 }
 
@@ -1339,7 +1342,7 @@ input:checked + .switch-slider:before {
     }
     
     .two-column-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .sidebar-close-btn {
@@ -1361,7 +1364,7 @@ input:checked + .switch-slider:before {
     }
     
     .form-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
     
     .welcome-banner {
@@ -1536,5 +1539,23 @@ input:checked + .switch-slider:before {
     /* Gap and spacing adjustments */
     .charts-grid-mix, .charts-grid-2x1, .charts-grid-3x1, .two-column-layout, .form-grid {
         gap: 16px;
+    }
+
+    /* Account & Settings page micro-responsiveness */
+    #sect-account div[style*="display:flex"] {
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+    }
+
+    .toggle-item {
+        gap: 12px;
+    }
+
+    .toggle-info h5 {
+        font-size: 0.85rem;
+    }
+
+    .toggle-info p {
+        font-size: 0.75rem;
     }
 }

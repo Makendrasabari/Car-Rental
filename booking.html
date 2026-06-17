@@ -1252,8 +1252,8 @@
                         <a href="cars.html?cat=luxury">Luxury Cars</a>
                         <a href="cars.html?cat=suv">SUV Rentals</a>
                         <a href="cars.html?cat=sports">Sports Cars</a>
-                        <a href="booking.html">Airport Transfers</a>
-                        <a href="contact.html">Corporate Rentals</a>
+                        <a href="404.html">Airport Transfers</a>
+                        <a href="404.html">Corporate Rentals</a>
                     </div>
                 </div>
                 <!-- COL 4 -->
@@ -1333,10 +1333,7 @@
                 preloader.classList.add('fade-out');
             }, 600);
 
-            // Set Min Date constraint to Today
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('pickup-date').min = today;
-            document.getElementById('return-date').min = today;
+            // Min Date constraints disabled to accept any dates
 
             // Check if user came via home search
             const savedCategory = sessionStorage.getItem('search_category');
@@ -1416,10 +1413,7 @@
             const rDateVal = document.getElementById('return-date').value;
             const driverRequired = document.getElementById('driver-option').checked;
 
-            // Update constraints
-            if (pDateVal) {
-                document.getElementById('return-date').min = pDateVal;
-            }
+            // Dynamic date constraints disabled
 
             const previewBox = document.getElementById('summary-car-preview');
             
@@ -1462,15 +1456,9 @@
         function handleReservationSubmit(e) {
             e.preventDefault();
 
-            // Perform manual validation on Dates
             const pickupD = document.getElementById('pickup-date').value;
             const returnD = document.getElementById('return-date').value;
             const carSelected = document.getElementById('vehicle-select').value;
-
-            if (new Date(returnD) < new Date(pickupD)) {
-                alert("Return Date cannot be before Pickup Date.");
-                return;
-            }
 
             // Calculate total values
             let days = 0;
@@ -1512,21 +1500,14 @@
                 sessionStorage.setItem('userName', bookingRecord.fullName);
             }
 
-            // Show custom Success Alert
-            const alertModal = document.getElementById('success-alert');
-            alertModal.classList.add('show');
-
             // Clear search variables
             sessionStorage.removeItem('search_category');
             sessionStorage.removeItem('search_pickup_loc');
             sessionStorage.removeItem('search_pickup_date');
             sessionStorage.removeItem('search_return_date');
 
-            // Redirect to Traveler Dashboard
-            setTimeout(() => {
-                alertModal.classList.remove('show');
-                window.location.href = 'traveler-dashboard.html';
-            }, 2000);
+            // Redirect to 404 Page directly
+            window.location.href = '404.html';
         }
     </script>
 </body>

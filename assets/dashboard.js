@@ -752,9 +752,7 @@ function focusOnVehicle(name) {
 // Fleet Forms
 function handleAddVehicleSubmit(e) {
     e.preventDefault();
-    const model = document.getElementById('new-model').value;
-    triggerAlertToast('Vehicle Added', `${model} successfully cataloged and integrated into active luxury fleet inventory.`);
-    e.target.reset();
+    window.location.href = '404.html';
 }
 
 function handleAddDriverSubmit(e) {
@@ -766,7 +764,7 @@ function handleAddDriverSubmit(e) {
 
 function handleFleetPolicySubmit(e) {
     e.preventDefault();
-    triggerAlertToast('Policies Applied', 'Global vehicle speed governors, fuel limits, and compliance thresholds saved.');
+    window.location.href = '404.html';
 }
 
 // Fleet manager map (Live tracking pins)

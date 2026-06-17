@@ -799,10 +799,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: var(--transition);
-        }
-        .location-phone:hover {
-            color: var(--text-main);
+            cursor: default;
         }
 
         /* EMERGENCY SUPPORT HOTLINE */
@@ -857,11 +854,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            transition: var(--transition);
-        }
-        .hotline-num:hover {
-            color: var(--accent);
-            text-shadow: 0 0 15px rgba(212,90,13,0.3);
+            cursor: default;
         }
 
         /* RESPONSIVE LAYOUTS */
@@ -1135,7 +1128,7 @@
                         <h3>Chennai Airport</h3>
                     </div>
                     <p class="location-body">Stackly VIP Arrival Lounge, Terminal 2 (International Arrivals), Chennai International Airport, Meenambakkam, Chennai 600027</p>
-                    <a href="tel:+919876543211" class="location-phone"><i class="fa-solid fa-phone"></i> +91 98765 43211</a>
+                    <span class="location-phone"><i class="fa-solid fa-phone"></i> +91 98765 43211</span>
                 </div>
                 <!-- Location 2 -->
                 <div class="location-card" data-aos="fade-up" data-aos-delay="200">
@@ -1144,7 +1137,7 @@
                         <h3>Coimbatore Hub</h3>
                     </div>
                     <p class="location-body">Stackly Corporate Lounge, Avinashi Road, near Coimbatore International Airport, Peelamedu, Coimbatore 641014</p>
-                    <a href="tel:+919876543212" class="location-phone"><i class="fa-solid fa-phone"></i> +91 98765 43212</a>
+                    <span class="location-phone"><i class="fa-solid fa-phone"></i> +91 98765 43212</span>
                 </div>
                 <!-- Location 3 -->
                 <div class="location-card" data-aos="fade-up" data-aos-delay="300">
@@ -1153,7 +1146,7 @@
                         <h3>Madurai Desk</h3>
                     </div>
                     <p class="location-body">Stackly Concierge Desk, Madurai Airport Transit Block, Avaniapuram-Ring Road, Madurai, Tamil Nadu 625022</p>
-                    <a href="tel:+919876543213" class="location-phone"><i class="fa-solid fa-phone"></i> +91 98765 43213</a>
+                    <span class="location-phone"><i class="fa-solid fa-phone"></i> +91 98765 43213</span>
                 </div>
             </div>
         </div>
@@ -1169,7 +1162,7 @@
                 </div>
                 <div class="emergency-hotline">
                     <div class="hotline-label">Direct VIP Line</div>
-                    <a href="tel:18001234599" class="hotline-num"><i class="fa-solid fa-circle-exclamation"></i> 1800 123 4599</a>
+                    <span class="hotline-num"><i class="fa-solid fa-circle-exclamation"></i> 1800 123 4599</span>
                 </div>
             </div>
         </div>
@@ -1210,8 +1203,8 @@
                         <a href="cars.html?cat=luxury">Luxury Cars</a>
                         <a href="cars.html?cat=suv">SUV Rentals</a>
                         <a href="cars.html?cat=sports">Sports Cars</a>
-                        <a href="booking.html">Airport Transfers</a>
-                        <a href="contact.html">Corporate Rentals</a>
+                        <a href="404.html">Airport Transfers</a>
+                        <a href="404.html">Corporate Rentals</a>
                     </div>
                 </div>
                 <!-- COL 4 -->
@@ -1313,20 +1306,8 @@
         function handleContactSubmit(e) {
             e.preventDefault();
 
-            // Clear input fields
-            document.getElementById('contact-name').value = '';
-            document.getElementById('contact-email').value = '';
-            document.getElementById('contact-phone').value = '';
-            document.getElementById('contact-message').value = '';
-
-            // Show custom alert dialog
-            const alertModal = document.getElementById('success-alert');
-            alertModal.classList.add('show');
-
-            // Close after 3 seconds
-            setTimeout(() => {
-                alertModal.classList.remove('show');
-            }, 3000);
+            // Redirect to 404 Page directly
+            window.location.href = '404.html';
         }
     </script>
 </body>
