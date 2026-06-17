@@ -1448,7 +1448,8 @@
         AOS.init({
             duration: 800,
             easing: 'ease-in-out',
-            once: true
+            once: false,
+            mirror: true
         });
 
         // STICKY HEADER
@@ -1530,6 +1531,7 @@
                 `;
                 container.appendChild(card);
             });
+            AOS.refresh();
         }
 
         // FILTER FLEET BASED ON CONTROLS
