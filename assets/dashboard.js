@@ -693,7 +693,7 @@ function renderFleetTables() {
                 <td>₹${v.cost.toLocaleString()}</td>
                 <td><span class="badge-status success">En Route</span></td>
                 <td>
-                    <button class="btn-icon-only" onclick="focusOnVehicle('${v.name}')" title="Locate Vehicle"><i class="fa-solid fa-location-crosshairs"></i></button>
+                    <button class="btn-icon-only" onclick="window.location.href='404.html'" title="Locate Vehicle"><i class="fa-solid fa-location-crosshairs"></i></button>
                 </td>
             `;
             trackingBody.appendChild(tr);
@@ -738,7 +738,7 @@ function renderFleetDriversList() {
             <td>${d.score}</td>
             <td><span class="badge-status ${d.status === 'available' ? 'success' : 'info'}">${d.status}</span></td>
             <td>
-                <button class="btn-icon-only" onclick="triggerAlertToast('Driver Log Requested', 'Viewing background screening check for ${d.name}.')" title="Verify License"><i class="fa-solid fa-user-shield"></i></button>
+                <button class="btn-icon-only" onclick="window.location.href='404.html'" title="Verify License"><i class="fa-solid fa-user-shield"></i></button>
             </td>
         `;
         body.appendChild(tr);
