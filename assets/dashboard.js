@@ -67,6 +67,31 @@ function initSharedUserBadge() {
             welcomeAvatar.textContent = initials.toUpperCase();
         }
     }
+
+    // Append Profile Dropdown to Badge
+    const badgeContainer = document.querySelector('.user-badge-container');
+    if (badgeContainer) {
+        badgeContainer.style.position = 'relative';
+        
+        let dropdown = document.getElementById('profile-dropdown-box');
+        if (!dropdown) {
+            dropdown = document.createElement('div');
+            dropdown.id = 'profile-dropdown-box';
+            dropdown.className = 'profile-dropdown';
+            badgeContainer.appendChild(dropdown);
+        }
+        
+        const role = sessionStorage.getItem('userRole') || 'traveler';
+        const roleLabel = role === 'fleet-manager' ? 'Fleet Manager' : 'Traveler';
+        const defaultEmail = role === 'fleet-manager' ? 'manager@stackly.com' : 'traveler@stackly.com';
+        const email = sessionStorage.getItem('userEmail') || defaultEmail;
+        
+        dropdown.innerHTML = `
+            <div style="font-weight: 700; font-size: 0.95rem; color: var(--text-primary); border-bottom: 1px solid var(--border-glass); padding-bottom: 8px; margin-bottom: 6px;">${name}</div>
+            <div style="font-size: 0.75rem; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">${roleLabel}</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); word-break: break-all; margin-top: 4px;">${email}</div>
+        `;
+    }
 }
 
 // Sidebar Navigation Router
@@ -219,6 +244,30 @@ function initTravelerDashboard() {
     applyTableFilter('traveler-hotels-search', 'hotel-bookings-table');
     applyTableFilter('traveler-cars-search', 'car-rentals-table');
 
+    // Flight status filter change
+    const flightFilter = document.getElementById('traveler-flights-filter');
+    if (flightFilter) {
+        flightFilter.addEventListener('change', () => {
+            renderTravelerTables();
+            const searchInput = document.getElementById('traveler-flights-search');
+            if (searchInput) {
+                searchInput.dispatchEvent(new Event('input'));
+            }
+        });
+    }
+
+    // Hotel status filter change
+    const hotelFilter = document.getElementById('traveler-hotels-filter');
+    if (hotelFilter) {
+        hotelFilter.addEventListener('change', () => {
+            renderTravelerTables();
+            const searchInput = document.getElementById('traveler-hotels-search');
+            if (searchInput) {
+                searchInput.dispatchEvent(new Event('input'));
+            }
+        });
+    }
+
     // Init Charts
     initTravelerCharts();
 
@@ -250,7 +299,19 @@ function renderTravelerTables() {
 
     if (flightBody) {
         flightBody.innerHTML = '';
-        const flights = allBookings.filter(b => b.type === 'flight');
+        let flights = allBookings.filter(b => b.type === 'flight');
+
+        const flightFilter = document.getElementById('traveler-flights-filter');
+        if (flightFilter) {
+            const filterVal = flightFilter.value;
+            const today = new Date('2026-06-18');
+            if (filterVal === 'upcoming') {
+                flights = flights.filter(f => new Date(f.date) >= today);
+            } else if (filterVal === 'past') {
+                flights = flights.filter(f => new Date(f.date) < today);
+            }
+        }
+
         flights.forEach(f => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -270,7 +331,25 @@ function renderTravelerTables() {
 
     if (hotelBody) {
         hotelBody.innerHTML = '';
-        const hotels = allBookings.filter(b => b.type === 'hotel');
+        let hotels = allBookings.filter(b => b.type === 'hotel');
+
+        const hotelFilter = document.getElementById('traveler-hotels-filter');
+        if (hotelFilter) {
+            const filterVal = hotelFilter.value;
+            const today = new Date('2026-06-18');
+            if (filterVal === 'upcoming') {
+                hotels = hotels.filter(h => {
+                    const startDateStr = h.date.split(' to ')[0];
+                    return new Date(startDateStr) >= today;
+                });
+            } else if (filterVal === 'past') {
+                hotels = hotels.filter(h => {
+                    const startDateStr = h.date.split(' to ')[0];
+                    return new Date(startDateStr) < today;
+                });
+            }
+        }
+
         hotels.forEach(h => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -1033,3 +1112,23 @@ function initFleetCharts() {
     const healthChart = new ApexCharts(document.querySelector("#fleet-health-gauge"), healthOptions);
     healthChart.render();
 }
+
+// Profile Dropdown Actions
+function toggleProfileDropdown(e) {
+    if (e) e.stopPropagation();
+    const dropdown = document.getElementById('profile-dropdown-box');
+    if (dropdown) {
+        dropdown.classList.toggle('show');
+    }
+}
+
+// Close profile dropdown when clicking outside
+document.addEventListener('click', (e) => {
+    const dropdown = document.getElementById('profile-dropdown-box');
+    const badge = document.querySelector('.user-badge-container');
+    if (dropdown && dropdown.classList.contains('show')) {
+        if (!badge || !badge.contains(e.target)) {
+            dropdown.classList.remove('show');
+        }
+    }
+});

@@ -535,7 +535,7 @@
             color: var(--accent) !important;
             text-shadow: 0 0 10px rgba(212,90,13,0.25);
         }
-        #signup-link:hover {
+        #signup-link:hover, #forgot-link:hover {
             color: var(--accent-hover) !important;
         }
 
@@ -792,6 +792,9 @@
                         <i class="fa-solid fa-lock form-icon"></i>
                         <input type="password" id="login-password" class="form-input" placeholder="Enter any password">
                     </div>
+                    <div style="text-align: right; margin-top: 8px;">
+                        <a href="404.html" id="forgot-link" style="color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: var(--transition);">Forgot Password?</a>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn-login-submit">Authenticate <i class="fa-solid fa-shield-halved"></i></button>
@@ -950,6 +953,7 @@
             
             sessionStorage.setItem('userRole', role);
             sessionStorage.setItem('userName', userName);
+            sessionStorage.setItem('userEmail', email.includes('@') ? email : `${email}@stackly.com`);
 
             // Redirect immediately to dashboard without showing any success alert modal
             window.location.href = redirectUrl;
