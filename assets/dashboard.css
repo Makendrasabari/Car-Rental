@@ -1582,3 +1582,18 @@ input:checked + .switch-slider:before {
         font-size: 0.75rem;
     }
 }
+
+/* Constrain select option sizes on mobile */
+@media (max-width: 480px) {
+    .filter-select option {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+    }
+}
+@media (max-width: 360px) {
+    .filter-select option {
+        font-size: 0.75rem;
+        padding: 4px 6px;
+    }
+}
+
