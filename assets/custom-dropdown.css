@@ -1,0 +1,122 @@
+/* Custom Responsive Dropdowns Stylesheet */
+
+.cd-wrapper {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+.cd-trigger {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    cursor: pointer;
+    box-sizing: border-box;
+    width: 100% !important;
+    user-select: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* Hide original select but keep focusable for validations */
+.cd-hidden-select {
+    position: absolute !important;
+    opacity: 0 !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    clip: rect(1px, 1px, 1px, 1px) !important;
+    border: 0 !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    pointer-events: none !important;
+}
+
+/* Custom options menu */
+.cd-options {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background-color: #161616;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    z-index: 999999 !important;
+    box-sizing: border-box;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s;
+}
+
+.cd-options.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.cd-option {
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    color: #A0A0A0;
+    font-size: 0.92rem;
+    user-select: none;
+    text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.cd-option:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+    color: #FFFFFF;
+}
+
+.cd-option.selected {
+    background-color: var(--accent, #d45a0d) !important;
+    color: #FFFFFF !important;
+    font-weight: 600;
+}
+
+/* Custom arrow icon styling */
+.cd-arrow {
+    font-size: 0.75rem;
+    transition: transform 0.25s ease;
+    color: rgba(255, 255, 255, 0.4);
+    margin-left: 8px;
+    flex-shrink: 0;
+}
+
+.cd-trigger.open .cd-arrow {
+    transform: rotate(180deg);
+}
+
+/* Support focus ring for accessibility */
+.cd-trigger:focus-visible {
+    outline: 2px solid var(--accent, #d45a0d);
+    outline-offset: 1px;
+}
+
+/* Custom Scrollbar for dropdown options list */
+.cd-options::-webkit-scrollbar {
+    width: 6px;
+}
+.cd-options::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+}
+.cd-options::-webkit-scrollbar-thumb {
+    background: var(--accent, #d45a0d);
+    border-radius: 3px;
+}
+.cd-options::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-hover, #b84c0a);
+}
