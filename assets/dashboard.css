@@ -8,6 +8,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 
 :root {
+    color-scheme: dark;
     /* Color Palette */
     --bg-base: #0D0D0D;
     --bg-sidebar: #121212;
@@ -690,27 +691,15 @@ body {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--border-glass);
     color: var(--text-primary);
-    padding: 10px 40px 10px 16px;
+    padding: 10px 16px;
     border-radius: 10px;
     font-family: var(--font-primary);
     font-size: 0.85rem;
     outline: none;
     cursor: pointer;
     transition: var(--transition-smooth);
-    -webkit-appearance: none;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23F97316' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 16px center;
-    max-width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
 }
 
-.filter-select option {
-    background-color: var(--bg-sidebar);
-    color: var(--text-primary);
-}
 
 .filter-select:focus {
     border-color: var(--primary);
@@ -1404,10 +1393,6 @@ input:checked + .switch-slider:before {
     
     .filter-select {
         flex-grow: 1;
-        width: 100% !important;
-        max-width: 100% !important;
-        min-width: 0 !important;
-        box-sizing: border-box;
     }
     
     .header-left-box {
@@ -1595,15 +1580,12 @@ input:checked + .switch-slider:before {
     }
 }
 
-/* Constrain select option sizes on mobile */
+/* Constrain custom profile dropdown on mobile */
 @media (max-width: 480px) {
-    .filter-select option {
-        font-size: 0.8rem;
-    }
-}
-@media (max-width: 360px) {
-    .filter-select option {
-        font-size: 0.75rem;
+    .profile-dropdown {
+        min-width: 180px;
+        width: auto;
+        max-width: calc(100vw - 32px);
     }
 }
 
