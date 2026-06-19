@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Traveler Dashboard | Stackly Travel & Fleet</title>
 
@@ -216,11 +217,20 @@
                                 placeholder="Search flights...">
                         </div>
                         <div class="filter-controls">
-                            <select class="filter-select" id="traveler-flights-filter">
-                                <option value="all">All Dates</option>
-                                <option value="upcoming">Upcoming</option>
-                                <option value="past">Past</option>
-                            </select>
+                            <!-- Custom dropdown replaces native filter-select for cross-browser Edge/Chrome compat -->
+                            <div class="dash-custom-select" id="cs-flights-filter" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+                                <select id="traveler-flights-filter" class="native-select" tabindex="-1" aria-hidden="true">
+                                    <option value="all">All Dates</option>
+                                    <option value="upcoming">Upcoming</option>
+                                    <option value="past">Past</option>
+                                </select>
+                                <div class="cs-trigger" tabindex="0">All Dates</div>
+                                <ul class="cs-dropdown" role="listbox">
+                                    <li class="cs-option cs-selected" data-value="all" role="option">All Dates</li>
+                                    <li class="cs-option" data-value="upcoming" role="option">Upcoming</li>
+                                    <li class="cs-option" data-value="past" role="option">Past</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="table-wrap">
@@ -252,11 +262,19 @@
                                 placeholder="Search hotels...">
                         </div>
                         <div class="filter-controls">
-                            <select class="filter-select" id="traveler-hotels-filter">
-                                <option value="all">All Hotel Stays</option>
-                                <option value="upcoming">Upcoming</option>
-                                <option value="past">Past</option>
-                            </select>
+                            <div class="dash-custom-select" id="cs-hotels-filter" role="combobox" aria-haspopup="listbox" aria-expanded="false">
+                                <select id="traveler-hotels-filter" class="native-select" tabindex="-1" aria-hidden="true">
+                                    <option value="all">All Hotel Stays</option>
+                                    <option value="upcoming">Upcoming</option>
+                                    <option value="past">Past</option>
+                                </select>
+                                <div class="cs-trigger" tabindex="0">All Hotel Stays</div>
+                                <ul class="cs-dropdown" role="listbox">
+                                    <li class="cs-option cs-selected" data-value="all" role="option">All Hotel Stays</li>
+                                    <li class="cs-option" data-value="upcoming" role="option">Upcoming</li>
+                                    <li class="cs-option" data-value="past" role="option">Past</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     <div class="table-wrap">
@@ -591,6 +609,126 @@
 
     <!-- Shared JS Actions -->
     <script src="assets/dashboard.js"></script>
-</body>
 
+    <style>
+        /* ===== DASHBOARD CUSTOM DROPDOWN (traveler-dashboard) ===== */
+        .dash-custom-select {
+            position: relative;
+            min-width: 150px;
+            -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+        }
+        .dash-custom-select .native-select {
+            position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px; overflow: hidden;
+        }
+        .dash-custom-select .cs-trigger {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 10px;
+            color: #F3F4F6;
+            padding: 10px 36px 10px 16px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+            display: flex; align-items: center;
+            position: relative;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+            transition: border-color 0.3s;
+        }
+        .dash-custom-select .cs-trigger::after {
+            content: '';
+            position: absolute; right: 12px; top: 50%;
+            -webkit-transform: translateY(-50%); transform: translateY(-50%);
+            width: 10px; height: 7px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23F97316' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-size: contain;
+            -webkit-transition: -webkit-transform 0.2s ease; transition: transform 0.2s ease;
+            pointer-events: none;
+        }
+        .dash-custom-select.cs-open .cs-trigger { border-color: #F97316; }
+        .dash-custom-select.cs-open .cs-trigger::after { -webkit-transform: translateY(-50%) rotate(180deg); transform: translateY(-50%) rotate(180deg); }
+        .dash-custom-select .cs-dropdown {
+            position: absolute; top: calc(100% + 4px); left: 0; min-width: 100%;
+            background: #1A1A1A; border: 1px solid #F97316; border-radius: 8px;
+            z-index: 99999; opacity: 0; visibility: hidden;
+            -webkit-transform: translateY(-6px); transform: translateY(-6px);
+            -webkit-transition: opacity 0.18s ease, -webkit-transform 0.18s ease, visibility 0.18s;
+            transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+            box-shadow: 0 12px 32px rgba(0,0,0,0.8);
+            white-space: nowrap;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .dash-custom-select.cs-open .cs-dropdown { opacity: 1; visibility: visible; -webkit-transform: translateY(0); transform: translateY(0); }
+        .dash-custom-select .cs-option {
+            padding: 10px 18px;
+            font-family: 'Outfit', sans-serif; font-size: 0.85rem;
+            color: #F3F4F6; cursor: pointer;
+            -webkit-transition: background 0.15s, color 0.15s; transition: background 0.15s, color 0.15s;
+            list-style: none;
+        }
+        .dash-custom-select .cs-option:hover { background: rgba(249,115,22,0.12); color: #F97316; }
+        .dash-custom-select .cs-option.cs-selected { background: rgba(249,115,22,0.1); color: #F97316; font-weight: 600; }
+    </style>
+
+    <script>
+        /* Custom dropdown engine for traveler-dashboard filter selects */
+        (function initDashDropdowns() {
+            var dropdowns = document.querySelectorAll('.dash-custom-select');
+            dropdowns.forEach(function(cs) {
+                var trigger   = cs.querySelector('.cs-trigger');
+                var dropdown  = cs.querySelector('.cs-dropdown');
+                var options   = cs.querySelectorAll('.cs-option');
+                var nativeSel = cs.querySelector('.native-select');
+
+                trigger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    var isOpen = cs.classList.contains('cs-open');
+                    closeAllDash();
+                    if (!isOpen) { cs.classList.add('cs-open'); cs.setAttribute('aria-expanded','true'); }
+                });
+                trigger.addEventListener('keydown', function(e) {
+                    if(e.key==='Enter'||e.key===' '){e.preventDefault();var o=cs.classList.contains('cs-open');closeAllDash();if(!o){cs.classList.add('cs-open');cs.setAttribute('aria-expanded','true');}}
+                    if(e.key==='Escape'){cs.classList.remove('cs-open');cs.setAttribute('aria-expanded','false');}
+                    if(e.key==='ArrowDown'){e.preventDefault();cs.classList.add('cs-open');cs.setAttribute('aria-expanded','true');var f=dropdown.querySelector('.cs-option');if(f)f.focus();}
+                });
+                options.forEach(function(opt) {
+                    opt.setAttribute('tabindex','0');
+                    opt.addEventListener('click', function(e){e.stopPropagation();pickDash(cs,opt,nativeSel,trigger,options);});
+                    opt.addEventListener('keydown', function(e){
+                        if(e.key==='Enter'||e.key===' '){e.preventDefault();pickDash(cs,opt,nativeSel,trigger,options);}
+                        if(e.key==='Escape'){cs.classList.remove('cs-open');cs.setAttribute('aria-expanded','false');trigger.focus();}
+                        if(e.key==='ArrowDown'){e.preventDefault();var a=Array.prototype.slice.call(options),i=a.indexOf(opt);if(a[i+1])a[i+1].focus();}
+                        if(e.key==='ArrowUp'){e.preventDefault();var a=Array.prototype.slice.call(options),i=a.indexOf(opt);if(a[i-1])a[i-1].focus();else trigger.focus();}
+                    });
+                });
+            });
+
+            function closeAllDash(){
+                document.querySelectorAll('.dash-custom-select.cs-open').forEach(function(el){
+                    el.classList.remove('cs-open'); el.setAttribute('aria-expanded','false');
+                });
+            }
+
+            function pickDash(cs, opt, nativeSel, trigger, options) {
+                var val = opt.getAttribute('data-value');
+                trigger.textContent = opt.textContent;
+                options.forEach(function(o){o.classList.remove('cs-selected');});
+                opt.classList.add('cs-selected');
+                if (nativeSel) {
+                    nativeSel.value = val;
+                    var ev = document.createEvent('Event');
+                    ev.initEvent('change', true, true);
+                    nativeSel.dispatchEvent(ev);
+                }
+                cs.classList.remove('cs-open'); cs.setAttribute('aria-expanded','false');
+                trigger.focus();
+            }
+
+            document.addEventListener('click', function(){ closeAllDash(); });
+        })();
+    </script>
+</body>
 </html>

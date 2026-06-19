@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Discover Stackly's heritage, our dedicated team, mission and vision for luxury transport services across Tamil Nadu.">
     <title>About Us | Stackly Car Rentals</title>
@@ -16,6 +17,7 @@
     <style>
         /* CSS VARIABLES & RESET */
         :root {
+            color-scheme: dark;
             --bg-deep: #0F0F0F;
             --bg-primary: #111111;
             --bg-secondary: #1A1A1A;
@@ -36,6 +38,9 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+        }
+
+        html {
             scroll-behavior: smooth;
         }
 
@@ -158,7 +163,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            z-index: 1000;
+            z-index: 100000;
             transition: var(--transition);
             background: transparent;
             padding: 20px 0;
@@ -274,7 +279,7 @@
             cursor: pointer;
             flex-direction: column;
             gap: 6px;
-            z-index: 1100;
+            z-index: 200200;
         }
         .hamburger-btn .bar {
             width: 28px;
@@ -300,7 +305,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0,0,0,0.8);
-            z-index: 1050;
+            z-index: 200050;
             opacity: 0;
             visibility: hidden;
             transition: var(--transition);
@@ -319,7 +324,7 @@
             height: 100%;
             background-color: var(--bg-deep);
             border-left: 1px solid var(--glass-border);
-            z-index: 1060;
+            z-index: 200100;
             padding: 40px 30px;
             display: flex;
             flex-direction: column;
