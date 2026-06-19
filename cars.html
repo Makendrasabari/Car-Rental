@@ -481,7 +481,7 @@
         .search-wrapper {
             position: relative;
             flex: 1;
-            min-width: 280px;
+            min-width: 0;
         }
         .search-icon {
             position: absolute;
@@ -497,6 +497,8 @@
             color: var(--text-main);
             padding: 14px 15px 14px 45px;
             width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
             font-family: var(--font-body);
             outline: none;
             transition: var(--transition);
@@ -515,7 +517,9 @@
             outline: none;
             cursor: pointer;
             transition: var(--transition);
-            min-width: 200px;
+            max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
         }
         .select-sort:focus {
             border-color: var(--accent);
@@ -845,12 +849,36 @@
             overflow: hidden;
             height: 140px;
             margin-top: 15px;
+            position: relative;
         }
         .footer-map-container iframe {
             width: 100%;
             height: 100%;
             border: none;
             filter: grayscale(1) invert(0.9) contrast(1.2);
+        }
+        .map-nav-link {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background-color: var(--accent);
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 5px 10px;
+            border-radius: 4px;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+            transition: background-color 0.2s ease;
+            white-space: nowrap;
+        }
+        .map-nav-link:hover {
+            background-color: var(--accent-hover);
         }
         .footer-bottom {
             border-top: 1px solid rgba(255,255,255,0.05);
@@ -993,6 +1021,12 @@
             }
             .select-sort {
                 width: 100%;
+                max-width: 100% !important;
+                min-width: 0 !important;
+            }
+            .search-wrapper {
+                min-width: 0;
+                width: 100%;
             }
             .footer-grid {
                 grid-template-columns: 1fr;
@@ -1012,6 +1046,14 @@
             .offer-card {
                 padding: 24px;
             }
+            /* Prevent sort dropdown from overflowing */
+            .select-sort,
+            .input-search {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                font-size: 0.88rem;
+            }
         }
 
         @media (max-width: 375px) {
@@ -1021,11 +1063,35 @@
             .preloader-brand {
                 font-size: 1.8rem;
             }
+            /* Select constrained on 375px */
+            .select-sort,
+            .input-search {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                font-size: 0.85rem;
+                padding: 12px 10px 12px 40px;
+            }
+            .select-sort {
+                padding: 12px 10px;
+            }
         }
 
         @media (max-width: 320px) {
             .container {
                 padding: 0 15px;
+            }
+            /* Tightest mobile — constrain all form controls */
+            .select-sort,
+            .input-search {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                font-size: 0.82rem;
+                padding: 10px 8px 10px 36px;
+            }
+            .select-sort {
+                padding: 10px 8px;
             }
         }
     </style>
@@ -1213,6 +1279,9 @@
                     </div>
                     <div class="footer-map-container">
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62512.969855325515!2d78.11306307164998!3d11.658253163771962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3babf1cc5d5a570f%3A0xe54d32a677bfb6db!2sSalem%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1689269411993!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+                        <a href="https://maps.google.com/?q=Stackly+Luxury+Rentals,+Meyyanur+Main+Rd,+Salem,+Tamil+Nadu+636004" target="_blank" rel="noopener noreferrer" class="map-nav-link" aria-label="Open location in Google Maps">
+                            <i class="fa-solid fa-location-arrow"></i> Open in Maps
+                        </a>
                     </div>
                 </div>
             </div>
