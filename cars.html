@@ -48,7 +48,13 @@
         }
 
         select {
+            width: 100%;
             max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            overflow-y: auto;
+            max-height: 200px;
         }
 
         body {
@@ -487,6 +493,7 @@
             position: relative;
             flex: 1;
             min-width: 0;
+            overflow: hidden;
         }
         .search-icon {
             position: absolute;
@@ -503,6 +510,7 @@
             padding: 14px 15px 14px 45px;
             width: 100%;
             max-width: 100%;
+            min-width: 0;
             box-sizing: border-box;
             font-family: var(--font-body);
             outline: none;
@@ -522,9 +530,13 @@
             outline: none;
             cursor: pointer;
             transition: var(--transition);
+            width: 100%;
             max-width: 100%;
             min-width: 0;
             box-sizing: border-box;
+            overflow-x: hidden;
+            overflow-y: auto;
+            max-height: 200px;
         }
         .select-sort:focus {
             border-color: var(--accent);
@@ -1014,6 +1026,29 @@
             }
             .footer-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 360px) {
+            /* Additional fixes for Samsung Galaxy S8+ viewport */
+            .select-sort {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                font-size: 0.8rem;
+                padding: 10px 16px;
+                box-sizing: border-box;
+                overflow-x: hidden;
+                overflow-y: auto;
+                max-height: 180px;
+            }
+            .input-search {
+                font-size: 0.85rem;
+                padding: 10px 12px 10px 38px;
+            }
+            .filter-tab {
+                padding: 8px 16px;
+                font-size: 0.8rem;
             }
         }
 

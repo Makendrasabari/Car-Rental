@@ -698,6 +698,13 @@ body {
     outline: none;
     cursor: pointer;
     transition: var(--transition-smooth);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 200px;
 }
 
 
@@ -1519,6 +1526,9 @@ input:checked + .switch-slider:before {
     border-radius: 12px;
     padding: 16px;
     min-width: 220px;
+    width: auto;
+    max-width: 100%;
+    box-sizing: border-box;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), var(--shadow-glow);
     display: none;
     z-index: 100000;
@@ -1526,6 +1536,9 @@ input:checked + .switch-slider:before {
     text-align: left;
     gap: 4px;
     cursor: default;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 400px;
 }
 .profile-dropdown.show {
     display: flex;
@@ -1584,8 +1597,64 @@ input:checked + .switch-slider:before {
 @media (max-width: 480px) {
     .profile-dropdown {
         min-width: 180px;
-        width: auto;
+        width: 100%;
         max-width: calc(100vw - 32px);
+        box-sizing: border-box;
+        overflow-x: hidden;
+        overflow-y: auto;
+        max-height: 300px;
     }
+}
+
+/* Additional dropdown fixes for 360px viewport (Samsung Galaxy S8+) */
+@media (max-width: 360px) {
+    .profile-dropdown {
+        min-width: 160px;
+        width: 100%;
+        max-width: calc(100vw - 20px);
+        box-sizing: border-box;
+        overflow-x: hidden;
+        overflow-y: auto;
+        max-height: 280px;
+        padding: 12px;
+    }
+    
+    .filter-select {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        overflow-x: hidden;
+        overflow-y: auto;
+        max-height: 180px;
+        font-size: 0.8rem;
+        padding: 8px 12px;
+    }
+}
+
+/* Ensure all select elements have proper overflow handling */
+select {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 200px;
+}
+
+/* Ensure parent containers of dropdowns have position: relative */
+.user-badge-container {
+    position: relative;
+}
+
+.filter-controls {
+    position: relative;
+    min-width: 0;
+}
+
+.search-group {
+    position: relative;
+    min-width: 0;
 }
 

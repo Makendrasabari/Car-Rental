@@ -741,7 +741,7 @@ function renderFleetTables() {
                 <td>${a.vehicle}</td>
                 <td>${a.dates}</td>
                 <td>
-                    <select class="filter-select" style="padding: 6px 12px; font-size: 0.8rem;">
+                    <select class="filter-select">
                         <option>Vikram Singh</option>
                         <option>Arun Varma</option>
                         <option>Devendra Gowda</option>
@@ -1118,7 +1118,65 @@ function toggleProfileDropdown(e) {
     if (e) e.stopPropagation();
     const dropdown = document.getElementById('profile-dropdown-box');
     if (dropdown) {
-        dropdown.classList.toggle('show');
+        const isShowing = dropdown.classList.contains('show');
+        
+        if (!isShowing) {
+            // Position dropdown before showing
+            positionDropdown(dropdown);
+            dropdown.classList.add('show');
+        } else {
+            dropdown.classList.remove('show');
+        }
+    }
+}
+
+// Auto-position dropdown to stay within viewport
+function positionDropdown(dropdown) {
+    const parent = dropdown.parentElement;
+    if (!parent) return;
+    
+    const parentRect = parent.getBoundingClientRect();
+    const dropdownRect = dropdown.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
+    
+    // Reset positioning
+    dropdown.style.top = '';
+    dropdown.style.bottom = '';
+    dropdown.style.left = '';
+    dropdown.style.right = '';
+    
+    // Calculate available space below and above
+    const spaceBelow = viewportHeight - parentRect.bottom;
+    const spaceAbove = parentRect.top;
+    
+    // Determine if dropdown should show above or below
+    const dropdownHeight = dropdownRect.height || 400; // Use max-height if not visible
+    const showAbove = spaceBelow < dropdownHeight + 10 && spaceAbove > dropdownHeight + 10;
+    
+    if (showAbove) {
+        // Position above
+        dropdown.style.top = 'auto';
+        dropdown.style.bottom = 'calc(100% + 10px)';
+    } else {
+        // Position below (default)
+        dropdown.style.top = 'calc(100% + 10px)';
+        dropdown.style.bottom = 'auto';
+    }
+    
+    // Ensure dropdown doesn't overflow horizontally
+    const dropdownWidth = dropdownRect.width || 220;
+    const spaceRight = viewportWidth - parentRect.right;
+    const spaceLeft = parentRect.left;
+    
+    if (spaceRight < dropdownWidth && spaceLeft > dropdownWidth) {
+        // Not enough space on right, align to left
+        dropdown.style.right = 'auto';
+        dropdown.style.left = '0';
+    } else {
+        // Default right alignment
+        dropdown.style.right = '0';
+        dropdown.style.left = 'auto';
     }
 }
 
@@ -1130,5 +1188,13 @@ document.addEventListener('click', (e) => {
         if (!badge || !badge.contains(e.target)) {
             dropdown.classList.remove('show');
         }
+    }
+});
+
+// Handle window resize to reposition dropdown
+window.addEventListener('resize', () => {
+    const dropdown = document.getElementById('profile-dropdown-box');
+    if (dropdown && dropdown.classList.contains('show')) {
+        positionDropdown(dropdown);
     }
 });

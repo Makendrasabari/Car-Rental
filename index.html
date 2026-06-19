@@ -48,7 +48,13 @@
         }
 
         select {
+            width: 100%;
             max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            overflow-y: auto;
+            max-height: 200px;
         }
 
         body {
@@ -584,6 +590,7 @@
             padding: 30px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.6);
             backdrop-filter: blur(12px);
+            overflow: hidden;
         }
         .booking-search-grid {
             display: grid;
@@ -595,6 +602,9 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            position: relative;
+            min-width: 0;
+            overflow: hidden;
         }
         .search-label {
             font-size: 0.85rem;
@@ -625,10 +635,6 @@
             border-color: var(--accent);
             box-shadow: 0 0 10px rgba(212,90,13,0.2);
         }
-        .search-group {
-            min-width: 0;
-            overflow: hidden;
-        }
         .btn-search {
             width: 100%;
             height: 52px;
@@ -642,6 +648,10 @@
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
         }
 
         /* 3. FEATURED LUXURY CARS */
