@@ -109,9 +109,11 @@ body {
 
 .sidebar-header {
     display: flex;
+    flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 40px;
+    gap: 12px;
 }
 
 .sidebar-close-btn {
@@ -122,6 +124,8 @@ body {
     font-size: 1.5rem;
     cursor: pointer;
     transition: var(--transition-smooth);
+    flex-shrink: 0;
+    line-height: 1;
 }
 
 .sidebar-close-btn:hover {
@@ -133,11 +137,17 @@ body {
     align-items: center;
     gap: 12px;
     text-decoration: none;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .sidebar-brand img {
     height: 40px;
+    width: auto;
+    max-width: 160px;
     object-fit: contain;
+    flex-shrink: 0;
     filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.3));
 }
 
