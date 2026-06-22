@@ -1874,7 +1874,7 @@
                 if (isOpen && !trigger.contains(e.target) && !panel.contains(e.target)) closePanel();
             });
             window.addEventListener('resize', function() { if (isOpen) positionPanel(); }, { passive: true });
-            window.addEventListener('scroll', function() { if (isOpen) positionPanel(); }, { passive: true, capture: true });
+            window.addEventListener('scroll', function() { if (isOpen) closePanel(); }, { passive: true, capture: true });
         }
 
         // Location options

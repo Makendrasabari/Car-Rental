@@ -1352,7 +1352,7 @@ function initCustomSelect(cfg) {
     }, { passive: true });
     
     window.addEventListener('scroll', function() {
-        if (isOpen) positionPanel();
+        if (isOpen) closePanel();
     }, { passive: true, capture: true });
 }
 

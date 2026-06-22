@@ -3158,7 +3158,7 @@
 
             // Reposition on resize/scroll (because panel is fixed)
             window.addEventListener('resize', function () { if (isOpen) positionPanel(); }, { passive: true });
-            window.addEventListener('scroll', function () { if (isOpen) positionPanel(); }, { passive: true, capture: true });
+            window.addEventListener('scroll', function () { if (isOpen) closePanel(); }, { passive: true, capture: true });
 
             // Build after DOM is ready
             buildPanel();
@@ -3296,7 +3296,7 @@
             });
 
             window.addEventListener('resize', function () { if (isOpen) positionPanel(); }, { passive: true });
-            window.addEventListener('scroll', function () { if (isOpen) positionPanel(); }, { passive: true, capture: true });
+            window.addEventListener('scroll', function () { if (isOpen) closePanel(); }, { passive: true, capture: true });
 
             buildPanel();
         })();
