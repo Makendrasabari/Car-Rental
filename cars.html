@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Explore Stackly's exclusive fleet of luxury sedans, sports supercars, high-end SUVs, and electric vehicles for rent.">
     <title>Our Luxury Fleet | Stackly Car Rentals</title>
@@ -38,9 +37,6 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-        }
-
-        html {
             scroll-behavior: smooth;
         }
 
@@ -173,7 +169,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            z-index: 100000;
+            z-index: 1000;
             transition: var(--transition);
             background: transparent;
             padding: 20px 0;
@@ -289,7 +285,7 @@
             cursor: pointer;
             flex-direction: column;
             gap: 6px;
-            z-index: 200200;
+            z-index: 1100;
         }
         .hamburger-btn .bar {
             width: 28px;
@@ -315,7 +311,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0,0,0,0.8);
-            z-index: 200050;
+            z-index: 1050;
             opacity: 0;
             visibility: hidden;
             transition: var(--transition);
@@ -334,7 +330,7 @@
             height: 100%;
             background-color: var(--bg-deep);
             border-left: 1px solid var(--glass-border);
-            z-index: 200100;
+            z-index: 1060;
             padding: 40px 30px;
             display: flex;
             flex-direction: column;
@@ -529,7 +525,7 @@
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 4px;
             color: var(--text-main);
-            padding: 14px 40px 14px 20px;
+            padding: 14px 20px;
             font-family: var(--font-body);
             outline: none;
             cursor: pointer;
@@ -538,73 +534,13 @@
             max-width: 100%;
             min-width: 0;
             box-sizing: border-box;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23d45a0d' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 14px center;
-            background-size: 12px 8px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            max-height: 200px;
         }
-        select.select-sort option { background-color: var(--bg-secondary); color: var(--text-main); }
-        /* ===== CUSTOM SORT DROPDOWN ===== */
-        .sort-custom-select {
-            position: relative;
-            min-width: 220px;
-            -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;
+        .select-sort:focus {
+            border-color: var(--accent);
         }
-        .sort-custom-select .native-select {
-            position: absolute; opacity: 0; pointer-events: none; width: 1px; height: 1px; overflow: hidden;
-        }
-        .sort-custom-select .cs-trigger {
-            background: var(--bg-secondary);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 4px;
-            color: var(--text-main);
-            padding: 14px 40px 14px 20px;
-            font-family: var(--font-body);
-            font-size: 1rem;
-            cursor: pointer;
-            width: 100%;
-            box-sizing: border-box;
-            display: flex; align-items: center;
-            position: relative;
-            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-            transition: border-color 0.25s, box-shadow 0.25s;
-        }
-        .sort-custom-select .cs-trigger::after {
-            content: '';
-            position: absolute; right: 14px; top: 50%;
-            -webkit-transform: translateY(-50%); transform: translateY(-50%);
-            width: 12px; height: 8px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23d45a0d' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat; background-size: contain;
-            -webkit-transition: -webkit-transform 0.25s ease; transition: transform 0.25s ease;
-            pointer-events: none;
-        }
-        .sort-custom-select.cs-open .cs-trigger { border-color: var(--accent); box-shadow: 0 0 10px rgba(212,90,13,0.2); }
-        .sort-custom-select.cs-open .cs-trigger::after { -webkit-transform: translateY(-50%) rotate(180deg); transform: translateY(-50%) rotate(180deg); }
-        .sort-custom-select .cs-dropdown {
-            position: absolute; top: calc(100% + 4px); left: 0; width: 100%;
-            background: var(--bg-secondary); border: 1px solid var(--accent); border-radius: 6px;
-            z-index: 9999; opacity: 0; visibility: hidden;
-            -webkit-transform: translateY(-8px); transform: translateY(-8px);
-            -webkit-transition: opacity 0.2s ease, -webkit-transform 0.2s ease, visibility 0.2s;
-            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.7);
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .sort-custom-select.cs-open .cs-dropdown { opacity: 1; visibility: visible; -webkit-transform: translateY(0); transform: translateY(0); }
-        .sort-custom-select .cs-option {
-            padding: 12px 20px; font-family: var(--font-body); font-size: 0.95rem;
-            color: var(--text-main); cursor: pointer;
-            -webkit-transition: background 0.15s, color 0.15s; transition: background 0.15s, color 0.15s;
-            list-style: none;
-        }
-        .sort-custom-select .cs-option:hover, .sort-custom-select .cs-option.cs-highlighted { background: rgba(212,90,13,0.15); color: var(--accent); }
-        .sort-custom-select .cs-option.cs-selected { background: rgba(212,90,13,0.12); color: var(--accent); font-weight: 600; }
         .categories-filter-bar {
             display: flex;
             gap: 12px;
@@ -1285,19 +1221,11 @@
                         <i class="fa-solid fa-magnifying-glass search-icon"></i>
                         <input type="text" id="search-input" class="input-search" placeholder="Search vehicle by name..." oninput="filterFleet()">
                     </div>
-                    <div class="sort-custom-select" id="cs-sort" role="combobox" aria-haspopup="listbox" aria-expanded="false">
-                        <select id="sort-select" class="native-select" tabindex="-1" aria-hidden="true">
-                            <option value="default" selected>Sort By: Featured</option>
-                            <option value="price-asc">Price: Low to High</option>
-                            <option value="price-desc">Price: High to Low</option>
-                        </select>
-                        <div class="cs-trigger" tabindex="0">Sort By: Featured</div>
-                        <ul class="cs-dropdown" role="listbox">
-                            <li class="cs-option cs-selected" data-value="default" role="option">Sort By: Featured</li>
-                            <li class="cs-option" data-value="price-asc" role="option">Price: Low to High</li>
-                            <li class="cs-option" data-value="price-desc" role="option">Price: High to Low</li>
-                        </ul>
-                    </div>
+                    <select id="sort-select" class="select-sort" onchange="filterFleet()">
+                        <option value="default">Sort By: Featured</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                    </select>
                 </div>
                 <!-- Categories Bar -->
                 <div class="categories-filter-bar">
@@ -1798,57 +1726,6 @@
             sessionStorage.setItem('selectedCarName', carName);
             window.location.href = 'booking.html';
         }
-
-        // =============================================
-        //  CUSTOM SORT DROPDOWN ENGINE (cars.html)
-        // =============================================
-        (function initSortDropdown() {
-            var cs      = document.getElementById('cs-sort');
-            if (!cs) return;
-            var trigger   = cs.querySelector('.cs-trigger');
-            var dropdown  = cs.querySelector('.cs-dropdown');
-            var options   = cs.querySelectorAll('.cs-option');
-            var nativeSel = cs.querySelector('.native-select');
-
-            trigger.addEventListener('click', function(e) {
-                e.stopPropagation();
-                var isOpen = cs.classList.contains('cs-open');
-                cs.classList.toggle('cs-open', !isOpen);
-                cs.setAttribute('aria-expanded', String(!isOpen));
-            });
-            trigger.addEventListener('keydown', function(e) {
-                if (e.key==='Enter'||e.key===' '){e.preventDefault();var o=cs.classList.contains('cs-open');cs.classList.toggle('cs-open',!o);cs.setAttribute('aria-expanded',String(!o));}
-                if (e.key==='Escape'){cs.classList.remove('cs-open');cs.setAttribute('aria-expanded','false');}
-                if (e.key==='ArrowDown'){e.preventDefault();cs.classList.add('cs-open');cs.setAttribute('aria-expanded','true');var f=dropdown.querySelector('.cs-option');if(f)f.focus();}
-            });
-            options.forEach(function(opt) {
-                opt.setAttribute('tabindex','0');
-                opt.addEventListener('click', function(e){e.stopPropagation();pickSort(opt);});
-                opt.addEventListener('keydown', function(e){
-                    if(e.key==='Enter'||e.key===' '){e.preventDefault();pickSort(opt);}
-                    if(e.key==='Escape'){cs.classList.remove('cs-open');cs.setAttribute('aria-expanded','false');trigger.focus();}
-                    if(e.key==='ArrowDown'){e.preventDefault();var a=Array.prototype.slice.call(options),i=a.indexOf(opt);if(a[i+1])a[i+1].focus();}
-                    if(e.key==='ArrowUp'){e.preventDefault();var a=Array.prototype.slice.call(options),i=a.indexOf(opt);if(a[i-1])a[i-1].focus();else trigger.focus();}
-                });
-            });
-
-            function pickSort(opt) {
-                var val = opt.getAttribute('data-value');
-                trigger.textContent = opt.textContent;
-                options.forEach(function(o){o.classList.remove('cs-selected');});
-                opt.classList.add('cs-selected');
-                if (nativeSel) { nativeSel.value = val; }
-                cs.classList.remove('cs-open');
-                cs.setAttribute('aria-expanded','false');
-                trigger.focus();
-                if (typeof filterFleet === 'function') filterFleet();
-            }
-
-            document.addEventListener('click', function(){
-                cs.classList.remove('cs-open');
-                cs.setAttribute('aria-expanded','false');
-            });
-        })();
     </script>
 </body>
 </html>

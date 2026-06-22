@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Rent premium luxury vehicles across Tamil Nadu. Experience high-end travel with Stackly Luxury Rentals. VIP service, premium fleet.">
     <title>Stackly Luxury Rentals | Premium Car Rental Tamil Nadu</title>
@@ -38,10 +37,7 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth; /* Not all browsers support this on *, keep on html */
+            scroll-behavior: smooth;
         }
 
         html, body {
@@ -174,7 +170,7 @@
             top: 0;
             left: 0;
             width: 100%;
-            z-index: 100000;
+            z-index: 1000;
             transition: var(--transition);
             background: transparent;
             padding: 20px 0;
@@ -291,7 +287,7 @@
             cursor: pointer;
             flex-direction: column;
             gap: 6px;
-            z-index: 200200;
+            z-index: 1100;
         }
         .hamburger-btn .bar {
             width: 28px;
@@ -317,7 +313,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0,0,0,0.8);
-            z-index: 200050;
+            z-index: 1050;
             opacity: 0;
             visibility: hidden;
             transition: var(--transition);
@@ -336,7 +332,7 @@
             height: 100%;
             background-color: var(--bg-deep);
             border-left: 1px solid var(--glass-border);
-            z-index: 200100;
+            z-index: 1060;
             padding: 40px 30px;
             display: flex;
             flex-direction: column;
@@ -593,39 +589,22 @@
             border-radius: 8px;
             padding: 30px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-            -webkit-backdrop-filter: blur(12px); /* Safari */
             backdrop-filter: blur(12px);
-            /* overflow must NOT be hidden — clips native <select> dropdowns */
-            overflow: visible;
+            overflow: hidden;
         }
         .booking-search-grid {
-            display: -ms-grid; /* IE 10/11 legacy */
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 20px;
             align-items: flex-end;
-            /* Edge: ensure grid children don't overflow */
-            min-height: 0;
         }
         .search-group {
-            display: -webkit-box;
-            display: -ms-flexbox;
             display: flex;
-            -webkit-box-orient: vertical;
-            -webkit-box-direction: normal;
-            -ms-flex-direction: column;
             flex-direction: column;
             gap: 8px;
             position: relative;
             min-width: 0;
-            min-height: 0; /* Edge grid fix */
-            /* overflow must be visible so native <select> dropdown is not clipped */
-            overflow: visible;
-            /* Raise z-index when a child select is focused/active */
-            z-index: 1;
-        }
-        .search-group:focus-within {
-            z-index: 10;
+            overflow: hidden;
         }
         .search-label {
             font-size: 0.85rem;
@@ -633,11 +612,7 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            display: -webkit-box;
-            display: -ms-flexbox;
             display: flex;
-            -webkit-box-align: center;
-            -ms-flex-align: center;
             align-items: center;
             gap: 6px;
         }
@@ -650,103 +625,26 @@
             font-family: var(--font-body);
             font-size: 0.95rem;
             outline: none;
+            /* transition: var(--transition); */
             width: 100%;
             max-width: 100%;
             min-width: 0;
             box-sizing: border-box;
-            -webkit-box-sizing: border-box; /* Safari/Chrome older */
         }
         .search-input:focus {
             border-color: var(--accent);
             box-shadow: 0 0 10px rgba(212,90,13,0.2);
         }
-        /* Edge/Chrome: style date input calendar icon */
-        input[type="date"].search-input {
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            cursor: pointer;
-            /* Edge shows its own calendar button - we align text properly */
-            padding-right: 10px;
-        }
-        /* Style the date/time picker icon in Edge/Webkit */
-        input[type="date"].search-input::-webkit-calendar-picker-indicator {
-            background-color: transparent;
-            color: var(--accent);
-            cursor: pointer;
-            opacity: 0.7;
-            -webkit-filter: invert(56%) sepia(82%) saturate(700%) hue-rotate(345deg) brightness(95%) contrast(95%);
-            filter: invert(56%) sepia(82%) saturate(700%) hue-rotate(345deg) brightness(95%) contrast(95%);
-            padding: 0;
-            margin-left: 4px;
-        }
-        input[type="date"].search-input::-webkit-calendar-picker-indicator:hover {
-            opacity: 1;
-        }
-        /* Edge: remove inner spin buttons on number inputs */
-        input[type="number"].search-input::-webkit-inner-spin-button,
-        input[type="number"].search-input::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        /* Edge: placeholder text color */
-        .search-input::-webkit-input-placeholder { color: var(--text-muted); opacity: 0.8; }
-        .search-input::-moz-placeholder          { color: var(--text-muted); opacity: 0.8; }
-        .search-input:-ms-input-placeholder      { color: var(--text-muted); opacity: 0.8; }
-        .search-input::placeholder               { color: var(--text-muted); opacity: 0.8; }
-        /* Validation states */
-        .search-input.input-error {
-            border-color: #e53e3e !important;
-            box-shadow: 0 0 8px rgba(229,62,62,0.3) !important;
-        }
-        .search-input.input-valid {
-            border-color: #38a169 !important;
-            box-shadow: 0 0 8px rgba(56,161,105,0.2) !important;
-        }
-        .field-error-msg {
-            font-size: 0.75rem;
-            color: #fc8181;
-            margin-top: 2px;
-            display: none;
-            -webkit-animation: fadeInDown 0.2s ease;
-            animation: fadeInDown 0.2s ease;
-        }
-        .field-error-msg.visible {
-            display: block;
-        }
-        @-webkit-keyframes fadeInDown {
-            from { opacity: 0; -webkit-transform: translateY(-4px); transform: translateY(-4px); }
-            to   { opacity: 1; -webkit-transform: translateY(0);     transform: translateY(0); }
-        }
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-4px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
         .btn-search {
             width: 100%;
             height: 52px;
-            display: -webkit-box;
-            display: -ms-flexbox;
             display: flex;
-            -webkit-box-pack: center;
-            -ms-flex-pack: center;
             justify-content: center;
-            -webkit-box-align: center;
-            -ms-flex-align: center;
             align-items: center;
         }
         select.search-input {
-            /* Cross-browser select reset */
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            /* Custom arrow using inline SVG — works in Edge, Chrome, Firefox, Safari */
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23d45a0d' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 14px center;
-            background-size: 12px 8px;
-            padding-right: 36px; /* make room for arrow */
-            cursor: pointer;
+            -webkit-appearance: auto;
+            appearance: auto;
             text-overflow: ellipsis;
             overflow: hidden;
             white-space: nowrap;
@@ -754,150 +652,6 @@
             max-width: 100%;
             min-width: 0;
             box-sizing: border-box;
-        }
-        /* Edge: Fix option background in dark mode (Edge respects color-scheme) */
-        select.search-input option {
-            background-color: var(--bg-secondary);
-            color: var(--text-main);
-        }
-
-        /* ===== CUSTOM DROPDOWN (replaces native <select> for full theme control) ===== */
-        .custom-select {
-            position: relative;
-            width: 100%;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-        /* Hidden real select kept for form value / accessibility */
-        .custom-select .native-select {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-            width: 1px;
-            height: 1px;
-            overflow: hidden;
-        }
-        .cs-trigger {
-            background: var(--bg-deep);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: var(--text-main);
-            padding: 14px 40px 14px 16px;
-            border-radius: 4px;
-            font-family: var(--font-body);
-            font-size: 0.95rem;
-            cursor: pointer;
-            width: 100%;
-            box-sizing: border-box;
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: flex;
-            -webkit-box-align: center;
-            -ms-flex-align: center;
-            align-items: center;
-            -webkit-box-pack: justify;
-            -ms-flex-pack: justify;
-            justify-content: space-between;
-            transition: border-color 0.25s, box-shadow 0.25s;
-            position: relative;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .cs-trigger::after {
-            content: '';
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
-            width: 12px;
-            height: 8px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23d45a0d' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-size: contain;
-            -webkit-transition: -webkit-transform 0.25s ease;
-            transition: transform 0.25s ease;
-            pointer-events: none;
-            flex-shrink: 0;
-        }
-        .custom-select.cs-open .cs-trigger {
-            border-color: var(--accent);
-            box-shadow: 0 0 10px rgba(212,90,13,0.2);
-        }
-        .custom-select.cs-open .cs-trigger::after {
-            -webkit-transform: translateY(-50%) rotate(180deg);
-            transform: translateY(-50%) rotate(180deg);
-        }
-        .custom-select.input-error .cs-trigger {
-            border-color: #e53e3e !important;
-            box-shadow: 0 0 8px rgba(229,62,62,0.3) !important;
-        }
-        .custom-select.input-valid .cs-trigger {
-            border-color: #38a169 !important;
-            box-shadow: 0 0 8px rgba(56,161,105,0.2) !important;
-        }
-        .cs-dropdown {
-            position: absolute;
-            top: calc(100% + 4px);
-            left: 0;
-            width: 100%;
-            background: var(--bg-secondary);
-            border: 1px solid var(--accent);
-            border-radius: 6px;
-            z-index: 9999;
-            overflow: hidden;
-            opacity: 0;
-            visibility: hidden;
-            -webkit-transform: translateY(-8px);
-            transform: translateY(-8px);
-            -webkit-transition: opacity 0.2s ease, -webkit-transform 0.2s ease, visibility 0.2s;
-            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.7);
-            max-height: 220px;
-            overflow-y: auto;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .custom-select.cs-open .cs-dropdown {
-            opacity: 1;
-            visibility: visible;
-            -webkit-transform: translateY(0);
-            transform: translateY(0);
-        }
-        /* Custom scrollbar inside dropdown */
-        .cs-dropdown::-webkit-scrollbar { width: 5px; }
-        .cs-dropdown::-webkit-scrollbar-track { background: var(--bg-secondary); }
-        .cs-dropdown::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
-        .cs-option {
-            padding: 12px 16px;
-            font-family: var(--font-body);
-            font-size: 0.92rem;
-            color: var(--text-main);
-            cursor: pointer;
-            -webkit-transition: background 0.15s, color 0.15s;
-            transition: background 0.15s, color 0.15s;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            list-style: none;
-        }
-        .cs-option:hover,
-        .cs-option.cs-highlighted {
-            background: rgba(212,90,13,0.15);
-            color: var(--accent);
-        }
-        .cs-option.cs-selected {
-            background: rgba(212,90,13,0.12);
-            color: var(--accent);
-            font-weight: 600;
-        }
-        .cs-option.cs-disabled {
-            color: var(--text-muted);
-            cursor: default;
-            pointer-events: none;
         }
 
         /* 3. FEATURED LUXURY CARS */
@@ -2158,75 +1912,38 @@
     <!-- 2. QUICK BOOKING SEARCH FORM -->
     <div class="container booking-search-container" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
         <div class="booking-search-card">
-            <form id="quick-search-form" class="booking-search-grid" novalidate>
-
-                <!-- Car Category (Custom Dropdown) -->
+            <form id="quick-search-form" class="booking-search-grid" onsubmit="handleQuickSearch(event)">
                 <div class="search-group">
-                    <label class="search-label"><i class="fa-solid fa-car" aria-hidden="true"></i> Car Category</label>
-                    <div class="custom-select" id="cs-category" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-label="Select car category">
-                        <!-- Hidden native select keeps the real form value -->
-                        <select id="search-category" name="category" class="native-select" tabindex="-1" aria-hidden="true">
-                            <option value="all" selected>All Categories</option>
-                            <option value="luxury">Luxury Sedans</option>
-                            <option value="sports">Sports Cars</option>
-                            <option value="suv">Premium SUVs</option>
-                            <option value="electric">Electric Cars</option>
-                        </select>
-                        <div class="cs-trigger" tabindex="0">All Categories</div>
-                        <ul class="cs-dropdown" role="listbox">
-                            <li class="cs-option cs-selected" data-value="all" role="option" aria-selected="true">All Categories</li>
-                            <li class="cs-option" data-value="luxury" role="option">Luxury Sedans</li>
-                            <li class="cs-option" data-value="sports" role="option">Sports Cars</li>
-                            <li class="cs-option" data-value="suv" role="option">Premium SUVs</li>
-                            <li class="cs-option" data-value="electric" role="option">Electric Cars</li>
-                        </ul>
-                    </div>
+                    <label class="search-label"><i class="fa-solid fa-car"></i> Car Category</label>
+                    <select id="search-category" class="search-input">
+                        <option value="all">All Categories</option>
+                        <option value="luxury">Luxury Sedans</option>
+                        <option value="sports">Sports Cars</option>
+                        <option value="suv">Premium SUVs</option>
+                        <option value="electric">Electric Cars</option>
+                    </select>
                 </div>
-
-                <!-- Pickup Location (Custom Dropdown) -->
                 <div class="search-group">
-                    <label class="search-label"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Pickup Location</label>
-                    <div class="custom-select" id="cs-location" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-label="Select pickup location">
-                        <select id="search-pickup-loc" name="pickup_location" class="native-select" tabindex="-1" aria-hidden="true">
-                            <option value="" disabled selected>Select location</option>
-                            <option value="Salem">Salem Office</option>
-                            <option value="Chennai">Chennai Airport</option>
-                            <option value="Coimbatore">Coimbatore Airport</option>
-                            <option value="Madurai">Madurai Office</option>
-                        </select>
-                        <div class="cs-trigger" tabindex="0" style="color: var(--text-muted);">Select location</div>
-                        <ul class="cs-dropdown" role="listbox">
-                            <li class="cs-option cs-disabled" data-value="" role="option" aria-disabled="true">Select location</li>
-                            <li class="cs-option" data-value="Salem" role="option">Salem Office</li>
-                            <li class="cs-option" data-value="Chennai" role="option">Chennai Airport</li>
-                            <li class="cs-option" data-value="Coimbatore" role="option">Coimbatore Airport</li>
-                            <li class="cs-option" data-value="Madurai" role="option">Madurai Office</li>
-                        </ul>
-                    </div>
-                    <span class="field-error-msg" id="err-pickup-loc" role="alert">Please select a pickup location.</span>
+                    <label class="search-label"><i class="fa-solid fa-location-dot"></i> Pickup Location</label>
+                    <select id="search-pickup-loc" class="search-input" required>
+                        <option value="" disabled selected>Select location</option>
+                        <option value="Salem">Salem Office</option>
+                        <option value="Chennai">Chennai Airport</option>
+                        <option value="Coimbatore">Coimbatore Airport</option>
+                        <option value="Madurai">Madurai Office</option>
+                    </select>
                 </div>
-
-                <!-- Pickup Date -->
                 <div class="search-group">
-                    <label for="search-pickup-date" class="search-label"><i class="fa-solid fa-calendar-days" aria-hidden="true"></i> Pickup Date</label>
-                    <input type="date" id="search-pickup-date" name="pickup_date" class="search-input" aria-label="Select pickup date" aria-required="true" autocomplete="off">
-                    <span class="field-error-msg" id="err-pickup-date" role="alert">Please select a valid pickup date.</span>
+                    <label class="search-label"><i class="fa-solid fa-calendar-days"></i> Pickup Date</label>
+                    <input type="date" id="search-pickup-date" class="search-input" required>
                 </div>
-
-                <!-- Return Date -->
                 <div class="search-group">
-                    <label for="search-return-date" class="search-label"><i class="fa-solid fa-calendar-check" aria-hidden="true"></i> Return Date</label>
-                    <input type="date" id="search-return-date" name="return_date" class="search-input" aria-label="Select return date" aria-required="true" autocomplete="off">
-                    <span class="field-error-msg" id="err-return-date" role="alert">Return date must be after pickup date.</span>
+                    <label class="search-label"><i class="fa-solid fa-calendar-check"></i> Return Date</label>
+                    <input type="date" id="search-return-date" class="search-input" required>
                 </div>
-
-                <!-- Submit -->
                 <div class="search-group">
-                    <button type="submit" id="search-submit-btn" class="btn-accent btn-search" aria-label="Search available cars">
-                        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Search Cars
-                    </button>
+                    <button type="submit" class="btn-accent btn-search">Search Cars</button>
                 </div>
-
             </form>
         </div>
     </div>
@@ -3092,263 +2809,21 @@
             window.location.href = 'booking.html';
         }
 
-        // =============================================
-        //  CUSTOM DROPDOWN ENGINE
-        // =============================================
-        (function initCustomDropdowns() {
-            var dropdowns = document.querySelectorAll('.custom-select');
+        // QUICK SEARCH SUBMIT
+        function handleQuickSearch(e) {
+            e.preventDefault();
+            const category = document.getElementById('search-category').value;
+            const pickupLoc = document.getElementById('search-pickup-loc').value;
+            const pickupDate = document.getElementById('search-pickup-date').value;
+            const returnDate = document.getElementById('search-return-date').value;
 
-            dropdowns.forEach(function(cs) {
-                var trigger  = cs.querySelector('.cs-trigger');
-                var dropdown = cs.querySelector('.cs-dropdown');
-                var options  = cs.querySelectorAll('.cs-option:not(.cs-disabled)');
-                var nativeSel = cs.querySelector('.native-select');
+            // Save search params to sessionStorage for booking.html to pick up
+            sessionStorage.setItem('search_category', category);
+            sessionStorage.setItem('search_pickup_loc', pickupLoc);
+            sessionStorage.setItem('search_pickup_date', pickupDate);
+            sessionStorage.setItem('search_return_date', returnDate);
 
-                // Toggle open/close
-                trigger.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    var isOpen = cs.classList.contains('cs-open');
-                    closeAllDropdowns();
-                    if (!isOpen) openDropdown(cs);
-                });
-
-                // Keyboard support
-                trigger.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        var isOpen = cs.classList.contains('cs-open');
-                        closeAllDropdowns();
-                        if (!isOpen) openDropdown(cs);
-                    }
-                    if (e.key === 'Escape') closeDropdown(cs);
-                    if (e.key === 'ArrowDown') {
-                        e.preventDefault();
-                        if (!cs.classList.contains('cs-open')) openDropdown(cs);
-                        var first = dropdown.querySelector('.cs-option:not(.cs-disabled)');
-                        if (first) first.focus();
-                    }
-                });
-
-                // Option click
-                options.forEach(function(opt) {
-                    opt.setAttribute('tabindex', '0');
-
-                    opt.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        selectOption(cs, opt);
-                    });
-
-                    opt.addEventListener('keydown', function(e) {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            selectOption(cs, opt);
-                        }
-                        if (e.key === 'Escape') { closeDropdown(cs); trigger.focus(); }
-                        if (e.key === 'ArrowDown') {
-                            e.preventDefault();
-                            var next = getNextOption(opt, options, 1);
-                            if (next) next.focus();
-                        }
-                        if (e.key === 'ArrowUp') {
-                            e.preventDefault();
-                            var prev = getNextOption(opt, options, -1);
-                            if (prev) prev.focus(); else trigger.focus();
-                        }
-                    });
-                });
-            });
-
-            function getNextOption(current, all, dir) {
-                var arr = Array.prototype.slice.call(all);
-                var idx = arr.indexOf(current);
-                return arr[idx + dir] || null;
-            }
-
-            function openDropdown(cs) {
-                cs.classList.add('cs-open');
-                cs.setAttribute('aria-expanded', 'true');
-            }
-
-            function closeDropdown(cs) {
-                cs.classList.remove('cs-open');
-                cs.setAttribute('aria-expanded', 'false');
-            }
-
-            function closeAllDropdowns() {
-                document.querySelectorAll('.custom-select.cs-open').forEach(function(el) {
-                    closeDropdown(el);
-                });
-            }
-
-            function selectOption(cs, opt) {
-                var val   = opt.getAttribute('data-value');
-                var label = opt.textContent;
-                var trigger  = cs.querySelector('.cs-trigger');
-                var nativeSel = cs.querySelector('.native-select');
-
-                // Update trigger text & colour
-                trigger.textContent = label;
-                trigger.style.color = '';
-
-                // Mark selected option
-                cs.querySelectorAll('.cs-option').forEach(function(o) {
-                    o.classList.remove('cs-selected');
-                    o.setAttribute('aria-selected', 'false');
-                });
-                opt.classList.add('cs-selected');
-                opt.setAttribute('aria-selected', 'true');
-
-                // Sync hidden native select
-                if (nativeSel) {
-                    nativeSel.value = val;
-                    // Fire change event so any listeners pick it up
-                    var ev = document.createEvent('Event');
-                    ev.initEvent('change', true, true);
-                    nativeSel.dispatchEvent(ev);
-                }
-
-                // Clear validation error state
-                cs.classList.remove('input-error');
-                cs.classList.add('input-valid');
-                var parentGroup = cs.closest('.search-group');
-                if (parentGroup) {
-                    var errMsg = parentGroup.querySelector('.field-error-msg');
-                    if (errMsg) errMsg.classList.remove('visible');
-                }
-
-                closeDropdown(cs);
-                trigger.focus();
-            }
-
-            // Close when clicking outside
-            document.addEventListener('click', function() {
-                closeAllDropdowns();
-            });
-        })();
-
-        // =============================================
-        //  CROSS-BROWSER FORM: Date min/max & Validation
-        // =============================================
-        (function initFormCompatibility() {
-            var pickupDateInput  = document.getElementById('search-pickup-date');
-            var returnDateInput  = document.getElementById('search-return-date');
-            var pickupLocSelect  = document.getElementById('search-pickup-loc'); // hidden native
-            var csLocation       = document.getElementById('cs-location');       // custom wrapper
-            var form             = document.getElementById('quick-search-form');
-
-            // --- Set today as minimum date ---
-            function getTodayISO() {
-                var d = new Date();
-                var mm = String(d.getMonth() + 1).padStart('2', '0');
-                var dd = String(d.getDate()).padStart('2', '0');
-                return d.getFullYear() + '-' + mm + '-' + dd;
-            }
-            if (!String.prototype.padStart) {
-                String.prototype.padStart = function(targetLength, padString) {
-                    var str = String(this);
-                    while (str.length < targetLength) str = padString + str;
-                    return str;
-                };
-            }
-            var todayISO = getTodayISO();
-            if (pickupDateInput)  pickupDateInput.setAttribute('min', todayISO);
-            if (returnDateInput)  returnDateInput.setAttribute('min', todayISO);
-
-            // --- Sync return date min on pickup change ---
-            if (pickupDateInput) {
-                pickupDateInput.addEventListener('change', function() {
-                    var val = this.value;
-                    if (val) {
-                        returnDateInput.setAttribute('min', val);
-                        if (returnDateInput.value && returnDateInput.value < val) {
-                            returnDateInput.value = '';
-                            returnDateInput.classList.remove('input-valid');
-                        }
-                    }
-                    validateDateField(this, 'err-pickup-date', 'Please select a valid pickup date.');
-                });
-            }
-            if (returnDateInput) {
-                returnDateInput.addEventListener('change', function() { validateReturnDate(); });
-            }
-
-            // --- Date field validator ---
-            function validateDateField(field, errId, msg) {
-                var errEl = document.getElementById(errId);
-                if (!field.value) {
-                    field.classList.add('input-error');
-                    field.classList.remove('input-valid');
-                    if (errEl) { errEl.textContent = msg; errEl.classList.add('visible'); }
-                    return false;
-                }
-                field.classList.remove('input-error');
-                field.classList.add('input-valid');
-                if (errEl) errEl.classList.remove('visible');
-                return true;
-            }
-
-            // --- Custom-select (location) validator ---
-            function validateLocation() {
-                var errEl = document.getElementById('err-pickup-loc');
-                if (!pickupLocSelect || !pickupLocSelect.value) {
-                    if (csLocation) { csLocation.classList.add('input-error'); csLocation.classList.remove('input-valid'); }
-                    if (errEl) { errEl.textContent = 'Please select a pickup location.'; errEl.classList.add('visible'); }
-                    return false;
-                }
-                if (csLocation) { csLocation.classList.remove('input-error'); csLocation.classList.add('input-valid'); }
-                if (errEl) errEl.classList.remove('visible');
-                return true;
-            }
-
-            function validateReturnDate() {
-                var errEl = document.getElementById('err-return-date');
-                if (!returnDateInput.value) {
-                    returnDateInput.classList.add('input-error');
-                    returnDateInput.classList.remove('input-valid');
-                    if (errEl) { errEl.textContent = 'Please select a return date.'; errEl.classList.add('visible'); }
-                    return false;
-                }
-                if (pickupDateInput.value && returnDateInput.value <= pickupDateInput.value) {
-                    returnDateInput.classList.add('input-error');
-                    returnDateInput.classList.remove('input-valid');
-                    if (errEl) { errEl.textContent = 'Return date must be after pickup date.'; errEl.classList.add('visible'); }
-                    return false;
-                }
-                returnDateInput.classList.remove('input-error');
-                returnDateInput.classList.add('input-valid');
-                if (errEl) errEl.classList.remove('visible');
-                return true;
-            }
-
-            // --- Form submit ---
-            if (form) {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    var locOk    = validateLocation();
-                    var pickupOk = validateDateField(pickupDateInput, 'err-pickup-date', 'Please select a valid pickup date.');
-                    var returnOk = validateReturnDate();
-                    if (!locOk || !pickupOk || !returnOk) {
-                        var firstErr = form.querySelector('.input-error');
-                        if (firstErr) firstErr.focus();
-                        return;
-                    }
-                    handleQuickSearch();
-                });
-            }
-        })();
-
-        // QUICK SEARCH REDIRECT (called after validation)
-        function handleQuickSearch() {
-            var category   = document.getElementById('search-category').value;
-            var pickupLoc  = document.getElementById('search-pickup-loc').value;
-            var pickupDate = document.getElementById('search-pickup-date').value;
-            var returnDate = document.getElementById('search-return-date').value;
-            try {
-                sessionStorage.setItem('search_category',    category);
-                sessionStorage.setItem('search_pickup_loc',  pickupLoc);
-                sessionStorage.setItem('search_pickup_date', pickupDate);
-                sessionStorage.setItem('search_return_date', returnDate);
-            } catch(err) {}
+            // Redirect to booking page
             window.location.href = 'booking.html';
         }
     </script>
