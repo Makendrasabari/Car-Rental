@@ -590,7 +590,7 @@
             padding: 30px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.6);
             backdrop-filter: blur(12px);
-            overflow: hidden;
+            /* overflow: hidden removed — was clipping select/custom dropdown panels */
         }
         .booking-search-grid {
             display: grid;
@@ -604,7 +604,7 @@
             gap: 8px;
             position: relative;
             min-width: 0;
-            overflow: hidden;
+            /* overflow: hidden removed — was clipping custom dropdown list panel */
         }
         .search-label {
             font-size: 0.85rem;
@@ -1864,6 +1864,122 @@
                 padding: 8px;
             }
         }
+
+        /* ============================================================
+           CUSTOM CATEGORY DROPDOWN
+           Uses position:fixed for the panel so it escapes all parent
+           stacking contexts (AOS transforms, backdrop-filter, overflow)
+           and renders correctly in Edge, Chrome, Firefox & Safari at
+           any viewport width from 320px upward.
+        ============================================================ */
+        .custom-select-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .custom-select-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-deep);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-main);
+            padding: 14px 16px;
+            border-radius: 4px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .custom-select-trigger:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(212,90,13,0.25);
+        }
+        .custom-select-trigger.open {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(212,90,13,0.25);
+        }
+        .custom-select-trigger .trigger-text {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: left;
+        }
+        .custom-select-trigger .trigger-arrow {
+            flex-shrink: 0;
+            margin-left: 10px;
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s ease;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .custom-select-trigger.open .trigger-arrow {
+            transform: rotate(180deg);
+        }
+        /* The dropdown panel is appended to <body> and uses position:fixed
+           so it is never clipped by any ancestor overflow or transform */
+        .custom-select-panel {
+            position: fixed;
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: 6px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.7);
+            z-index: 99990;
+            overflow-y: auto;
+            max-height: 240px;
+            min-width: 160px;
+            display: none;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) var(--bg-deep);
+        }
+        .custom-select-panel::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-select-panel::-webkit-scrollbar-track {
+            background: var(--bg-deep);
+        }
+        .custom-select-panel::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 3px;
+        }
+        .custom-select-panel.is-open {
+            display: block;
+            animation: csDropIn 0.2s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        @keyframes csDropIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .custom-select-option {
+            padding: 12px 16px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+            white-space: nowrap;
+        }
+        .custom-select-option:hover {
+            background: rgba(212,90,13,0.15);
+            color: var(--accent);
+        }
+        .custom-select-option.selected {
+            background: rgba(212,90,13,0.2);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        /* Hidden real value holder (read by JS, not visible) */
+        .custom-select-value {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -1948,14 +2064,30 @@
         <div class="booking-search-card">
             <form id="quick-search-form" class="booking-search-grid" onsubmit="handleQuickSearch(event)">
                 <div class="search-group">
-                    <label class="search-label"><i class="fa-solid fa-car"></i> Car Category</label>
-                    <select id="search-category" class="search-input">
-                        <option value="all">All Categories</option>
-                        <option value="luxury">Luxury Sedans</option>
-                        <option value="sports">Sports Cars</option>
-                        <option value="suv">Premium SUVs</option>
-                        <option value="electric">Electric Cars</option>
-                    </select>
+                    <label class="search-label" id="cat-label"><i class="fa-solid fa-car"></i> Car Category</label>
+                    <!-- Custom dropdown replaces native <select> to fix Edge 360px clipping bug.
+                         Root cause: parent overflow:hidden + backdrop-filter + AOS transform
+                         created stacking contexts that trapped the native dropdown popup. -->
+                    <div class="custom-select-wrapper"
+                         role="combobox"
+                         aria-haspopup="listbox"
+                         aria-expanded="false"
+                         aria-labelledby="cat-label"
+                         id="cat-combobox">
+                        <button type="button"
+                                class="custom-select-trigger"
+                                id="cat-trigger"
+                                aria-controls="cat-panel"
+                                tabindex="0">
+                            <span class="trigger-text" id="cat-trigger-text">All Categories</span>
+                            <span class="trigger-arrow" aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </span>
+                        </button>
+                        <!-- Value holder read by handleQuickSearch -->
+                        <input type="hidden" id="search-category" class="custom-select-value" value="all">
+                    </div>
+                    <!-- Panel is appended to <body> at runtime by JS (position:fixed escapes stacking contexts) -->
                 </div>
                 <div class="search-group">
                     <label class="search-label"><i class="fa-solid fa-location-dot"></i> Pickup Location</label>
@@ -2846,6 +2978,7 @@
         // QUICK SEARCH SUBMIT
         function handleQuickSearch(e) {
             e.preventDefault();
+            // Read from hidden input — works whether native select or custom dropdown
             const category = document.getElementById('search-category').value;
             const pickupLoc = document.getElementById('search-pickup-loc').value;
             const pickupDate = document.getElementById('search-pickup-date').value;
@@ -2860,6 +2993,154 @@
             // Redirect to booking page
             window.location.href = 'booking.html';
         }
+
+        /* ============================================================
+           CUSTOM CATEGORY DROPDOWN — Cross-Browser Safe
+           The panel is appended to <body> and positioned via
+           getBoundingClientRect() + position:fixed, so it is never
+           clipped by ancestor overflow, AOS transforms, backdrop-filter
+           or any other stacking-context-creating properties.
+        ============================================================ */
+        (function () {
+            var OPTIONS = [
+                { value: 'all',      label: 'All Categories'  },
+                { value: 'luxury',   label: 'Luxury Sedans'   },
+                { value: 'sports',   label: 'Sports Cars'     },
+                { value: 'suv',      label: 'Premium SUVs'    },
+                { value: 'electric', label: 'Electric Cars'   }
+            ];
+
+            var trigger      = document.getElementById('cat-trigger');
+            var triggerText  = document.getElementById('cat-trigger-text');
+            var valueInput   = document.getElementById('search-category');
+            var combobox     = document.getElementById('cat-combobox');
+            var selectedVal  = 'all';
+            var panel        = null;
+            var isOpen       = false;
+
+            // Build the floating panel and append it to <body>
+            function buildPanel() {
+                panel = document.createElement('div');
+                panel.className = 'custom-select-panel';
+                panel.id = 'cat-panel';
+                panel.setAttribute('role', 'listbox');
+                panel.setAttribute('aria-label', 'Car Category');
+
+                OPTIONS.forEach(function (opt) {
+                    var item = document.createElement('div');
+                    item.className = 'custom-select-option' + (opt.value === selectedVal ? ' selected' : '');
+                    item.textContent = opt.label;
+                    item.setAttribute('role', 'option');
+                    item.setAttribute('data-value', opt.value);
+                    item.setAttribute('aria-selected', opt.value === selectedVal ? 'true' : 'false');
+                    item.addEventListener('mousedown', function (e) {
+                        e.preventDefault(); // prevent trigger blur before selection
+                        selectOption(opt.value, opt.label);
+                        closePanel();
+                    });
+                    panel.appendChild(item);
+                });
+
+                document.body.appendChild(panel);
+            }
+
+            // Position the panel directly below the trigger using fixed coords
+            function positionPanel() {
+                var rect = trigger.getBoundingClientRect();
+                var panelH = 240; // max-height
+                var spaceBelow = window.innerHeight - rect.bottom - 8;
+                var spaceAbove = rect.top - 8;
+
+                panel.style.left  = rect.left + 'px';
+                panel.style.width = rect.width + 'px';
+
+                if (spaceBelow >= Math.min(panelH, panel.scrollHeight) || spaceBelow >= spaceAbove) {
+                    // Open below
+                    panel.style.top    = (rect.bottom + 6) + 'px';
+                    panel.style.bottom = 'auto';
+                } else {
+                    // Open above if no room below
+                    panel.style.bottom = (window.innerHeight - rect.top + 6) + 'px';
+                    panel.style.top    = 'auto';
+                }
+            }
+
+            function openPanel() {
+                if (isOpen) return;
+                isOpen = true;
+                positionPanel();
+                panel.classList.add('is-open');
+                trigger.classList.add('open');
+                combobox.setAttribute('aria-expanded', 'true');
+                // Scroll selected option into view
+                var sel = panel.querySelector('.selected');
+                if (sel) sel.scrollIntoView({ block: 'nearest' });
+            }
+
+            function closePanel() {
+                if (!isOpen) return;
+                isOpen = false;
+                panel.classList.remove('is-open');
+                trigger.classList.remove('open');
+                combobox.setAttribute('aria-expanded', 'false');
+            }
+
+            function selectOption(val, label) {
+                selectedVal = val;
+                valueInput.value = val;
+                triggerText.textContent = label;
+                // Update aria-selected on all options
+                panel.querySelectorAll('.custom-select-option').forEach(function (el) {
+                    var isSelected = el.getAttribute('data-value') === val;
+                    el.classList.toggle('selected', isSelected);
+                    el.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+                });
+            }
+
+            // Toggle on trigger click
+            trigger.addEventListener('click', function (e) {
+                e.stopPropagation();
+                if (isOpen) { closePanel(); } else { openPanel(); }
+            });
+
+            // Keyboard navigation
+            trigger.addEventListener('keydown', function (e) {
+                var opts = panel ? panel.querySelectorAll('.custom-select-option') : [];
+                var cur  = panel ? panel.querySelector('.selected') : null;
+                var idx  = cur ? Array.prototype.indexOf.call(opts, cur) : -1;
+
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    if (isOpen) { closePanel(); } else { openPanel(); }
+                } else if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    if (!isOpen) { openPanel(); }
+                    var next = opts[Math.min(idx + 1, opts.length - 1)];
+                    if (next) { selectOption(next.getAttribute('data-value'), next.textContent); }
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (!isOpen) { openPanel(); }
+                    var prev = opts[Math.max(idx - 1, 0)];
+                    if (prev) { selectOption(prev.getAttribute('data-value'), prev.textContent); }
+                } else if (e.key === 'Escape' || e.key === 'Tab') {
+                    closePanel();
+                }
+            });
+
+            // Close on outside click
+            document.addEventListener('click', function (e) {
+                if (isOpen && !trigger.contains(e.target) && (!panel || !panel.contains(e.target))) {
+                    closePanel();
+                }
+            });
+
+            // Reposition on resize/scroll (because panel is fixed)
+            window.addEventListener('resize', function () { if (isOpen) positionPanel(); }, { passive: true });
+            window.addEventListener('scroll', function () { if (isOpen) positionPanel(); }, { passive: true, capture: true });
+
+            // Build after DOM is ready
+            buildPanel();
+        })();
     </script>
 </body>
 </html>
