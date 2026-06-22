@@ -518,14 +518,14 @@
         }
         .input-search:focus {
             border-color: var(--accent);
-            box-shadow: 0 0 10px rgba(212,90,13,0.2);
+            box-shadow: 0 0 0 3px rgba(212, 90, 13, 0.25);
         }
         .select-sort {
             background-color: var(--bg-secondary);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 4px;
             color: var(--text-main);
-            padding: 14px 20px;
+            padding: 14px 40px 14px 20px;
             font-family: var(--font-body);
             outline: none;
             cursor: pointer;
@@ -537,9 +537,31 @@
             overflow-x: hidden;
             overflow-y: auto;
             max-height: 200px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d45a0d' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
         }
         .select-sort:focus {
             border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(212, 90, 13, 0.25);
+        }
+        .select-sort option {
+            background-color: var(--bg-secondary);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            padding: 12px;
+        }
+        /* Autofill overrides for dark theme */
+        .input-search:-webkit-autofill,
+        .input-search:-webkit-autofill:hover, 
+        .input-search:-webkit-autofill:focus {
+            -webkit-text-fill-color: var(--text-main) !important;
+            -webkit-box-shadow: 0 0 0px 1000px var(--bg-secondary) inset !important;
+            transition: background-color 5000s ease-in-out 0s;
         }
         .categories-filter-bar {
             display: flex;
@@ -1146,29 +1168,6 @@
             .select-sort {
                 padding: 8px;
             }
-        }
-
-        /* CROSS BROWSER COMPATIBILITY & EDGE ENHANCEMENTS */
-        input::-ms-clear {
-            display: none;
-            width: 0;
-            height: 0;
-        }
-        input::-ms-reveal {
-            display: none;
-            width: 0;
-            height: 0;
-        }
-        select::-ms-expand {
-            display: none;
-        }
-        input:-webkit-autofill,
-        input:-webkit-autofill:hover,
-        input:-webkit-autofill:focus,
-        input:-webkit-autofill:active {
-            -webkit-box-shadow: 0 0 0 1000px #0F0F0F inset !important;
-            -webkit-text-fill-color: var(--text-main) !important;
-            transition: background-color 5000s ease-in-out 0s;
         }
     </style>
 </head>
