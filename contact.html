@@ -1045,6 +1045,29 @@
                 font-size: 1.8rem;
             }
         }
+
+        /* CROSS BROWSER COMPATIBILITY & EDGE ENHANCEMENTS */
+        input::-ms-clear {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+        input::-ms-reveal {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+        select::-ms-expand {
+            display: none;
+        }
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 1000px #0F0F0F inset !important;
+            -webkit-text-fill-color: var(--text-main) !important;
+            transition: background-color 5000s ease-in-out 0s;
+        }
     </style>
 </head>
 <body>

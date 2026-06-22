@@ -1658,3 +1658,48 @@ select {
     min-width: 0;
 }
 
+/* CROSS BROWSER COMPATIBILITY & EDGE ENHANCEMENTS */
+
+/* Hide MS Edge's default clear button in text inputs */
+input::-ms-clear {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+/* Hide MS Edge's default reveal (eye) button in password inputs */
+input::-ms-reveal {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+/* Hide MS Edge's default dropdown arrow on styled select boxes */
+select::-ms-expand {
+    display: none;
+}
+
+/* Normalize autocomplete/autofill styling to fit dark premium theme */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #141414 inset !important;
+    -webkit-text-fill-color: var(--text-primary) !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Customize browser default calendar picker icon for modern date inputs */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(53%) sepia(93%) saturate(2250%) hue-rotate(352deg) brightness(101%) contrast(97%);
+    cursor: pointer;
+    opacity: 0.8;
+    transition: var(--transition-smooth);
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+
