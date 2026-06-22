@@ -493,7 +493,7 @@
             position: relative;
             flex: 1;
             min-width: 0;
-            overflow: hidden;
+            /* overflow: hidden removed — was clipping custom dropdown panel */
         }
         .search-icon {
             position: absolute;
@@ -1166,6 +1166,88 @@
                 padding: 8px;
             }
         }
+
+        /* ============================================================
+           CUSTOM SELECT DROPDOWN — Cross-Browser / Edge Safe
+           Panel appended to <body> with position:fixed so it escapes
+           all parent overflow, AOS transforms, and backdrop-filter.
+        ============================================================ */
+        .cs-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .cs-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-secondary);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 4px;
+            color: var(--text-main);
+            padding: 14px 40px 14px 20px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            text-align: left;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d45a0d' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .cs-trigger:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(212,90,13,0.25);
+        }
+        .cs-trigger.open {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(212,90,13,0.25);
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d45a0d' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='18 15 12 9 6 15'%3E%3C/polyline%3E%3C/svg%3E");
+        }
+        .cs-panel {
+            position: fixed;
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: 6px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.7);
+            z-index: 99990;
+            overflow-y: auto;
+            max-height: 260px;
+            display: none;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) var(--bg-deep);
+        }
+        .cs-panel::-webkit-scrollbar { width: 5px; }
+        .cs-panel::-webkit-scrollbar-track { background: var(--bg-deep); }
+        .cs-panel::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+        .cs-panel.is-open {
+            display: block;
+            animation: csDropIn 0.2s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        @keyframes csDropIn {
+            from { opacity:0; transform:translateY(-6px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+        .cs-option {
+            padding: 12px 20px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: background 0.15s ease, color 0.15s ease;
+            white-space: nowrap;
+        }
+        .cs-option:hover { background: rgba(212,90,13,0.15); color: var(--accent); }
+        .cs-option.selected { background: rgba(212,90,13,0.2); color: var(--accent); font-weight: 600; }
+        .cs-hidden { display: none !important; }
     </style>
 </head>
 <body>
@@ -1240,11 +1322,11 @@
                         <i class="fa-solid fa-magnifying-glass search-icon"></i>
                         <input type="text" id="search-input" class="input-search" placeholder="Search vehicle by name..." oninput="filterFleet()">
                     </div>
-                    <select id="sort-select" class="select-sort" onchange="filterFleet()">
-                        <option value="default">Sort By: Featured</option>
-                        <option value="price-asc">Price: Low to High</option>
-                        <option value="price-desc">Price: High to Low</option>
-                    </select>
+                    <!-- Custom dropdown replaces native <select> to fix Edge clipping bug -->
+                    <div class="cs-wrapper" id="sort-wrapper">
+                        <button type="button" class="cs-trigger" id="sort-trigger" tabindex="0">Sort By: Featured</button>
+                        <input type="hidden" id="sort-select" class="cs-hidden" value="default">
+                    </div>
                 </div>
                 <!-- Categories Bar -->
                 <div class="categories-filter-bar">
@@ -1677,8 +1759,8 @@
         // FILTER FLEET BASED ON CONTROLS
         function filterFleet() {
             const searchVal = document.getElementById('search-input').value.toLowerCase();
-            const sortVal = document.getElementById('sort-select').value;
-            
+            const sortVal = document.getElementById('sort-select').value; // reads hidden input
+
             // Filter by Category and Search Text
             let filtered = carFleetData.filter(car => {
                 const matchCategory = (selectedCategory === 'all' || car.category === selectedCategory);
@@ -1695,6 +1777,111 @@
 
             renderFleet(filtered);
         }
+
+        /* ============================================================
+           CUSTOM SELECT INITIALIZER — Cross-Browser Safe
+           Converts any trigger/hidden-input pair into a floating panel
+           attached to <body> so it is never clipped by parent elements.
+        ============================================================ */
+        function initCustomSelect(cfg) {
+            // cfg: { triggerId, inputId, options:[{value,label}], onChange }
+            var trigger = document.getElementById(cfg.triggerId);
+            var input   = document.getElementById(cfg.inputId);
+            var panel   = document.createElement('div');
+            var isOpen  = false;
+
+            panel.className = 'cs-panel';
+            panel.setAttribute('role', 'listbox');
+
+            cfg.options.forEach(function(opt) {
+                var item = document.createElement('div');
+                item.className = 'cs-option' + (opt.value === input.value ? ' selected' : '');
+                item.textContent = opt.label;
+                item.setAttribute('role', 'option');
+                item.setAttribute('data-value', opt.value);
+                item.setAttribute('aria-selected', opt.value === input.value ? 'true' : 'false');
+                item.addEventListener('mousedown', function(e) {
+                    e.preventDefault();
+                    // Update selection
+                    panel.querySelectorAll('.cs-option').forEach(function(el) {
+                        var sel = el.getAttribute('data-value') === opt.value;
+                        el.classList.toggle('selected', sel);
+                        el.setAttribute('aria-selected', sel ? 'true' : 'false');
+                    });
+                    input.value = opt.value;
+                    trigger.textContent = opt.label;
+                    closePanel();
+                    if (cfg.onChange) cfg.onChange(opt.value);
+                });
+                panel.appendChild(item);
+            });
+            document.body.appendChild(panel);
+
+            function positionPanel() {
+                var r = trigger.getBoundingClientRect();
+                panel.style.left  = r.left + 'px';
+                panel.style.width = r.width + 'px';
+                var spaceBelow = window.innerHeight - r.bottom - 8;
+                var spaceAbove = r.top - 8;
+                if (spaceBelow >= Math.min(260, panel.scrollHeight) || spaceBelow >= spaceAbove) {
+                    panel.style.top    = (r.bottom + 4) + 'px';
+                    panel.style.bottom = 'auto';
+                } else {
+                    panel.style.bottom = (window.innerHeight - r.top + 4) + 'px';
+                    panel.style.top    = 'auto';
+                }
+            }
+
+            function openPanel() {
+                if (isOpen) return;
+                isOpen = true;
+                positionPanel();
+                panel.classList.add('is-open');
+                trigger.classList.add('open');
+                var sel = panel.querySelector('.selected');
+                if (sel) sel.scrollIntoView({ block: 'nearest' });
+            }
+
+            function closePanel() {
+                if (!isOpen) return;
+                isOpen = false;
+                panel.classList.remove('is-open');
+                trigger.classList.remove('open');
+            }
+
+            trigger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (isOpen) closePanel(); else openPanel();
+            });
+
+            trigger.addEventListener('keydown', function(e) {
+                var opts = panel.querySelectorAll('.cs-option');
+                var cur  = panel.querySelector('.selected');
+                var idx  = cur ? Array.prototype.indexOf.call(opts, cur) : -1;
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (isOpen) closePanel(); else openPanel(); }
+                else if (e.key === 'ArrowDown') { e.preventDefault(); if (!isOpen) openPanel(); var nx = opts[Math.min(idx+1, opts.length-1)]; if (nx) nx.dispatchEvent(new Event('mousedown')); }
+                else if (e.key === 'ArrowUp')   { e.preventDefault(); if (!isOpen) openPanel(); var pv = opts[Math.max(idx-1, 0)];           if (pv) pv.dispatchEvent(new Event('mousedown')); }
+                else if (e.key === 'Escape' || e.key === 'Tab') closePanel();
+            });
+
+            document.addEventListener('click', function(e) {
+                if (isOpen && !trigger.contains(e.target) && !panel.contains(e.target)) closePanel();
+            });
+            window.addEventListener('resize', function() { if (isOpen) positionPanel(); }, { passive: true });
+            window.addEventListener('scroll', function() { if (isOpen) positionPanel(); }, { passive: true, capture: true });
+        }
+
+        // Initialize Sort dropdown
+        initCustomSelect({
+            triggerId: 'sort-trigger',
+            inputId:   'sort-select',
+            options: [
+                { value: 'default',    label: 'Sort By: Featured'    },
+                { value: 'price-asc',  label: 'Price: Low to High'   },
+                { value: 'price-desc', label: 'Price: High to Low'   }
+            ],
+            onChange: function() { filterFleet(); }
+        });
 
         // SET CATEGORY TAB
         function setCategory(elem) {

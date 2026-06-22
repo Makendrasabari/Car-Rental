@@ -476,7 +476,7 @@
             margin-bottom: 24px;
             position: relative;
             min-width: 0;
-            overflow: hidden;
+            /* overflow: hidden removed — was clipping custom dropdown panels */
         }
         .form-group.full-width {
             grid-column: 1 / -1;
@@ -1104,6 +1104,91 @@
                 padding: 8px;
             }
         }
+
+        /* ============================================================
+           CUSTOM SELECT DROPDOWN — Cross-Browser / Edge Safe
+           Panel is appended to <body> using position:fixed, so it can
+           never be clipped by parent overflow, AOS transforms, or
+           backdrop-filter stacking contexts.
+        ============================================================ */
+        .cs-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .cs-trigger {
+            display: flex;
+            align-items: center;
+            background: var(--bg-deep);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 4px;
+            color: var(--text-main);
+            padding: 14px 40px 14px 16px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            text-align: left;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d45a0d' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .cs-trigger:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(212,90,13,0.25);
+        }
+        .cs-trigger.open {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(212,90,13,0.25);
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d45a0d' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='18 15 12 9 6 15'%3E%3C/polyline%3E%3C/svg%3E");
+        }
+        .cs-panel {
+            position: fixed;
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: 6px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.7);
+            z-index: 99990;
+            overflow-y: auto;
+            max-height: 260px;
+            display: none;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) var(--bg-deep);
+        }
+        .cs-panel::-webkit-scrollbar { width: 5px; }
+        .cs-panel::-webkit-scrollbar-track { background: var(--bg-deep); }
+        .cs-panel::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+        .cs-panel.is-open {
+            display: block;
+            animation: csDropIn 0.2s cubic-bezier(0.16,1,0.3,1) both;
+        }
+        @keyframes csDropIn {
+            from { opacity:0; transform:translateY(-6px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
+        .cs-option {
+            padding: 12px 16px;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: background 0.15s ease, color 0.15s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .cs-option:hover { background: rgba(212,90,13,0.15); color: var(--accent); }
+        .cs-option.selected { background: rgba(212,90,13,0.2); color: var(--accent); font-weight: 600; }
+        .cs-placeholder { color: var(--text-muted); }
+        .cs-hidden { display: none !important; }
     </style>
 </head>
 <body>
@@ -1193,23 +1278,12 @@
                                 <input type="tel" id="phone" class="form-input" placeholder="e.g. +91 9876543210" pattern="^[0-9+\s\-]{10,15}$" required>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" for="vehicle-select">Vehicle Selection</label>
-                                <select id="vehicle-select" class="form-input" onchange="calculateInvoice()" required>
-                                    <option value="" disabled selected>Choose a vehicle</option>
-                                    <option value="Rolls-Royce Phantom">Rolls-Royce Phantom (₹75,000/Day)</option>
-                                    <option value="Bentley Flying Spur">Bentley Flying Spur (₹65,000/Day)</option>
-                                    <option value="Lamborghini Aventador">Lamborghini Aventador (₹95,000/Day)</option>
-                                    <option value="Ferrari F8 Tributo">Ferrari F8 Tributo (₹85,000/Day)</option>
-                                    <option value="Porsche 911 Carrera">Porsche 911 Carrera (₹45,000/Day)</option>
-                                    <option value="Range Rover Autobiography">Range Rover Autobiography (₹35,000/Day)</option>
-                                    <option value="Mercedes-Benz G63 AMG">Mercedes-Benz G63 AMG (₹50,000/Day)</option>
-                                    <option value="Lamborghini Urus">Lamborghini Urus (₹60,000/Day)</option>
-                                    <option value="Audi e-tron GT">Audi e-tron GT (₹40,000/Day)</option>
-                                    <option value="Tesla Model S Plaid">Tesla Model S Plaid (₹42,000/Day)</option>
-                                    <option value="Porsche Taycan Turbo S">Porsche Taycan Turbo S (₹48,000/Day)</option>
-                                    <option value="Mercedes-Maybach S-Class">Mercedes-Maybach S-Class (₹68,000/Day)</option>
-                                    <option value="Aston Martin Vantage">Aston Martin Vantage (₹55,000/Day)</option>
-                                </select>
+                                <label class="form-label" for="vehicle-trigger">Vehicle Selection</label>
+                                <!-- Custom dropdown: escapes parent overflow/AOS stacking context -->
+                                <div class="cs-wrapper" id="vehicle-wrapper">
+                                    <button type="button" class="cs-trigger cs-placeholder" id="vehicle-trigger" tabindex="0">Choose a vehicle</button>
+                                    <input type="hidden" id="vehicle-select" class="cs-hidden" value="" required>
+                                </div>
                             </div>
                         </div>
 
@@ -1217,24 +1291,18 @@
                         <h3 class="booking-card-title" style="margin-top: 40px;"><i class="fa-solid fa-calendar-days"></i> 2. Rental Details</h3>
                         <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label" for="pickup-loc">Pickup Location</label>
-                                <select id="pickup-loc" class="form-input" required>
-                                    <option value="" disabled selected>Select Pickup Location</option>
-                                    <option value="Salem">Salem Office</option>
-                                    <option value="Chennai">Chennai Airport</option>
-                                    <option value="Coimbatore">Coimbatore Airport</option>
-                                    <option value="Madurai">Madurai Office</option>
-                                </select>
+                                <label class="form-label" for="pickup-trigger">Pickup Location</label>
+                                <div class="cs-wrapper" id="pickup-wrapper">
+                                    <button type="button" class="cs-trigger cs-placeholder" id="pickup-trigger" tabindex="0">Select Pickup Location</button>
+                                    <input type="hidden" id="pickup-loc" class="cs-hidden" value="" required>
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" for="drop-loc">Drop-off Location</label>
-                                <select id="drop-loc" class="form-input" required>
-                                    <option value="" disabled selected>Select Drop Location</option>
-                                    <option value="Salem">Salem Office</option>
-                                    <option value="Chennai">Chennai Airport</option>
-                                    <option value="Coimbatore">Coimbatore Airport</option>
-                                    <option value="Madurai">Madurai Office</option>
-                                </select>
+                                <label class="form-label" for="drop-trigger">Drop-off Location</label>
+                                <div class="cs-wrapper" id="drop-wrapper">
+                                    <button type="button" class="cs-trigger cs-placeholder" id="drop-trigger" tabindex="0">Select Drop Location</button>
+                                    <input type="hidden" id="drop-loc" class="cs-hidden" value="" required>
+                                </div>
                             </div>
                         </div>
                         <div class="form-row">
@@ -1529,17 +1597,15 @@
             const savedPickupDate = sessionStorage.getItem('search_pickup_date');
             const savedReturnDate = sessionStorage.getItem('search_return_date');
 
-            if (savedPickupLoc) document.getElementById('pickup-loc').value = savedPickupLoc;
+            // These are set after initCustomSelect initializes the dropdowns
             if (savedPickupDate) document.getElementById('pickup-date').value = savedPickupDate;
             if (savedReturnDate) document.getElementById('return-date').value = savedReturnDate;
 
             // Check if user clicked Book Now on a specific car card
             const selectedCar = sessionStorage.getItem('selectedCarName');
-            if (selectedCar) {
-                document.getElementById('vehicle-select').value = selectedCar;
-                // Clear state
-                sessionStorage.removeItem('selectedCarName');
-            }
+
+            // Initialize all custom dropdowns first, then restore session values
+            initAllDropdowns(savedPickupLoc, selectedCar);
 
             // Trigger calculate
             calculateInvoice();
@@ -1696,6 +1762,177 @@
 
             // Redirect to 404 Page directly
             window.location.href = '404.html';
+        }
+        /* ============================================================
+           CUSTOM SELECT INITIALIZER — Cross-Browser Safe
+        ============================================================ */
+        function initCustomSelect(cfg) {
+            var trigger  = document.getElementById(cfg.triggerId);
+            var input    = document.getElementById(cfg.inputId);
+            var panel    = document.createElement('div');
+            var isOpen   = false;
+
+            panel.className = 'cs-panel';
+            panel.setAttribute('role', 'listbox');
+
+            // Placeholder row (empty value, not selectable)
+            if (cfg.placeholder) {
+                var ph = document.createElement('div');
+                ph.className = 'cs-option';
+                ph.style.color = 'var(--text-muted)';
+                ph.style.pointerEvents = 'none';
+                ph.textContent = cfg.placeholder;
+                panel.appendChild(ph);
+            }
+
+            cfg.options.forEach(function(opt) {
+                var item = document.createElement('div');
+                item.className = 'cs-option';
+                item.textContent = opt.label;
+                item.setAttribute('role', 'option');
+                item.setAttribute('data-value', opt.value);
+                item.setAttribute('aria-selected', 'false');
+                item.addEventListener('mousedown', function(e) {
+                    e.preventDefault();
+                    panel.querySelectorAll('.cs-option').forEach(function(el) {
+                        var sel = el.getAttribute('data-value') === opt.value;
+                        el.classList.toggle('selected', sel);
+                        el.setAttribute('aria-selected', sel ? 'true' : 'false');
+                    });
+                    input.value = opt.value;
+                    trigger.textContent = opt.label;
+                    trigger.classList.remove('cs-placeholder');
+                    closePanel();
+                    if (cfg.onChange) cfg.onChange(opt.value);
+                });
+                panel.appendChild(item);
+            });
+            document.body.appendChild(panel);
+
+            // Expose a method to set value programmatically
+            trigger._csSetValue = function(val) {
+                var match = cfg.options.find(function(o) { return o.value === val; });
+                if (match) {
+                    panel.querySelectorAll('.cs-option').forEach(function(el) {
+                        var sel = el.getAttribute('data-value') === val;
+                        el.classList.toggle('selected', sel);
+                        el.setAttribute('aria-selected', sel ? 'true' : 'false');
+                    });
+                    input.value = val;
+                    trigger.textContent = match.label;
+                    trigger.classList.remove('cs-placeholder');
+                    if (cfg.onChange) cfg.onChange(val);
+                }
+            };
+
+            function positionPanel() {
+                var r = trigger.getBoundingClientRect();
+                panel.style.left  = r.left + 'px';
+                panel.style.width = r.width + 'px';
+                var spaceBelow = window.innerHeight - r.bottom - 8;
+                var spaceAbove = r.top - 8;
+                if (spaceBelow >= Math.min(260, panel.scrollHeight) || spaceBelow >= spaceAbove) {
+                    panel.style.top    = (r.bottom + 4) + 'px';
+                    panel.style.bottom = 'auto';
+                } else {
+                    panel.style.bottom = (window.innerHeight - r.top + 4) + 'px';
+                    panel.style.top    = 'auto';
+                }
+            }
+
+            function openPanel() {
+                if (isOpen) return;
+                isOpen = true;
+                positionPanel();
+                panel.classList.add('is-open');
+                trigger.classList.add('open');
+                var sel = panel.querySelector('.selected');
+                if (sel) sel.scrollIntoView({ block: 'nearest' });
+            }
+
+            function closePanel() {
+                if (!isOpen) return;
+                isOpen = false;
+                panel.classList.remove('is-open');
+                trigger.classList.remove('open');
+            }
+
+            trigger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (isOpen) closePanel(); else openPanel();
+            });
+            trigger.addEventListener('keydown', function(e) {
+                var opts = Array.prototype.slice.call(panel.querySelectorAll('.cs-option[data-value]'));
+                var cur  = panel.querySelector('.selected');
+                var idx  = cur ? opts.indexOf(cur) : -1;
+                if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (isOpen) closePanel(); else openPanel(); }
+                else if (e.key === 'ArrowDown') { e.preventDefault(); if (!isOpen) openPanel(); var nx = opts[Math.min(idx+1, opts.length-1)]; if (nx) nx.dispatchEvent(new Event('mousedown')); }
+                else if (e.key === 'ArrowUp')   { e.preventDefault(); if (!isOpen) openPanel(); var pv = opts[Math.max(idx-1, 0)];           if (pv) pv.dispatchEvent(new Event('mousedown')); }
+                else if (e.key === 'Escape' || e.key === 'Tab') closePanel();
+            });
+            document.addEventListener('click', function(e) {
+                if (isOpen && !trigger.contains(e.target) && !panel.contains(e.target)) closePanel();
+            });
+            window.addEventListener('resize', function() { if (isOpen) positionPanel(); }, { passive: true });
+            window.addEventListener('scroll', function() { if (isOpen) positionPanel(); }, { passive: true, capture: true });
+        }
+
+        // Location options
+        var LOC_OPTIONS = [
+            { value: 'Salem',      label: 'Salem Office'       },
+            { value: 'Chennai',    label: 'Chennai Airport'    },
+            { value: 'Coimbatore', label: 'Coimbatore Airport' },
+            { value: 'Madurai',    label: 'Madurai Office'     }
+        ];
+
+        // Vehicle options
+        var VEHICLE_OPTIONS = [
+            { value: 'Rolls-Royce Phantom',      label: 'Rolls-Royce Phantom (\u20B975,000/Day)'      },
+            { value: 'Bentley Flying Spur',       label: 'Bentley Flying Spur (\u20B965,000/Day)'       },
+            { value: 'Lamborghini Aventador',     label: 'Lamborghini Aventador (\u20B995,000/Day)'     },
+            { value: 'Ferrari F8 Tributo',        label: 'Ferrari F8 Tributo (\u20B985,000/Day)'        },
+            { value: 'Porsche 911 Carrera',       label: 'Porsche 911 Carrera (\u20B945,000/Day)'       },
+            { value: 'Range Rover Autobiography', label: 'Range Rover Autobiography (\u20B935,000/Day)' },
+            { value: 'Mercedes-Benz G63 AMG',     label: 'Mercedes-Benz G63 AMG (\u20B950,000/Day)'     },
+            { value: 'Lamborghini Urus',          label: 'Lamborghini Urus (\u20B960,000/Day)'          },
+            { value: 'Audi e-tron GT',            label: 'Audi e-tron GT (\u20B940,000/Day)'            },
+            { value: 'Tesla Model S Plaid',       label: 'Tesla Model S Plaid (\u20B942,000/Day)'       },
+            { value: 'Porsche Taycan Turbo S',    label: 'Porsche Taycan Turbo S (\u20B948,000/Day)'    },
+            { value: 'Mercedes-Maybach S-Class',  label: 'Mercedes-Maybach S-Class (\u20B968,000/Day)'  },
+            { value: 'Aston Martin Vantage',      label: 'Aston Martin Vantage (\u20B955,000/Day)'      }
+        ];
+
+        function initAllDropdowns(savedPickupLoc, selectedCar) {
+            initCustomSelect({
+                triggerId:   'vehicle-trigger',
+                inputId:     'vehicle-select',
+                placeholder: 'Choose a vehicle',
+                options:     VEHICLE_OPTIONS,
+                onChange: function() { calculateInvoice(); }
+            });
+            initCustomSelect({
+                triggerId:   'pickup-trigger',
+                inputId:     'pickup-loc',
+                placeholder: 'Select Pickup Location',
+                options:     LOC_OPTIONS
+            });
+            initCustomSelect({
+                triggerId:   'drop-trigger',
+                inputId:     'drop-loc',
+                placeholder: 'Select Drop Location',
+                options:     LOC_OPTIONS
+            });
+
+            // Restore session values via programmatic setters
+            if (savedPickupLoc) {
+                var pt = document.getElementById('pickup-trigger');
+                if (pt && pt._csSetValue) pt._csSetValue(savedPickupLoc);
+            }
+            if (selectedCar) {
+                var vt = document.getElementById('vehicle-trigger');
+                if (vt && vt._csSetValue) vt._csSetValue(selectedCar);
+                sessionStorage.removeItem('selectedCarName');
+            }
         }
     </script>
 </body>

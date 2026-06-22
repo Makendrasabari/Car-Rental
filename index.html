@@ -2090,14 +2090,26 @@
                     <!-- Panel is appended to <body> at runtime by JS (position:fixed escapes stacking contexts) -->
                 </div>
                 <div class="search-group">
-                    <label class="search-label"><i class="fa-solid fa-location-dot"></i> Pickup Location</label>
-                    <select id="search-pickup-loc" class="search-input" required>
-                        <option value="" disabled selected>Select location</option>
-                        <option value="Salem">Salem Office</option>
-                        <option value="Chennai">Chennai Airport</option>
-                        <option value="Coimbatore">Coimbatore Airport</option>
-                        <option value="Madurai">Madurai Office</option>
-                    </select>
+                    <label class="search-label" id="loc-label"><i class="fa-solid fa-location-dot"></i> Pickup Location</label>
+                    <div class="custom-select-wrapper"
+                         role="combobox"
+                         aria-haspopup="listbox"
+                         aria-expanded="false"
+                         aria-labelledby="loc-label"
+                         id="loc-combobox">
+                        <button type="button"
+                                class="custom-select-trigger"
+                                id="loc-trigger"
+                                aria-controls="loc-panel"
+                                tabindex="0">
+                            <span class="trigger-text" id="loc-trigger-text">Select location</span>
+                            <span class="trigger-arrow" aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                            </span>
+                        </button>
+                        <!-- Value holder read by handleQuickSearch -->
+                        <input type="hidden" id="search-pickup-loc" class="custom-select-value" value="">
+                    </div>
                 </div>
                 <div class="search-group">
                     <label class="search-label"><i class="fa-solid fa-calendar-days"></i> Pickup Date</label>
@@ -2984,6 +2996,16 @@
             const pickupDate = document.getElementById('search-pickup-date').value;
             const returnDate = document.getElementById('search-return-date').value;
 
+            if (!pickupLoc) {
+                const trigger = document.getElementById('loc-trigger');
+                if (trigger) {
+                    trigger.style.borderColor = '#EF4444';
+                    trigger.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.25)';
+                    trigger.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                return;
+            }
+
             // Save search params to sessionStorage for booking.html to pick up
             sessionStorage.setItem('search_category', category);
             sessionStorage.setItem('search_pickup_loc', pickupLoc);
@@ -3139,6 +3161,143 @@
             window.addEventListener('scroll', function () { if (isOpen) positionPanel(); }, { passive: true, capture: true });
 
             // Build after DOM is ready
+            buildPanel();
+        })();
+
+        /* ============================================================
+           CUSTOM PICKUP LOCATION DROPDOWN — Cross-Browser Safe
+        ============================================================ */
+        (function () {
+            var OPTIONS = [
+                { value: 'Salem',      label: 'Salem Office'      },
+                { value: 'Chennai',    label: 'Chennai Airport'    },
+                { value: 'Coimbatore', label: 'Coimbatore Airport' },
+                { value: 'Madurai',    label: 'Madurai Office'     }
+            ];
+
+            var trigger      = document.getElementById('loc-trigger');
+            var triggerText  = document.getElementById('loc-trigger-text');
+            var valueInput   = document.getElementById('search-pickup-loc');
+            var combobox     = document.getElementById('loc-combobox');
+            var selectedVal  = '';
+            var panel        = null;
+            var isOpen       = false;
+
+            function buildPanel() {
+                panel = document.createElement('div');
+                panel.className = 'custom-select-panel';
+                panel.id = 'loc-panel';
+                panel.setAttribute('role', 'listbox');
+                panel.setAttribute('aria-label', 'Pickup Location');
+
+                OPTIONS.forEach(function (opt) {
+                    var item = document.createElement('div');
+                    item.className = 'custom-select-option' + (opt.value === selectedVal ? ' selected' : '');
+                    item.textContent = opt.label;
+                    item.setAttribute('role', 'option');
+                    item.setAttribute('data-value', opt.value);
+                    item.setAttribute('aria-selected', opt.value === selectedVal ? 'true' : 'false');
+                    item.addEventListener('mousedown', function (e) {
+                        e.preventDefault();
+                        selectOption(opt.value, opt.label);
+                        closePanel();
+                    });
+                    panel.appendChild(item);
+                });
+
+                document.body.appendChild(panel);
+            }
+
+            function positionPanel() {
+                var rect = trigger.getBoundingClientRect();
+                var panelH = 240;
+                var spaceBelow = window.innerHeight - rect.bottom - 8;
+                var spaceAbove = rect.top - 8;
+
+                panel.style.left  = rect.left + 'px';
+                panel.style.width = rect.width + 'px';
+
+                if (spaceBelow >= Math.min(panelH, panel.scrollHeight) || spaceBelow >= spaceAbove) {
+                    panel.style.top    = (rect.bottom + 6) + 'px';
+                    panel.style.bottom = 'auto';
+                } else {
+                    panel.style.bottom = (window.innerHeight - rect.top + 6) + 'px';
+                    panel.style.top    = 'auto';
+                }
+            }
+
+            function openPanel() {
+                if (isOpen) return;
+                isOpen = true;
+                positionPanel();
+                panel.classList.add('is-open');
+                trigger.classList.add('open');
+                combobox.setAttribute('aria-expanded', 'true');
+                var sel = panel.querySelector('.selected');
+                if (sel) sel.scrollIntoView({ block: 'nearest' });
+            }
+
+            function closePanel() {
+                if (!isOpen) return;
+                isOpen = false;
+                panel.classList.remove('is-open');
+                trigger.classList.remove('open');
+                combobox.setAttribute('aria-expanded', 'false');
+            }
+
+            function selectOption(val, label) {
+                selectedVal = val;
+                valueInput.value = val;
+                triggerText.textContent = label;
+                
+                // Clear validation styles if selected
+                trigger.style.borderColor = '';
+                trigger.style.boxShadow = '';
+
+                panel.querySelectorAll('.custom-select-option').forEach(function (el) {
+                    var isSelected = el.getAttribute('data-value') === val;
+                    el.classList.toggle('selected', isSelected);
+                    el.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+                });
+            }
+
+            trigger.addEventListener('click', function (e) {
+                e.stopPropagation();
+                if (isOpen) { closePanel(); } else { openPanel(); }
+            });
+
+            trigger.addEventListener('keydown', function (e) {
+                var opts = panel ? panel.querySelectorAll('.custom-select-option') : [];
+                var cur  = panel ? panel.querySelector('.selected') : null;
+                var idx  = cur ? Array.prototype.indexOf.call(opts, cur) : -1;
+
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    if (isOpen) { closePanel(); } else { openPanel(); }
+                } else if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    if (!isOpen) { openPanel(); }
+                    var next = opts[Math.min(idx + 1, opts.length - 1)];
+                    if (next) { selectOption(next.getAttribute('data-value'), next.textContent); }
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (!isOpen) { openPanel(); }
+                    var prev = opts[Math.max(idx - 1, 0)];
+                    if (prev) { selectOption(prev.getAttribute('data-value'), prev.textContent); }
+                } else if (e.key === 'Escape' || e.key === 'Tab') {
+                    closePanel();
+                }
+            });
+
+            document.addEventListener('click', function (e) {
+                if (isOpen && !trigger.contains(e.target) && (!panel || !panel.contains(e.target))) {
+                    closePanel();
+                }
+            });
+
+            window.addEventListener('resize', function () { if (isOpen) positionPanel(); }, { passive: true });
+            window.addEventListener('scroll', function () { if (isOpen) positionPanel(); }, { passive: true, capture: true });
+
             buildPanel();
         })();
     </script>

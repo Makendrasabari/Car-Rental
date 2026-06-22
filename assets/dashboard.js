@@ -233,6 +233,26 @@ function initTravelerDashboard() {
         sessionStorage.setItem('userRole', 'traveler');
     }
 
+    // Initialize custom selects
+    initCustomSelect({
+        triggerId: 'flights-filter-trigger',
+        inputId: 'traveler-flights-filter',
+        options: [
+            { value: 'all', label: 'All Dates' },
+            { value: 'upcoming', label: 'Upcoming' },
+            { value: 'past', label: 'Past' }
+        ]
+    });
+    initCustomSelect({
+        triggerId: 'hotels-filter-trigger',
+        inputId: 'traveler-hotels-filter',
+        options: [
+            { value: 'all', label: 'All Hotel Stays' },
+            { value: 'upcoming', label: 'Upcoming' },
+            { value: 'past', label: 'Past' }
+        ]
+    });
+
     // Load tables
     renderTravelerTables();
     renderTimeline();
@@ -741,12 +761,10 @@ function renderFleetTables() {
                 <td>${a.vehicle}</td>
                 <td>${a.dates}</td>
                 <td>
-                    <select class="filter-select">
-                        <option>Vikram Singh</option>
-                        <option>Arun Varma</option>
-                        <option>Devendra Gowda</option>
-                        <option>Self Drive</option>
-                    </select>
+                    <div class="filter-controls">
+                        <button type="button" class="cs-trigger" id="driver-trigger-${a.id}">Vikram Singh</button>
+                        <input type="hidden" id="driver-select-${a.id}" value="Vikram Singh">
+                    </div>
                 </td>
                 <td><span class="badge-status warning">${a.status}</span></td>
                 <td>
@@ -757,6 +775,17 @@ function renderFleetTables() {
                 </td>
             `;
             allocationBody.appendChild(tr);
+
+            initCustomSelect({
+                triggerId: `driver-trigger-${a.id}`,
+                inputId: `driver-select-${a.id}`,
+                options: [
+                    { value: 'Vikram Singh', label: 'Vikram Singh' },
+                    { value: 'Arun Varma', label: 'Arun Varma' },
+                    { value: 'Devendra Gowda', label: 'Devendra Gowda' },
+                    { value: 'Self Drive', label: 'Self Drive' }
+                ]
+            });
         });
     }
 
@@ -1198,3 +1227,132 @@ window.addEventListener('resize', () => {
         positionDropdown(dropdown);
     }
 });
+
+// CUSTOM SELECT DROPDOWN INITIALIZER (Cross-Browser Safe)
+function initCustomSelect(cfg) {
+    var trigger  = document.getElementById(cfg.triggerId);
+    var input    = document.getElementById(cfg.inputId);
+    if (!trigger || !input) return;
+    
+    var existingPanel = document.getElementById(cfg.inputId + '-panel');
+    if (existingPanel) {
+        existingPanel.remove();
+    }
+    
+    var panel    = document.createElement('div');
+    panel.id     = cfg.inputId + '-panel';
+    var isOpen   = false;
+
+    panel.className = 'cs-panel';
+    panel.setAttribute('role', 'listbox');
+
+    if (cfg.placeholder) {
+        var ph = document.createElement('div');
+        ph.className = 'cs-option';
+        ph.style.color = 'var(--text-dark)';
+        ph.style.pointerEvents = 'none';
+        ph.textContent = cfg.placeholder;
+        panel.appendChild(ph);
+    }
+
+    cfg.options.forEach(function(opt) {
+        var item = document.createElement('div');
+        item.className = 'cs-option';
+        item.textContent = opt.label;
+        item.setAttribute('role', 'option');
+        item.setAttribute('data-value', opt.value);
+        item.setAttribute('aria-selected', 'false');
+        
+        // If current value is selected
+        if (opt.value === input.value) {
+            item.classList.add('selected');
+            item.setAttribute('aria-selected', 'true');
+            trigger.textContent = opt.label;
+        }
+
+        item.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            panel.querySelectorAll('.cs-option').forEach(function(el) {
+                var sel = el.getAttribute('data-value') === opt.value;
+                el.classList.toggle('selected', sel);
+                el.setAttribute('aria-selected', sel ? 'true' : 'false');
+            });
+            input.value = opt.value;
+            trigger.textContent = opt.label;
+            trigger.classList.remove('cs-placeholder');
+            closePanel();
+            input.dispatchEvent(new Event('change'));
+            if (cfg.onChange) cfg.onChange(opt.value);
+        });
+        panel.appendChild(item);
+    });
+    document.body.appendChild(panel);
+
+    trigger._csSetValue = function(val) {
+        var match = cfg.options.find(function(o) { return o.value === val; });
+        if (match) {
+            panel.querySelectorAll('.cs-option').forEach(function(el) {
+                var sel = el.getAttribute('data-value') === val;
+                el.classList.toggle('selected', sel);
+                el.setAttribute('aria-selected', sel ? 'true' : 'false');
+            });
+            input.value = val;
+            trigger.textContent = match.label;
+            trigger.classList.remove('cs-placeholder');
+            input.dispatchEvent(new Event('change'));
+            if (cfg.onChange) cfg.onChange(val);
+        }
+    };
+
+    function positionPanel() {
+        var r = trigger.getBoundingClientRect();
+        panel.style.left  = r.left + 'px';
+        panel.style.width = r.width + 'px';
+        var spaceBelow = window.innerHeight - r.bottom - 8;
+        var spaceAbove = r.top - 8;
+        if (spaceBelow >= Math.min(260, panel.scrollHeight) || spaceBelow >= spaceAbove) {
+            panel.style.top    = (r.bottom + 4) + 'px';
+            panel.style.bottom = 'auto';
+        } else {
+            panel.style.bottom = (window.innerHeight - r.top + 4) + 'px';
+            panel.style.top    = 'auto';
+        }
+    }
+
+    function openPanel() {
+        if (isOpen) return;
+        isOpen = true;
+        positionPanel();
+        panel.classList.add('is-open');
+        trigger.classList.add('open');
+        var sel = panel.querySelector('.selected');
+        if (sel) sel.scrollIntoView({ block: 'nearest' });
+    }
+
+    function closePanel() {
+        if (!isOpen) return;
+        isOpen = false;
+        panel.classList.remove('is-open');
+        trigger.classList.remove('open');
+    }
+
+    trigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (isOpen) closePanel(); else openPanel();
+    });
+
+    document.addEventListener('click', function(e) {
+        if (isOpen && !trigger.contains(e.target) && !panel.contains(e.target)) {
+            closePanel();
+        }
+    });
+
+    window.addEventListener('resize', function() {
+        if (isOpen) positionPanel();
+    }, { passive: true });
+    
+    window.addEventListener('scroll', function() {
+        if (isOpen) positionPanel();
+    }, { passive: true, capture: true });
+}
+

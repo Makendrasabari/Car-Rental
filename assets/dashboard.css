@@ -1681,3 +1681,84 @@ select {
     min-width: 0;
 }
 
+/* ============================================================
+   CUSTOM SELECT DROPDOWN (used across traveler/fleet dashboards)
+   ============================================================ */
+.cs-trigger {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-glass);
+    color: var(--text-primary);
+    padding: 10px 40px 10px 16px;
+    border-radius: 10px;
+    font-family: var(--font-primary);
+    font-size: 0.85rem;
+    outline: none;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F97316' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+    user-select: none;
+    -webkit-user-select: none;
+}
+.cs-trigger:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.25);
+}
+.cs-trigger.open {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.25);
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F97316' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='18 15 12 9 6 15'%3E%3C/polyline%3E%3C/svg%3E");
+}
+.cs-panel {
+    position: fixed;
+    background: var(--bg-sidebar);
+    border: 1px solid var(--border-glass);
+    border-radius: 10px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.7);
+    z-index: 100100;
+    overflow-y: auto;
+    max-height: 260px;
+    display: none;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) var(--bg-base);
+}
+.cs-panel::-webkit-scrollbar { width: 5px; }
+.cs-panel::-webkit-scrollbar-track { background: var(--bg-base); }
+.cs-panel::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+.cs-panel.is-open {
+    display: block;
+    animation: csDropIn 0.2s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes csDropIn {
+    from { opacity:0; transform:translateY(-6px); }
+    to   { opacity:1; transform:translateY(0); }
+}
+.cs-option {
+    padding: 12px 16px;
+    font-family: var(--font-primary);
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.cs-option:hover { background: rgba(249, 115, 22, 0.15); color: var(--primary); }
+.cs-option.selected { background: rgba(249, 115, 22, 0.2); color: var(--primary); font-weight: 600; }
+.cs-placeholder { color: var(--text-dark); }
+
+

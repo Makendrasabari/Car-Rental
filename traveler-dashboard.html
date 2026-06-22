@@ -216,11 +216,8 @@
                                 placeholder="Search flights...">
                         </div>
                         <div class="filter-controls">
-                            <select class="filter-select" id="traveler-flights-filter">
-                                <option value="all">All Dates</option>
-                                <option value="upcoming">Upcoming</option>
-                                <option value="past">Past</option>
-                            </select>
+                            <button type="button" class="cs-trigger" id="flights-filter-trigger">All Dates</button>
+                            <input type="hidden" id="traveler-flights-filter" value="all">
                         </div>
                     </div>
                     <div class="table-wrap">
@@ -252,11 +249,8 @@
                                 placeholder="Search hotels...">
                         </div>
                         <div class="filter-controls">
-                            <select class="filter-select" id="traveler-hotels-filter">
-                                <option value="all">All Hotel Stays</option>
-                                <option value="upcoming">Upcoming</option>
-                                <option value="past">Past</option>
-                            </select>
+                            <button type="button" class="cs-trigger" id="hotels-filter-trigger">All Hotel Stays</button>
+                            <input type="hidden" id="traveler-hotels-filter" value="all">
                         </div>
                     </div>
                     <div class="table-wrap">
