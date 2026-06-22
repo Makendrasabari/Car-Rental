@@ -64,7 +64,8 @@ body {
     color: var(--text-primary);
     font-family: var(--font-primary);
     min-height: 100vh;
-    display: flex;
+    /* block instead of flex so the page grows naturally with content */
+    display: block;
 }
 
 /* Scrollbars */
@@ -88,6 +89,7 @@ body {
     display: flex;
     width: 100%;
     min-height: 100vh;
+    min-height: 100dvh;
 }
 
 /* SIDEBAR - Sticky & Pinned */
@@ -253,11 +255,14 @@ body {
     margin-left: 280px;
     padding: 140px 48px 40px 48px;
     min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     transition: var(--transition-smooth);
     min-width: 0;
     overflow-x: hidden;
+    /* ensure vertical content is never clipped by this flex child */
+    overflow-y: visible;
 }
 
 .content-header {
@@ -431,7 +436,8 @@ body {
     box-shadow: var(--shadow-subtle);
     transition: var(--transition-smooth);
     position: relative;
-    overflow: hidden;
+    /* removed overflow:hidden — was clipping content on mobile; border-radius clip kept via ::before */
+    overflow: visible;
     min-width: 0;
 }
 
@@ -453,6 +459,9 @@ body {
     height: 100%;
     background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
     pointer-events: none;
+    border-radius: inherit;
+    /* clip this pseudo-element to card bounds without clipping card children */
+    overflow: hidden;
 }
 
 .card-title {
