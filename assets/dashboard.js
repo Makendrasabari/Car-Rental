@@ -1351,8 +1351,11 @@ function initCustomSelect(cfg) {
         if (isOpen) positionPanel();
     }, { passive: true });
     
-    window.addEventListener('scroll', function() {
-        if (isOpen) closePanel();
+    window.addEventListener('scroll', function(e) {
+        if (isOpen) {
+            if (e.target === panel || panel.contains(e.target)) return;
+            closePanel();
+        }
     }, { passive: true, capture: true });
 }
 
