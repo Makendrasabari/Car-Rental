@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height">
     <meta name="description" content="Access your Stackly Luxury Rentals account. Review your bookings or manage your premium vehicle fleet.">
     <title>Secure Access | Stackly Car Rentals</title>
     <!-- Google Fonts -->
@@ -36,17 +36,20 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            scroll-behavior: smooth;
         }
 
         html, body {
-            overflow-x: hidden;
             width: 100%;
             margin: 0;
             padding: 0;
+            height: auto;
+            min-height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
-
+        
         body {
+            min-height: 100vh;
             background-color: var(--bg-deep);
             color: var(--text-main);
             font-family: var(--font-body);
@@ -86,7 +89,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 99999;
+            z-index: 999999;
             transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1), visibility 0.8s ease;
         }
         #preloader.fade-out {
@@ -389,11 +392,17 @@
         .login-section {
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 40px 0;
+            padding: 40px 0 80px 0;
             position: relative;
             background: linear-gradient(rgba(15,15,15,0.85), rgba(15,15,15,0.95)), url('assets/porsche_911.webp') no-repeat center center/cover;
+            width: 100%;
+        }
+        
+        .login-card {
+            margin: 0 auto;
         }
         .login-card {
             background-color: var(--bg-secondary);
@@ -491,6 +500,17 @@
         .form-input:focus {
             border-color: var(--accent);
             box-shadow: 0 0 10px rgba(212,90,13,0.15);
+        }
+        .form-input.error {
+            border-color: #ff3838 !important;
+            box-shadow: 0 0 10px rgba(255, 56, 56, 0.15) !important;
+        }
+        .error-message {
+            color: #ff3838;
+            font-size: 0.8rem;
+            margin-top: 6px;
+            display: none;
+            font-weight: 500;
         }
         .btn-login-submit {
             background-color: var(--btn-bg);
@@ -779,11 +799,12 @@
                 <input type="hidden" id="login-role" value="traveler">
                 
                 <div class="form-group">
-                    <label class="form-label" for="login-email">Email Address / Username</label>
+                    <label class="form-label" for="login-email">Gmail Address</label>
                     <div class="form-input-wrapper">
                         <i class="fa-solid fa-envelope form-icon"></i>
-                        <input type="text" id="login-email" class="form-input" placeholder="Enter any email or username">
+                        <input type="text" id="login-email" class="form-input" placeholder="e.g. user@gmail.com">
                     </div>
+                    <div class="error-message" id="login-email-error">Please enter a valid Gmail address (e.g., example@gmail.com).</div>
                 </div>
 
                 <div class="form-group">
@@ -818,11 +839,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="signup-email">Email Address</label>
+                    <label class="form-label" for="signup-email">Gmail Address</label>
                     <div class="form-input-wrapper">
                         <i class="fa-solid fa-envelope form-icon"></i>
-                        <input type="text" id="signup-email" class="form-input" placeholder="e.g. rahul@example.com">
+                        <input type="text" id="signup-email" class="form-input" placeholder="e.g. rahul@gmail.com">
                     </div>
+                    <div class="error-message" id="signup-email-error">Please enter a valid Gmail address (e.g., example@gmail.com).</div>
                 </div>
 
                 <div class="form-group">
@@ -891,11 +913,11 @@
             if (role === 'traveler') {
                 tabTraveler.classList.add('active');
                 tabManager.classList.remove('active');
-                emailInput.placeholder = 'Enter any email or username';
+                emailInput.placeholder = 'e.g. user@gmail.com';
             } else {
                 tabTraveler.classList.remove('active');
                 tabManager.classList.add('active');
-                emailInput.placeholder = 'Enter any email or username';
+                emailInput.placeholder = 'e.g. user@gmail.com';
             }
         }
 
@@ -907,6 +929,16 @@
             const signupForm = document.getElementById('signup-form');
             const headerText = document.querySelector('.login-logo-box h2');
             const toggleWrapper = document.getElementById('account-toggle-wrapper');
+
+            // Reset validation errors
+            const loginEmailInput = document.getElementById('login-email');
+            const loginEmailError = document.getElementById('login-email-error');
+            const signupEmailInput = document.getElementById('signup-email');
+            const signupEmailError = document.getElementById('signup-email-error');
+            if (loginEmailInput) loginEmailInput.classList.remove('error');
+            if (loginEmailError) loginEmailError.style.display = 'none';
+            if (signupEmailInput) signupEmailInput.classList.remove('error');
+            if (signupEmailError) signupEmailError.style.display = 'none';
 
             if (formType === 'signup') {
                 loginTabs.style.display = 'none';
@@ -936,12 +968,33 @@
             e.preventDefault();
 
             const role = document.getElementById('login-role').value;
-            const email = document.getElementById('login-email').value.trim();
+            const emailInput = document.getElementById('login-email');
+            const emailError = document.getElementById('login-email-error');
+            const email = emailInput.value.trim();
             const password = document.getElementById('login-password').value.trim();
 
+            // Reset error state
+            emailInput.classList.remove('error');
+            emailError.style.display = 'none';
+
             // validation rule
-            if (!email || !password) {
-                alert("Please enter Email and Password");
+            if (!email) {
+                emailInput.classList.add('error');
+                emailError.innerText = "Please enter a valid Gmail address (e.g., example@gmail.com).";
+                emailError.style.display = 'block';
+                return;
+            }
+
+            const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/i;
+            if (!gmailRegex.test(email)) {
+                emailInput.classList.add('error');
+                emailError.innerText = "Please enter a valid Gmail address (e.g., example@gmail.com).";
+                emailError.style.display = 'block';
+                return;
+            }
+
+            if (!password) {
+                alert("Please enter your Password");
                 return;
             }
 
@@ -963,12 +1016,38 @@
         function handleSignupSubmit(e) {
             e.preventDefault();
             const name = document.getElementById('signup-name').value.trim();
-            const email = document.getElementById('signup-email').value.trim();
+            const emailInput = document.getElementById('signup-email');
+            const emailError = document.getElementById('signup-email-error');
+            const email = emailInput.value.trim();
             const password = document.getElementById('signup-password').value.trim();
             const role = document.getElementById('signup-role').value;
 
-            if (!name || !email || !password) {
-                alert("Please enter all fields to register.");
+            // Reset error state
+            emailInput.classList.remove('error');
+            emailError.style.display = 'none';
+
+            if (!name) {
+                alert("Please enter your Name.");
+                return;
+            }
+
+            if (!email) {
+                emailInput.classList.add('error');
+                emailError.innerText = "Please enter a valid Gmail address (e.g., example@gmail.com).";
+                emailError.style.display = 'block';
+                return;
+            }
+
+            const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/i;
+            if (!gmailRegex.test(email)) {
+                emailInput.classList.add('error');
+                emailError.innerText = "Please enter a valid Gmail address (e.g., example@gmail.com).";
+                emailError.style.display = 'block';
+                return;
+            }
+
+            if (!password) {
+                alert("Please enter a password.");
                 return;
             }
 
@@ -1016,6 +1095,19 @@
                 tabManager.classList.add('active');
             }
         }
+
+        // Clear validation errors on typing
+        document.getElementById('login-email').addEventListener('input', function() {
+            this.classList.remove('error');
+            const err = document.getElementById('login-email-error');
+            if (err) err.style.display = 'none';
+        });
+
+        document.getElementById('signup-email').addEventListener('input', function() {
+            this.classList.remove('error');
+            const err = document.getElementById('signup-email-error');
+            if (err) err.style.display = 'none';
+        });
     </script>
 </body>
 </html>

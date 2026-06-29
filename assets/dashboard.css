@@ -54,17 +54,19 @@
 
 html, body {
     width: 100%;
-    overflow-x: hidden;
     margin: 0;
     padding: 0;
+    height: auto;
+    min-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 body {
+    min-height: 100vh;
     background-color: var(--bg-base);
     color: var(--text-primary);
     font-family: var(--font-primary);
-    min-height: 100vh;
-    /* block instead of flex so the page grows naturally with content */
     display: block;
 }
 
@@ -89,7 +91,6 @@ body {
     display: flex;
     width: 100%;
     min-height: 100vh;
-    min-height: 100dvh;
 }
 
 /* SIDEBAR - Sticky & Pinned */
@@ -107,6 +108,7 @@ body {
     padding: 30px 24px;
     z-index: 100100;
     transition: var(--transition-smooth);
+    overflow-y: auto;
 }
 
 .sidebar-header {
@@ -255,14 +257,12 @@ body {
     margin-left: 280px;
     padding: 140px 48px 40px 48px;
     min-height: 100vh;
-    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     transition: var(--transition-smooth);
     min-width: 0;
     overflow-x: hidden;
-    /* ensure vertical content is never clipped by this flex child */
-    overflow-y: visible;
+    overflow-y: auto;
 }
 
 .content-header {
